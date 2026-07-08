@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
+import uuid
 from logica import registrar_producto
 
 app = Flask(__name__)
