@@ -107,23 +107,37 @@
     flex-direction: column;
   }
 
+  
   .menu-toggle {
     display: block !important;
     position: fixed !important;
     top: 15px !important;
     left: 15px !important;
-    right: auto !important;
     z-index: 10001 !important;
-    background: rgba(0,0,0,0.3) !important;
+    background: rgba(0,0,0,0.5) !important;
     border: none !important;
     color: white !important;
     font-size: 22px !important;
     padding: 8px 11px !important;
     border-radius: 5px !important;
   }
-
   
   .sidebar {
+    position: fixed !important;
+    left: -260px !important;
+    top: 0 !important;
+    height: 100vh !important;
+    width: 250px !important;
+    z-index: 10000 !important;
+    transition: left 0.3s ease !important;
+  }
+
+  
+  .sidebar.active {
+    left: 0 !important;
+  }
+} 
+   .sidebar {
     position: fixed !important;
     left: -250px !important;
     top: 0 !important;
