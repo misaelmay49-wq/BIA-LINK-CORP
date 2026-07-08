@@ -41,8 +41,7 @@ def registrar():
         if cantidad <= 0:
             flash("❌ La cantidad debe ser mayor a 0", "error")
             return render_template('registrar.html', active_page='registrar')
-
-             
+      
          if 'user_id' not in session:
            session['user_id'] = str(uuid.uuid4())
      
