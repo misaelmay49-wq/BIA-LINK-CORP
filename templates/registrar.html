@@ -98,22 +98,27 @@
         .mensaje-error { background: #7f1d1d; }
         .mensaje-success { background: #14532d; }
 
-        .menu-toggle {
+        
+.menu-toggle {
   display: none;
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  z-index: 1001;
-  background: #2563EB;
-  color: white;
-  border: none;
-  padding: 12px 15px;
-  border-radius: 8px;
-  font-size: 24px;
-  cursor: pointer;
-            }
+}
 
-        @media (max-width: 768px) {
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block !important;
+    position: fixed !important;
+    top: 15px !important;
+    left: 15px !important;
+    right: auto !important;
+    z-index: 9999 !important;
+    background: transparent !important;
+    border: none !important;
+    color: white !important;
+    font-size: 22px !important;
+    padding: 8px 11px !important;
+  }
+}
+   @media (max-width: 768px) {
   body {
     flex-direction: column;
   }
