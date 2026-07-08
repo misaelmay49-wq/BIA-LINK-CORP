@@ -101,8 +101,34 @@
         @media (max-width: 768px) {
             body { flex-direction: column; }
             .sidebar { width: 100%; }
-        }
-    </style>
+
+        .menu-toggle {
+  display: none;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1001;
+  background: #2563EB;
+  color: white;
+  border: none;
+  padding: 12px 15px;
+  border-radius: 8px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+}
+
+    <style>
 </head>
 <body>
     <div class="sidebar">
