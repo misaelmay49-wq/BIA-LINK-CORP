@@ -158,6 +158,34 @@
 }
 
     </style>
+<head>
+    
+  <style>
+  @media (max-width: 768px) {
+    
+    nav { 
+      background: transparent !important;
+      position: absolute !important; 
+    }
+    nav button {
+      position: fixed !important;
+      top: 15px !important;
+      right: 15px !important;
+      background: rgba(30, 64, 175, 0.85) !important;
+      border-radius: 8px !important;
+      padding: 8px 11px !important;
+      z-index: 9999 !important;
+    }
+    
+    
+    body { padding: 20px 15px !important; }
+    .container, main { 
+      max-width: 420px !important;
+      margin: 40px auto !important;
+      transform: scale(0.95);
+    }
+  }
+  </style>
 </head>
 <body>
 <button class="menu-toggle" onclick="toggleMenu()">☰</button>
