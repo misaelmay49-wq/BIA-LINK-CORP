@@ -212,4 +212,18 @@
 
 <!-- Overlay -->
 <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+<script>
+function toggleSidebar() {
+  document.querySelector('.sidebar').classList.toggle('active');
+  document.querySelector('.sidebar-overlay').classList.toggle('active');
+}
+
+// Cerrar menú al dar click en link
+document.querySelectorAll('.sidebar .menu-item').forEach(link => {
+  link.addEventListener('click', () => {
+    if (window.innerWidth <= 768) toggleSidebar();
+  });
+});
+</script>
 </html>
