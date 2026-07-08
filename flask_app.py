@@ -42,7 +42,12 @@ def registrar():
             flash("❌ La cantidad debe ser mayor a 0", "error")
             return render_template('registrar.html', active_page='registrar')
 
-        usuario_id = 'demo'
+             
+         if 'user_id' not in session:
+           session['user_id'] = str(uuid.uuid4())
+     
+        usuario_id = session['user_id']  
+        exito, msg = registrar_producto(usuario_id, nombre, precio, costo, cantidad)
         exito, msg = registrar_producto(usuario_id, nombre, precio, costo, cantidad)
         if exito:
             return redirect(url_for('exito'))
