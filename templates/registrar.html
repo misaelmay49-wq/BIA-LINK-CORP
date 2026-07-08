@@ -98,11 +98,63 @@
         .mensaje-error { background: #7f1d1d; }
         .mensaje-success { background: #14532d; }
 
-        @media (max-width: 768px) {
-            body { flex-direction: column; }
-            .sidebar { width: 100%; }
-        }
-    </style>
+        /* BOTÓN HAMBURGUESA */
+.menu-toggle {
+  display: none;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1002;
+  background: #2563EB;
+  border: none;
+  color: white;
+  font-size: 24px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* OVERLAY */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  z-index: 999;
+}
+
+/* MOBILE FIX */
+@media (max-width: 768px) { 
+  body { flex-direction: column; } 
+  
+  .sidebar { 
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  } 
+  
+  .sidebar.active {
+    transform: translateX(0);
+  }
+  
+  .sidebar-overlay.active {
+    display: block;
+  }
+  
+  .menu-toggle {
+    display: block;
+  }
+  
+  .content {
+    padding: 80px 20px 20px 20px;
+    width: 100%;
+  }
+}/style>
 </head>
 <body>
     <div class="sidebar">
