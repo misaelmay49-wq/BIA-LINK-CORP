@@ -130,3 +130,81 @@ def buscar_producto(usuario_id, nombre):
     finally:
         if cursor: cursor.close()
         if conn: conn.close()
+
+def get_db():
+    return psycopg2.connect(os.environ['DATABASE_URL'], cursor_factory=RealDictCursor)
+
+def obtener_productos(usuario_id):
+    conn = None
+    try:
+        with get_db() as conn:
+            with conn.cursor() as cur:  # ← with aquí
+                cur.execute("""
+                    SELECT id, nombre, precio, costo, cantidad,
+                           (precio - costo) AS ganancia
+                    FROM productos
+                    WHERE usuario_id = %s AND cantidad > 0
+                    ORDER BY id
+                """, (usuario_id,))
+                productos = cur.fetchall()
+                
+                if not productos:
+                    return False, "❌ No hay productos registrados", []
+                
+                return True, "Productos cargados", productos
+                
+    except Exception as e:
+        return False, f"❌ Error de BD: {e}", []
+
+def procesar_venta_logica(producto_id, cantidad_vendida, usuario_id):
+    conn = None
+    try:
+        with get_db() as conn:
+            with conn.cursor() as cur:  # ← with aquí también, ya consistente
+                if cantidad_vendida <= 0:
+                    return False, "❌ La cantidad debe ser mayor a 0"
+
+                cur.execute("""
+                    SELECT id, nombre, precio, costo, cantidad
+                    FROM productos
+                    WHERE id = %s AND usuario_id = %s
+                    FOR UPDATE
+                """, (producto_id, usuario_id))
+                p = cur.fetchone()
+
+                if not p:
+                    return False, "❌ Producto inválido"
+
+                nombre = p['nombre']
+                precio = Decimal(p['precio'])
+                costo = Decimal(p['costo'])
+                cantidad = int(p['cantidad'])
+                ganancia = precio - costo
+
+                if cantidad_vendida > cantidad:
+                    return False, f"❌ No hay suficiente stock. Disponible: {cantidad}"
+
+                cur.execute("""
+                    UPDATE productos
+                    SET cantidad = cantidad - %s
+                    WHERE id = %s
+                """, (cantidad_vendida, producto_id))
+
+                total_venta = precio * cantidad_vendida
+                ganancia_total = ganancia * cantidad_vendida
+
+                cur.execute("""
+                    INSERT INTO ventas (producto_id, usuario_id, nombre_producto, precio,
+                                        costo, ganancia_unitaria, cantidad_vendida,
+                                        total_venta, ganancia_total)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+                """, (producto_id, usuario_id, nombre, precio, costo, ganancia,
+                      cantidad_vendida, total_venta, ganancia_total))
+
+                conn.commit()
+                return True, f"✅ Venta registrada: {cantidad_vendida} x {nombre}"
+                
+    except Exception as e:
+        if conn:
+            conn.rollback()
+        return False, f"❌ Error: {e}"
