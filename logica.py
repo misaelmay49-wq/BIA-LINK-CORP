@@ -3,7 +3,7 @@ import psycopg2
 from psycopg2.extras import RealDictCursor 
 from decimal import Decimal 
 
-DATABASESE_URL = os.environ.get('DATABASE_URL')
+DATABASE_URL = os.environ.get('DATABASE_URL')
 
 def get_conn():
     if not DATABASE_URL:
