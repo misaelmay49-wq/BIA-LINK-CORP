@@ -1,7 +1,7 @@
 import os
 import psycopg2
-from psycopg2.extras import RealDic
-mfrom decimal import Decimal 
+from psycopg2.extras import RealDictCursor 
+from decimal import Decimal 
 
 DATABASESE_URL = os.environ.get('DATABASE_URL')
 
