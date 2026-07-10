@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session 
 import uuid
-from logica import registrar_producto
+from logica import registrar_producto obtener_productos, procesar_venta_logica
 
 app = Flask(__name__)
 app.secret_key = 'bialink_clave_secreta_123'
