@@ -136,26 +136,19 @@ def get_db():
     return psycopg2.connect(os.environ['DATABASE_URL'], cursor_factory=RealDictCursor)
 
 def obtener_productos(usuario_id):
-    conn = None
     try:
         with get_db() as conn:
-            with conn.cursor() as cur:  # ← with aquí
+            with conn.cursor(cursor_factory=RealDictCursor) as cur: 
                 cur.execute("""
-                    SELECT id, nombre, precio, costo, cantidad,
-                           (precio - costo) AS ganancia
-                    FROM productos
-                    WHERE usuario_id = %s AND cantidad > 0
-                    ORDER BY id
+                    SELECT id, nombre, precio, costo, cantidad 
+                    FROM productos 
+                    WHERE usuario_id = %s
+                    ORDER BY id ASC
                 """, (usuario_id,))
                 productos = cur.fetchall()
-                
-                if not productos:
-                    return False, "❌ No hay productos registrados", []
-                
-                return True, "Productos cargados", productos
-                
+        return True, "OK", productos
     except Exception as e:
-        return False, f"❌ Error de BD: {e}", []
+        return False, str(e), []
 
 def procesar_venta_logica(producto_id, cantidad_vendida, usuario_id):
     conn = None
