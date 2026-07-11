@@ -75,7 +75,7 @@
         </div>
         <nav class="menu">
             <a href="{{ url_for('registrar_producto_ruta') }}">📝 Registrar Producto</a>
-            <a href="{{ url_for('registrar_venta_ruta') }}" class="active">🛒 Registrar Venta</a>
+            <a href="{{ url_for('registrar_venta') }}">🛒 Registrar Venta</a>
             <a href="#">📦 Rellenar Stock</a>
             <a href="#">📈 Analizar Ventas</a>
             <a href="#">📊 Dashboard</a>
@@ -95,7 +95,6 @@
             <div><h1>Registrar Venta</h1><p>Registra una nueva venta y calcula tu ganancia.</p></div>
         </div>
 
-        <!-- AQUI VAN LOS FLASH MESSAGES -->
         <div class="flash-container">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
