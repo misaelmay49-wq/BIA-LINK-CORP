@@ -181,12 +181,9 @@ def obtener_productos(usuario_id):
                 ganancia_total = ganancia * cantidad_vendida
 
                 cur.execute("""
-                    INSERT INTO ventas (producto_id, usuario_id, nombre_producto, precio,
-                                        costo, ganancia_unitaria, cantidad_vendida,
-                                        total_venta, ganancia_total)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-                """, (producto_id, usuario_id, nombre, precio, costo, ganancia,
-                      cantidad_vendida, total_venta, ganancia_total))
+                     INSERT INTO ventas (usuario_id, producto_id, nombre_producto, precio, costo, ganancia_unitaria, cantidad_vendida, total_venta, ganancia_total) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+    """, (usuario_id, producto_id, nombre, precio, costo, ganancia, cantidad_vendida, total_venta, ganancia_total))
 
                 conn.commit()
                 return True, f"✅ Venta registrada: {cantidad_vendida} x {nombre}"
