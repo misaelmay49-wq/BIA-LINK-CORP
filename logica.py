@@ -140,11 +140,9 @@ def obtener_productos(usuario_id):
         with get_db() as conn:
             with conn.cursor(cursor_factory=RealDictCursor) as cur: 
                 cur.execute("""
-                    SELECT id, nombre, precio, costo, cantidad 
-                    FROM productos 
-                    WHERE usuario_id = %s
-                    ORDER BY id ASC
-                """, (usuario_id,))
+        INSERT INTO ventas (usuario_id, producto_id, nombre_producto, precio, costo, ganancia_unitaria, cantidad_vendida, total_venta, ganancia_total) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+    """, (usuario_id, producto_id, nombre, precio, costo, ganancia_u, cantidad_vendida, total, ganancia_t))
                 productos = cur.fetchall()
         return True, "OK", productos
     except Exception as e:
