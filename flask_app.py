@@ -59,7 +59,7 @@ def registrar():
 def exito():
        return render_template('exito.html', active_page='registrar')
 
-@app.route('/registrar_venta')
+@app.route('/venta')
 def registrar_venta():
     usuario_id = session.get('user_id', 'demo') 
     exito, mensaje, productos = obtener_productos(usuario_id)
