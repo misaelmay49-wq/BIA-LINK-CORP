@@ -138,21 +138,16 @@ def get_db():
 def obtener_productos(usuario_id):
     try:
         with get_db() as conn:
-            with conn.cursor(cursor_factory=RealDictCursor) as cur: 
-                cur.execute("""
-        INSERT INTO ventas (usuario_id, producto_id, nombre_producto, precio, costo, ganancia_unitaria, cantidad_vendida, total_venta, ganancia_total) 
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-    """, (usuario_id, producto_id, nombre, precio, costo, ganancia_u, cantidad_vendida, total, ganancia_t))
+            with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                cur.execute("SELECT * FROM productos WHERE usuario_id = %s", (usuario_id,)) 
                 productos = cur.fetchall()
-        return True, "OK", productos
-    except Exception as e:
-        return False, str(e), []
-
-def procesar_venta_logica(producto_id, cantidad_vendida, usuario_id):
+                return True, "OK", productos
+                
+    def procesar_venta_logica(producto_id, cantidad_vendida, usuario_id):
     conn = None
     try:
         with get_db() as conn:
-            with conn.cursor() as cur:  # ← with aquí también, ya consistente
+            with conn.cursor() as cur: 
                 if cantidad_vendida <= 0:
                     return False, "❌ La cantidad debe ser mayor a 0"
 
