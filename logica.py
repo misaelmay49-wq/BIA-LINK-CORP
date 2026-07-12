@@ -137,7 +137,7 @@ def get_db():
 
 def obtener_productos(usuario_id):
     try:
-        with get_db() as conn:
+        with get_conn() as conn:
             with conn.cursor(cursor_factory=RealDictCursor) as cur:
                 cur.execute("SELECT * FROM productos WHERE usuario_id = %s", (usuario_id,)) 
                 productos = cur.fetchall()
