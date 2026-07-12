@@ -61,9 +61,8 @@ def exito():
 
 @app.route('/venta')
 def registrar_venta():
-    usuario_id = session.get('user_id', 'demo') 
-    exito, mensaje, productos = obtener_productos(usuario_id)
-    
+    usuario_id = session.get('user_id') 
+    exito, mensaje, productos = obtener_productos(usuario_id)   
     if not exito:
         flash(mensaje, "error")
         productos = []
