@@ -172,73 +172,92 @@
             </div>
             <button type="submit" class="btn-registrar">💾 Registrar Venta</button>
         </form>
-    </main>
+    </main
+    <script>
+const form = document.getElementById('ventaForm');
+const productoNumero = document.getElementById('productoNumero');
+const productoIdReal = document.getElementById('productoIdReal');
+const cantidadInput = document.getElementById('cantidadInput');
+const errorProducto = document.getElementById('errorProducto');
+const productoInputWrapper = document.getElementById('productoInputWrapper');
 
-<script>
-    const productos = [
-        {% for p in productos %}
-        { numero: {{ loop.index }}, id: {{ p.id }}, precio: {{ p.precio }}, costo: {{ p.costo }}, stock: {{ p.cantidad }} }{% if not loop.last %},{% endif %}
-        {% endfor %}
-    ];
+let productos = []; // SOLO UNA VEZ
 
-    const form = document.getElementById('ventaForm');
-    const productoNumero = document.getElementById('productoNumero');
-    const productoIdReal = document.getElementById('productoIdReal');
-    const cantidadInput = document.getElementById('cantidadInput');
-    const errorProducto = document.getElementById('errorProducto');
-    const productoInputWrapper = document.getElementById('productoInputWrapper');
-
-    function actualizar() {
-        const num = parseInt(productoNumero.value);
-        const cant = parseInt(cantidadInput.value) || 0;
-        const prod = productos.find(p => p.numero === num);
-
-        if(prod) {
-            productoIdReal.value = prod.id;
-            productoInputWrapper.classList.remove('error');
-            errorProducto.style.display = 'none';
-            
-            const gananciaUnidad = prod.precio - prod.costo;
-            document.getElementById('resPrecio').innerText = `$${prod.precio.toFixed(2)}`;
-            document.getElementById('resCosto').innerText = `$${prod.costo.toFixed(2)}`;
-            document.getElementById('resStock').innerText = `${prod.stock} unidades`;
-            document.getElementById('resGanancia').innerText = `$${gananciaUnidad.toFixed(2)}`;
-            document.getElementById('gananciaTotal').innerText = `$${(gananciaUnidad * cant).toFixed(2)}`;
-            cantidadInput.max = prod.stock;
-        } else {
-            productoIdReal.value = '';
-        }
+function actualizar() {
+    const num = parseInt(productoNumero.value);
+    const cant = parseInt(cantidadInput.value) || 0;
+    const prod = productos.find(p => p.numero === num);
+    
+    if(prod) {
+        productoIdReal.value = prod.id;
+        productoInputWrapper.classList.remove('error');
+        errorProducto.style.display = 'none';
+        const gananciaUnidad = prod.precio - prod.costo;
+        document.getElementById('resPrecio').innerText = `$${prod.precio.toFixed(2)}`;
+        document.getElementById('resCosto').innerText = `$${prod.costo.toFixed(2)}`;
+        document.getElementById('resStock').innerText = `${prod.stock} unidades`;
+        document.getElementById('resGanancia').innerText = `$${gananciaUnidad.toFixed(2)}`;
+        document.getElementById('gananciaTotal').innerText = `$${(gananciaUnidad * cant).toFixed(2)}`;
+        cantidadInput.max = prod.stock;
+    } else {
+        productoIdReal.value = '';
     }
-    productoNumero.oninput = actualizar;
-    cantidadInput.oninput = actualizar;
+}
 
-    form.addEventListener('submit', function(e) {
-        if (!productoIdReal.value) {
-            e.preventDefault();
-            productoInputWrapper.classList.add('error');
-            errorProducto.style.display = 'block';
-            productoNumero.focus();
-        }
+function actualizarTabla() {
+    const tbody = document.querySelector('.section-body table tbody'); // agarra el tbody que ya tienes
+    tbody.innerHTML = ''; // limpia lo que pintó Jinja
+
+    if(productos.length === 0){
+        tbody.innerHTML = '<tr><td colspan="5">No hay productos registrados</td></tr>';
+        return;
+    }
+
+    productos.forEach((prod, index) => {
+        const fila = `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${prod.nombre}</td>
+                <td class="green">$${prod.precio.toFixed(2)}</td>
+                <td class="orange">$${prod.costo.toFixed(2)}</td>
+                <td class="blue">${prod.cantidad} u</td>
+            </tr>
+        `;
+        tbody.innerHTML += fila;
     });
-
-    const menuToggle = document.getElementById('menuToggle');
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    menuToggle.onclick = () => { sidebar.classList.add('active'); overlay.classList.add('active'); }
-    overlay.onclick = () => { sidebar.classList.remove('active'); overlay.classList.remove('active'); }
-
-    let productos = [];
+}
 
 async function cargarProductos() {
     const res = await fetch('/api/productos');
-    productos = await res.json();
-    actualizarTabla(); // usa la función que ya tienes para pintar
+    const data = await res.json();
+    
+    productos = data.map((p, i) => ({...p, numero: i + 1}));
+    
+    actualizarTabla(); 
+    actualizar(); 
 }
 
-window.onload = function() {
-    cargarProductos(); // <- Esto hace que cargue aunque cierres chrome
-    actualizar(); // <- Esto arregla lo de la ganancia $0.00
+productoNumero.oninput = actualizar;
+cantidadInput.oninput = actualizar;
+
+form.addEventListener('submit', function(e) {
+    if (!productoIdReal.value) {
+        e.preventDefault();
+        productoInputWrapper.classList.add('error');
+        errorProducto.style.display = 'block';
+        productoNumero.focus();
     }
-</script>
+});
+
+const menuToggle = document.getElementById('menuToggle');
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+menuToggle.onclick = () => { sidebar.classList.add('active'); overlay.classList.add('active') };
+overlay.onclick = () => { sidebar.classList.remove('active'); overlay.classList.remove('active') };
+
+window.onload = function() {
+    cargarProductos(); 
+}
+    </script>
 </body>
 </html>
