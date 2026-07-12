@@ -144,7 +144,7 @@ def obtener_productos(usuario_id):
                 return True, "OK", productos
 except Exception as e:
            print(f" Error obtener_productos:{e}")
-           return False, str(e), [
+           return False, str(e), []
                
 def procesar_venta_logica(producto_id, cantidad_vendida, usuario_id):
     try:
