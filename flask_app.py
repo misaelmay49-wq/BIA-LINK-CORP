@@ -87,3 +87,27 @@ def procesar_venta():
         flash(mensaje, "error")
     
     return redirect(url_for('registrar_venta'))
+
+@app.route('/api/productos')
+def api_productos():
+    usuario_id = session.get('usuario_id') # o como guardes el usuario
+    if not usuario_id:
+        return jsonify([])
+    
+    conn = get_conn()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, nombre, precio, costo, cantidad FROM productos WHERE usuario_id = %s", (usuario_id,))
+    productos = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    lista = []
+    for p in productos:
+        lista.append({
+            'id': p[0],
+            'nombre': p[1],
+            'precio': float(p[2]),
+            'costo': float(p[3]),
+            'cantidad': p[4]
+        })
+    return jsonify(lista)
