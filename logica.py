@@ -146,26 +146,25 @@ except Exception as e:
            print(f" Error obtener_productos:{e}")
            return False, str(e), [
                
- def procesar_venta_logica(producto_id, cantidad_vendida, usuario_id):
- conn = None
- try:
-     with get_db() as conn:
-        with conn.cursor() as cur: 
-             if cantidad_vendida <= 0:
-                 return False, "❌ La cantidad debe ser mayor a 0"
+def procesar_venta_logica(producto_id, cantidad_vendida, usuario_id):
+    try:
+        with get_db() as conn:
+            with conn.cursor() as cur:
+                if cantidad_vendida <= 0:
+                    return False, "❌ La cantidad debe ser mayor a 0"
 
-             cur.execute("""
-                 SELECT id, nombre, precio, costo, cantidad
-                 FROM productos
-                 WHERE id = %s AND usuario_id = %s
-                 FOR UPDATE
-              """, (producto_id, usuario_id))
-              p = cur.fetchone()
+                cur.execute("""
+                    SELECT id, nombre, precio, costo, cantidad
+                    FROM productos
+                    WHERE id = %s AND usuario_id = %s
+                    FOR UPDATE
+                """, (producto_id, usuario_id))
+                p = cur.fetchone()
 
-              if not p:
-                  return False, "❌ Producto inválido"
+                if not p:
+                    return False, "❌ Producto inválido"
 
-                nombre = p['nombre']
+                nombre = p['nombre']  # <- estas 4 líneas van aquí
                 precio = Decimal(p['precio'])
                 costo = Decimal(p['costo'])
                 cantidad = int(p['cantidad'])
@@ -184,14 +183,14 @@ except Exception as e:
                 ganancia_total = ganancia * cantidad_vendida
 
                 cur.execute("""
-                     INSERT INTO ventas (usuario_id, producto_id, nombre_producto, precio, costo, ganancia_unitaria, cantidad_vendida, total_venta, ganancia_total) 
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-    """, (usuario_id, producto_id, nombre, precio, costo, ganancia, cantidad_vendida, total_venta, ganancia_total))
-
+                    INSERT INTO ventas (usuario_id, producto_id, nombre_producto, precio, costo, ganancia_unitaria, cantidad_vendida, total_venta, ganancia_total)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+                """, (usuario_id, producto_id, nombre, precio, costo, ganancia, cantidad_vendida, total_venta, ganancia_total))
+                
                 conn.commit()
                 return True, f"✅ Venta registrada: {cantidad_vendida} x {nombre}"
                 
     except Exception as e:
         if conn:
             conn.rollback()
-        return False, f"❌ Error: {e}"
+        return False, f"❌ Error: {e}" 
