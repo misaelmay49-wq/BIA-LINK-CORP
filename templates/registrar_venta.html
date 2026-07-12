@@ -226,6 +226,19 @@
     const overlay = document.getElementById('overlay');
     menuToggle.onclick = () => { sidebar.classList.add('active'); overlay.classList.add('active'); }
     overlay.onclick = () => { sidebar.classList.remove('active'); overlay.classList.remove('active'); }
+
+    let productos = [];
+
+async function cargarProductos() {
+    const res = await fetch('/api/productos');
+    productos = await res.json();
+    actualizarTabla(); // usa la función que ya tienes para pintar
+}
+
+window.onload = function() {
+    cargarProductos(); // <- Esto hace que cargue aunque cierres chrome
+    actualizar(); // <- Esto arregla lo de la ganancia $0.00
+    }
 </script>
 </body>
 </html>
