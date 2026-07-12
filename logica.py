@@ -142,7 +142,7 @@ def obtener_productos(usuario_id):
                 cur.execute("SELECT * FROM productos WHERE usuario_id = %s", (usuario_id,)) 
                 productos = cur.fetchall()
                 return True, "OK", productos
-     except Exception as e:
+    except Exception as e:
                 print(f" Error obtener_productos:{e}")
                 return False, str(e), []
                
