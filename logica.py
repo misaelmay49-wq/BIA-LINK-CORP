@@ -145,6 +145,9 @@ def obtener_productos(usuario_id):
 except Exception as e:
            print(f" Error obtener_productos:{e}")
            return False, str(e), []
+finally:
+    if cursor: cursor.close()
+    if conn: conn.close()
                 
     def procesar_venta_logica(producto_id, cantidad_vendida, usuario_id):
     conn = None
