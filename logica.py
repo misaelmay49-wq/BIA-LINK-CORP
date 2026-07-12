@@ -144,29 +144,26 @@ def obtener_productos(usuario_id):
                 return True, "OK", productos
 except Exception as e:
            print(f" Error obtener_productos:{e}")
-           return False, str(e), []
-finally:
-    if cursor: cursor.close()
-    if conn: conn.close()
-                
-    def procesar_venta_logica(producto_id, cantidad_vendida, usuario_id):
-    conn = None
-    try:
-        with get_db() as conn:
-            with conn.cursor() as cur: 
-                if cantidad_vendida <= 0:
-                    return False, "❌ La cantidad debe ser mayor a 0"
+           return False, str(e), [
+               
+ def procesar_venta_logica(producto_id, cantidad_vendida, usuario_id):
+ conn = None
+ try:
+     with get_db() as conn:
+        with conn.cursor() as cur: 
+             if cantidad_vendida <= 0:
+                 return False, "❌ La cantidad debe ser mayor a 0"
 
-                cur.execute("""
-                    SELECT id, nombre, precio, costo, cantidad
-                    FROM productos
-                    WHERE id = %s AND usuario_id = %s
-                    FOR UPDATE
-                """, (producto_id, usuario_id))
-                p = cur.fetchone()
+             cur.execute("""
+                 SELECT id, nombre, precio, costo, cantidad
+                 FROM productos
+                 WHERE id = %s AND usuario_id = %s
+                 FOR UPDATE
+              """, (producto_id, usuario_id))
+              p = cur.fetchone()
 
-                if not p:
-                    return False, "❌ Producto inválido"
+              if not p:
+                  return False, "❌ Producto inválido"
 
                 nombre = p['nombre']
                 precio = Decimal(p['precio'])
