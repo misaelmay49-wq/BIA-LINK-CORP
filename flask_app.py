@@ -62,14 +62,14 @@ def exito():
 @app.route('/venta')
 def registrar_venta():
     usuario_id = session.get('user_id', 'demo')
-    print("BUSCANDO PRODUCTOS PARA:", usuario_id) # <- agrega esto
+    print("BUSCANDO PRODUCTOS PARA:", usuario_id) 
     
     exito, mensaje, productos = obtener_productos(usuario_id)
-    print("ENCONTRO:", len(productos), "productos") # <- y esto
+    print("ENCONTRO:", len(productos), "productos") 
     
     return render_template('registrar_venta.html', productos=productos, active_page='venta')
     
-@approute('/procesar_venta', methods=['POST'])
+@app.route('/procesar_venta', methods=['POST'])
 def procesar_venta():
     usuario_id = session.get('user_id', 'demo')
     producto_id = request.form.get('producto_id', type=int)
