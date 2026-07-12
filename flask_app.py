@@ -61,16 +61,15 @@ def exito():
 
 @app.route('/venta')
 def registrar_venta():
-    usuario_id = session.get('user_id') 
-    exito, mensaje, productos = obtener_productos(usuario_id)   
-    if not exito:
-        flash(mensaje, "error")
-        productos = []
+    usuario_id = session.get('user_id', 'demo')
+    print("BUSCANDO PRODUCTOS PARA:", usuario_id) # <- agrega esto
+    
+    exito, mensaje, productos = obtener_productos(usuario_id)
+    print("ENCONTRO:", len(productos), "productos") # <- y esto
     
     return render_template('registrar_venta.html', productos=productos, active_page='venta')
-
-
-@app.route('/procesar_venta', methods=['POST'])
+    
+@approute('/procesar_venta', methods=['POST'])
 def procesar_venta():
     usuario_id = session.get('user_id', 'demo')
     producto_id = request.form.get('producto_id', type=int)
