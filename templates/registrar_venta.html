@@ -236,8 +236,8 @@ async function cargarProductos() {
     actualizarTabla();  
 }
 
-productoNumero.oninput = actualizar;
-cantidadInput.oninput = actualizar;
+productoNumero.addEventListener('input', actualizar);
+cantidadInput.addEventListener('input', actualizar);
 
 form.addEventListener('submit', function(e) {
     if (!productoIdReal.value) {
