@@ -230,6 +230,9 @@ function actualizarTabla() {
 async function cargarProductos() {
     const res = await fetch('/api/productos');
     const data = await res.json();
+    productos = data.map((p, i) => ({...p, numero: i + 1}));
+    actualizarTabla(); 
+
     
     productos = data.map((p, i) => ({...p, numero: i + 1}));
     
