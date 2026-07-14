@@ -241,9 +241,6 @@ async function cargarProductos() {
     actualizarTabla(); 
 
     
-    productos = data.map((p, i) => ({...p, numero: i + 1}));
-    
-    actualizarTabla();  
 }
 
 productoNumero.addEventListener('input', actualizar);
