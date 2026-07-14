@@ -200,9 +200,16 @@ function actualizar() {
         document.getElementById('gananciaTotal').innerText = `$${(gananciaUnidad * cant).toFixed(2)}`;
         cantidadInput.max = prod.cantidad;
     } else {
-        productoIdReal.value = '';
+        productoIdReal.value = ''
+        
+        document.getElementById('resPrecio').innerText = '$0.00';
+        document.getElementById('resCosto').innerText = '$0.00';
+        document.getElementById('resStock').innerText = '0 unidades';
+        document.getElementById('resGanancia').innerText = '$0.00';
+        document.getElementById('gananciaTotal').innerText = '$0.00';
     }
 }
+    
 
 function actualizarTabla() {
     const tbody = document.querySelector('.section-body table tbody'); // agarra el tbody que ya tienes
