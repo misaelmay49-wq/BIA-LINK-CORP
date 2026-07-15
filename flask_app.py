@@ -90,7 +90,7 @@ def procesar_venta():
 
 @app.route('/api/productos')
 def api_productos():
-  #  usuario_id = session.get('user_id', 'demo') # o como guardes el usuario
+    usuario_id = session.get('user_id', 'demo') # o como guardes el usuario
     if not usuario_id:
         return jsonify([])
     
