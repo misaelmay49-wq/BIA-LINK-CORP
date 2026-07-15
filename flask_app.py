@@ -53,8 +53,8 @@ def registrar():
       
               
         if 'user_id' not in session:
-            session['user_id'] = str(uuid.uuid4())
-     
+            return redirect(url_for('login'))  
+    
         usuario_id = session['user_id']  
         exito, msg = registrar_producto(usuario_id, nombre, precio, costo, cantidad)            
         if exito:
