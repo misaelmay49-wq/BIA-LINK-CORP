@@ -122,6 +122,7 @@ def api_productos():
     return jsonify(lista)
 
 @app.route('/registro', methods=['GET', 'POST'])
+@login_requerido
 def registro():
     if request.method == 'POST':
         nombre = request.form['nombre']
@@ -146,6 +147,7 @@ def registro():
 
 
 @app.route('/login', methods=['GET', 'POST'])
+@login_requerido
 def login():
     if request.method == 'POST':
         correo = request.form['correo']
@@ -168,6 +170,7 @@ def login():
 
 
 @app.route('/logout')
+@login_requerido
 def logout():
     session.pop('user_id', None)
     return redirect(url_for('login'))
