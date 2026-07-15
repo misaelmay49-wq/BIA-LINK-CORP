@@ -111,3 +111,54 @@ def api_productos():
             'cantidad': p[4]
         })
     return jsonify(lista)
+
+@app.route('/registro', methods=['GET', 'POST'])
+def registro():
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        correo = request.form['correo']
+        password = request.form['password']
+        
+        hash_pass = generate_password_hash(password)
+        
+        conn = get_conn()
+        cursor = conn.cursor()
+        try:
+            cursor.execute("INSERT INTO usuarios (nombre, correo, password) VALUES (%s,%s,%s)", (nombre, correo, hash_pass))
+            conn.commit()
+            flash("✅ Usuario registrado. Ya puedes iniciar sesión", "success")
+            return redirect(url_for('login'))
+        except:
+            flash("❌ Ese correo ya existe", "error")
+        finally:
+            cursor.close()
+            conn.close()
+    return render_template('registro.html')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        correo = request.form['correo']
+        password = request.form['password']
+        
+        conn = get_conn()
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, password FROM usuarios WHERE correo=%s", (correo,))
+        user = cursor.fetchone()
+        cursor.close()
+        conn.close()
+        
+        if user and check_password_hash(user[1], password): # user[0] = id
+            session['user_id'] = user[0] # AQUI GUARDAMOS EL ID REAL
+            return redirect(url_for('registrar_venta'))
+        else:
+            flash("❌ Correo o contraseña incorrecta", "error")
+    
+    return render_template('login.html')
+
+
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)
+    return redirect(url_for('login'))
