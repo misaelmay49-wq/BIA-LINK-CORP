@@ -5,6 +5,14 @@ from logica import registrar_producto, obtener_productos, procesar_venta_logica
 app = Flask(__name__)
 app.secret_key = 'bialink_clave_secreta_123'
 
+def login_requerido(f):  
+    def wrapper(*args, **kwargs):
+        if 'user_id' not in session:
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    wrapper.__name__ = f.__name__
+    return wrapper
+
 
 @app.route('/', methods=['GET', 'POST'])
 def registrar():
