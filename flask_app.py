@@ -70,8 +70,11 @@ def exito():
 
 @app.route('/venta')
 def registrar_venta():
-    usuario_id = session.get('user_id', 'demo')
-    print("BUSCANDO PRODUCTOS PARA:", usuario_id) 
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+        
+    usuario_id = session['user_id']
+    print("BUSCANDO PRODUCTOS PARA:", usuario_id)
     
     exito, mensaje, productos = obtener_productos(usuario_id)
     print("ENCONTRO:", len(productos), "productos") 
