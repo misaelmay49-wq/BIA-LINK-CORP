@@ -83,7 +83,11 @@ def registrar_venta():
     
 @app.route('/procesar_venta', methods=['POST'])
 def procesar_venta():
-    usuario_id = session.get('user_id', 'demo')
+      if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    usuario_id = session['user_id']
+
     producto_id = request.form.get('producto_id', type=int)
     cantidad_vendida = request.form.get('cantidad', type=int)
     
