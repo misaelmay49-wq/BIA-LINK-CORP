@@ -106,11 +106,11 @@ def procesar_venta():
 
 @app.route('/api/productos')
 def api_productos():
-    usuario_id = session.get('user_id', 'demo') # o como guardes el usuario
-    if not usuario_id:
-        return jsonify([])
-    
-    conn = get_conn()
+    if 'user_id' not in session:
+    return jsonify([])
+
+    usuario_id = session['user_id']
+    conn=get_conn()
     cursor = conn.cursor()
     cursor.execute("SELECT id, nombre, precio, costo, cantidad FROM productos WHERE usuario_id = %s", (usuario_id,))
     productos = cursor.fetchall()
