@@ -84,7 +84,7 @@ def registrar_venta():
 @app.route('/procesar_venta', methods=['POST'])
 def procesar_venta():
       if 'user_id' not in session:
-      return redirect(url_for('login'))
+          return redirect(url_for('login'))
 
       usuario_id = session['user_id'] 
 
