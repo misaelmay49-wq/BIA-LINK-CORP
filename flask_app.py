@@ -87,7 +87,7 @@ def procesar_venta():
             return redirect(url_for('login'))
           usuario_id = session['user_id']
 
-          producto_id = request.form.get('producto_id',type=int)
+          producto_id = request.form.get('producto_id', type=int)
           cantidad_vendida = request.from.get('cantidad',type=int)
          if not producto_id or not cantidad_vendida or cantidad_vendida <= 0:
          flash("❌ Selecciona un producto y cantidad válida", "error")
