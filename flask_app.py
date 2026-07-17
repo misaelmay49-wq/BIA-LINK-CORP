@@ -114,8 +114,7 @@ def procesar_venta():
         flash("❌ Selecciona un producto y cantidad válida", "error")
         return redirect(url_for('registrar_venta'))
 
-    exito, mensaje = procesar_venta_logica(producto
-                                           tidad_vendida, usuario_id)
+    exito, mensaje = procesar_venta_logica(producto_id, cantidad_vendida, usuario_id)
 
     if exito:
         flash(mensaje, "success")
