@@ -83,11 +83,11 @@ def procesar_venta():
     exito, mensaje = procesar_venta_logica(producto_id, cantidad_vendida, usuario_id)
     
     if exito:
-       flash(mensaje, "succes")
+       flash(mensaje, "success")
     else:
-      flash(mensaje, "error")
+       flash(mensaje, "error")
 
-    return redirect(url_for('registrar_venta')
+    return redirect(url_for('registrar_venta'))
                             
 @app.route('/venta')
 def registrar_venta():
