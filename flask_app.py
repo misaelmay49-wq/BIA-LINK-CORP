@@ -83,24 +83,24 @@ def registrar_venta():
     
 @app.route('/procesar_venta', methods=['POST'])
 def procesar_venta():
-      if 'user_id' not in session:
-            return redirect(url_for('login'))
-          usuario_id = session['user_id']
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    usuario_id = session['user_id']
 
-          producto_id = request.form.get('producto_id', type=int)
-          cantidad_vendida = request.from.get('cantidad', type=int)
-         if not producto_id or not cantidad_vendida or cantidad_vendida <= 0:
-         flash("❌ Selecciona un producto y cantidad válida", "error")
-         return redirect(url_for('registrar_venta'))
-    
-     exito, mensaje = procesar_venta_logica(producto_id, cantidad_vendida, usuario_id)
-    
-     if exito:
-         flash(mensaje, "success")
-     else:
-         flash(mensaje, "error")
-    
-     return redirect(url_for('registrar_venta'))
+    producto_id = request.form.get('producto_id', type=int)
+    cantidad_vendida = request.form.get('cantidad', type=int)
+    if not producto_id or not cantidad_vendida or cantidad_vendida <= 0:
+        flash("❌ Selecciona un producto y cantidad válida", "error")
+        return redirect(url_for('registrar_venta'))
+
+    exito, mensaje = procesar_venta_logica(producto_id, cantidad_vendida, usuario_id)
+
+    if exito:
+        flash(mensaje, "success")
+    else:
+        flash(mensaje, "error")
+
+    return redirect(url_for('registrar_venta'))
 
 @app.route('/api/productos')
 def api_productos():
