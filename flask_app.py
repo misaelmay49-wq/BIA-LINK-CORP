@@ -67,9 +67,20 @@ def registrar():
 @app.route('/exito')
 def exito():
        return render_template('exito.html', active_page='registrar')
+    
 @app.route('/registrar_venta',methods=['POTS'])
 def procesar_venta():
-    
+    if'user_id' not in session: 
+       return redirect(url_for('login'))
+    usuario_id = session['user_id']
+
+    producto_id = requets.from.get('producto_id', type=int)
+    cantidad_vendida = requets.from.get('cantidad', type=int)
+    if not producto_id or not cantidad_vendida or cantidad_vendida <= 0:
+       flask(" ❌ Selecciona un producto y cantidad válida","error")
+       return redirect(url_for('registrar_venta'))
+        
+    exito, mensaje = procesar_venta_logica(producto_id, cantidad
 @app.route('/venta')
 def registrar_venta():
     if 'user_id' not in session:
@@ -95,7 +106,8 @@ def procesar_venta():
         flash("❌ Selecciona un producto y cantidad válida", "error")
         return redirect(url_for('registrar_venta'))
 
-    exito, mensaje = procesar_venta_logica(producto_id, cantidad_vendida, usuario_id)
+    exito, mensaje = procesar_venta_logica(producto
+                                           tidad_vendida, usuario_id)
 
     if exito:
         flash(mensaje, "success")
@@ -132,7 +144,7 @@ def api_productos():
 def registro():
     if request.method == 'POST':
         nombre = request.form['nombre']
-        correo = request.form['correo']
+        usuario_idc = request.form['correo']
         password = request.form['password']
         
         hash_pass = generate_password_hash(password)
