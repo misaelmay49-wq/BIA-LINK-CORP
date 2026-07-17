@@ -87,7 +87,7 @@ def procesar_venta():
     else:
       flash(mensaje, "error")
 
-    return redirect(url_for('registrar_venta")
+    return redirect(url_for('registrar_venta')
                             
 @app.route('/venta')
 def registrar_venta():
