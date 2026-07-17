@@ -70,8 +70,8 @@ def exito():
        return render_template('exito.html', active_page='registrar')
                    
 @app.route('/venta')
-def registrar_venta():
 @login_requerido
+def registrar_venta():
     if 'user_id' not in session:
         return redirect(url_for('login'))
         
@@ -106,8 +106,8 @@ def procesar_venta():
     return redirect(url_for('registrar_venta'))
 
 @app.route('/api/productos')
-def api_productos():
 @login_requerido
+def api_productos():
     if 'user_id' not in session:
         return jsonify([])
 
