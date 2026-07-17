@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify 
+
+flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify 
 from werkzeug.security import generate_password_hash, check_password_hash
 import uuid
 from logica import registrar_producto, obtener_productos, procesar_venta_logica, get_conn
@@ -70,6 +71,7 @@ def exito():
                    
 @app.route('/venta')
 def registrar_venta():
+@login_requerido
     if 'user_id' not in session:
         return redirect(url_for('login'))
         
@@ -83,6 +85,7 @@ def registrar_venta():
     
 @app.route('/procesar_venta', methods=['POST'])
 def procesar_venta():
+@login_requerido
     if 'user_id' not in session:
         return redirect(url_for('login'))
     usuario_id = session['user_id']
@@ -104,6 +107,7 @@ def procesar_venta():
 
 @app.route('/api/productos')
 def api_productos():
+@login_requerido
     if 'user_id' not in session:
         return jsonify([])
 
