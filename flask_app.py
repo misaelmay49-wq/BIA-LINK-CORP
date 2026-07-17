@@ -126,7 +126,7 @@ def procesar_venta():
 @app.route('/api/productos')
 def api_productos():
     if 'user_id' not in session:
-    return jsonify([])
+        return jsonify([])
 
     usuario_id = session['user_id']
     conn=get_conn()
