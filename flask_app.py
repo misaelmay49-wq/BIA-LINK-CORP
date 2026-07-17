@@ -67,28 +67,7 @@ def registrar():
 @app.route('/exito')
 def exito():
        return render_template('exito.html', active_page='registrar')
-    
-@app.route('/registrar_venta',methods=['POTS'])
-def procesar_venta():
-    if'user_id' not in session: 
-       return redirect(url_for('login'))
-    usuario_id = session['user_id']
-
-    producto_id = request.form.get('producto_id', type=int)
-    cantidad_vendida = request.form.get('cantidad', type=int)
-    if not producto_id or not cantidad_vendida or cantidad_vendida <= 0:
-       flash(" ❌ Selecciona un producto y cantidad válida","error")
-       return redirect(url_for('registrar_venta'))
-        
-    exito, mensaje = procesar_venta_logica(producto_id, cantidad_vendida, usuario_id)
-    
-    if exito:
-       flash(mensaje, "success")
-    else:
-       flash(mensaje, "error")
-
-    return redirect(url_for('registrar_venta'))
-                            
+                   
 @app.route('/venta')
 def registrar_venta():
     if 'user_id' not in session:
@@ -151,7 +130,7 @@ def api_productos():
 def registro():
     if request.method == 'POST':
         nombre = request.form['nombre']
-        usuario_idc = request.form['correo']
+        correo = request.form['correo']
         password = request.form['password']
         
         hash_pass = generate_password_hash(password)
