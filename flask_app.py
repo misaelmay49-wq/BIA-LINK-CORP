@@ -77,10 +77,13 @@ def procesar_venta():
     producto_id = requets.from.get('producto_id', type=int)
     cantidad_vendida = requets.from.get('cantidad', type=int)
     if not producto_id or not cantidad_vendida or cantidad_vendida <= 0:
-       flask(" ❌ Selecciona un producto y cantidad válida","error")
+       flash(" ❌ Selecciona un producto y cantidad válida","error")
        return redirect(url_for('registrar_venta'))
         
-    exito, mensaje = procesar_venta_logica(producto_id, cantidad
+    exito, mensaje = procesar_venta_logica(producto_id, cantidad_vendida, usuario_id)
+    
+    if exito:
+       flash(mensaje,"succes")
 @app.route('/venta')
 def registrar_venta():
     if 'user_id' not in session:
