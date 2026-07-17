@@ -67,7 +67,9 @@ def registrar():
 @app.route('/exito')
 def exito():
        return render_template('exito.html', active_page='registrar')
-
+@app.route('/registrar_venta',methods=['POTS'])
+def procesar_venta():
+    
 @app.route('/venta')
 def registrar_venta():
     if 'user_id' not in session:
