@@ -167,23 +167,19 @@ def login():
     if request.method == 'POST':
         correo = request.form['correo']
         password = request.form['password']
-        
         conn = get_conn()
         cursor = conn.cursor()
         cursor.execute("SELECT id, password FROM usuarios WHERE correo=%s", (correo,))
         user = cursor.fetchone()
         cursor.close()
         conn.close()
-        
-        if user and check_password_hash(user[1], password): # user[0] = id
-            session['user_id'] = user[0] # AQUI GUARDAMOS EL ID REAL
-            return redirect(url_for('registrar_venta'))
+        if user and check_password_hash(user[1], password):
+            session['user_id'] = user[0]
+            return redirect(url_for('dashboard')) 
         else:
             flash("❌ Correo o contraseña incorrecta", "error")
-    
     return render_template('login.html')
-
-
+            
 @app.route('/logout')
 @login_requerido
 def logout():
