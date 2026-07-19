@@ -144,6 +144,7 @@ def registro():
         nombre = request.form['nombre']
         correo = request.form['correo']
         password = request.form['password']
+        password_confirm = request.form['password_confirm']
         
         hash_pass = generate_password_hash(password)
         
