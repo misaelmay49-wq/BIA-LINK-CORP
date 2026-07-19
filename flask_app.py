@@ -68,6 +68,36 @@ def registrar():
 @app.route('/exito')
 def exito():
        return render_template('exito.html', active_page='registrar')
+
+@app.route('/@app.route('/')
+@app.route('/dashboard')
+@login_requerido
+def dashboard():
+    usuario_id = session['user_id']
+    exito, mensaje, productos = obtener_productos(usuario_id)
+    return render_template('dashboard.html', productos=productos, active_page='dashboard')
+
+@app.route('/procesar_venta', methods=['POST'])
+@login_requerido
+def procesar_venta():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    usuario_id = session['user_id']
+    producto_id = request.form.get('producto_id', type=int)
+    cantidad_vendida = request.form.get('cantidad', type=int)
+
+    if not producto_id or not cantidad_vendida or cantidad_vendida <= 0:
+        flash("❌ Selecciona un producto y cantidad válida", "error")
+        return redirect(url_for('registrar_venta'))
+
+    exito, mensaje = procesar_venta_logica(producto_id, cantidad_vendida, usuario_id)
+
+    if exito:
+        return render_template('venta_exito.html') 
+    else:
+        flash(mensaje, "error")
+        return redirect(url_for('registrar_venta'))
                    
 @app.route('/venta')
 @login_requerido
@@ -82,29 +112,7 @@ def registrar_venta():
     print("ENCONTRO:", len(productos), "productos") 
     
     return render_template('registrar_venta.html', productos=productos, active_page='venta')
-    
-@app.route('/procesar_venta', methods=['POST'])
-@login_requerido
-def procesar_venta():
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
-    usuario_id = session['user_id']
-
-    producto_id = request.form.get('producto_id', type=int)
-    cantidad_vendida = request.form.get('cantidad', type=int)
-    if not producto_id or not cantidad_vendida or cantidad_vendida <= 0:
-        flash("❌ Selecciona un producto y cantidad válida", "error")
-        return redirect(url_for('registrar_venta'))
-
-    exito, mensaje = procesar_venta_logica(producto_id, cantidad_vendida, usuario_id)
-
-    if exito:
-        flash(mensaje, "success")
-    else:
-        flash(mensaje, "error")
-
-    return redirect(url_for('registrar_venta'))
-
+        
 @app.route('/api/productos')
 @login_requerido
 def api_productos():
