@@ -69,7 +69,7 @@ def registrar():
 def exito():
        return render_template('exito.html', active_page='registrar')
 
-@app.route('/@app.route('/')
+@app.route('/')
 @app.route('/dashboard')
 @login_requerido
 def dashboard():
