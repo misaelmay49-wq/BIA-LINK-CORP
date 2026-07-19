@@ -140,11 +140,14 @@ def api_productos():
 
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
-    if request.method == 'POST':
-        nombre = request.form['nombre']
+    if request.method == 'POST'
         correo = request.form['correo']
         password = request.form['password']
         password_confirm = request.form['password_confirm']
+        nombre = request.form['correo'].split('@')[0]
+        if password!= password_confirm:
+           flash("❌ Las contraseñas no coinciden", "error")
+           return render_template('auth.html')
         
         hash_pass = generate_password_hash(password)
         
