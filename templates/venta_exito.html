@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Venta Registrada - Bialink</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body {
+            background: #020B1E;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+        }
+        .card {
+            background: #0A2A6E;
+            padding: 40px 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin-bottom: 25px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .check {
+            width: 70px;
+            height: 70px;
+            border: 3px solid #00FF88;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            font-size: 40px;
+            color: #00FF88;
+        }
+        h2 {
+            color: #00FF88;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #A0AEC0;
+            margin-bottom: 30px;
+            font-size: 15px;
+        }
+        .btn {
+            background: #1A56DB;
+            color: white;
+            padding: 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: block;
+            font-weight: bold;
+            font-size: 16px;
+            transition: 0.2s;
+        }
+        .btn:hover { background: #1E40AF; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">BIA LINK 📈</div>
+        
+        <div class="check">✓</div>
+        
+        <h2>✅📈 Venta registrada correctamente</h2>
+        <p>La venta se ha registrado correctamente en el sistema.</p>
+        
+        <a href="{{ url_for('dashboard') }}" class="btn">← Volver al inicio</a>
+    </div>
+</body>
+</html>
