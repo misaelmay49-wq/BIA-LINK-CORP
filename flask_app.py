@@ -3,19 +3,17 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 import uuid
-from logica import registrar_producto, obtener_productos, procesar_venta_logica, get_conn
+from logica import registrar_producto, procesar_venta_logica, get_conn
 
 app = Flask(__name__)
 app.secret_key = 'bialink_clave_secreta_123'
 
 def login_requerido(f):
-    @wraps(f) 
+    @wraps(f)
     def wrapper(*args, **kwargs):
-    return decorated_function  
         if 'user_id' not in session:
             return redirect(url_for('index'))
         return f(*args, **kwargs)
-    wrapper.__name__ = f.__name__
     return wrapper
 
 def obtener_productos(usuario_id):
