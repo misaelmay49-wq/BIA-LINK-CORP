@@ -7,13 +7,28 @@ from logica import registrar_producto, obtener_productos, procesar_venta_logica,
 app = Flask(__name__)
 app.secret_key = 'bialink_clave_secreta_123'
 
-def login_requerido(f):  
+def login_requerido(f):
+    @wraps(f) 
+    return decorated_function  
     def wrapper(*args, **kwargs):
         if 'user_id' not in session:
-            return redirect(url_for('login'))
+            return redirect(url_for('index'))
         return f(*args, **kwargs)
     wrapper.__name__ = f.__name__
     return wrapper
+
+def obtener_productos(usuario_id):
+    conn = get_conn()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("SELECT id, nombre, precio FROM productos WHERE usuario_id=%s", (usuario_id,))
+        productos = cursor.fetchall()
+        return True, "Productos cargados", productos 
+    except:
+        return False, "Error al cargar productos", []
+    finally:
+        cursor.close()
+        conn.close()
 
 
 @app.route('/', methods=['GET', 'POST'])
