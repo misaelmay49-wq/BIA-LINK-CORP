@@ -160,7 +160,7 @@ def registro():
         finally:
             cursor.close()
             conn.close()
-    return render_template('registro.html')
+    return render_template('auth.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -179,7 +179,7 @@ def login():
             return redirect(url_for('dashboard')) 
         else:
             flash("❌ Correo o contraseña incorrecta", "error")
-    return render_template('login.html')
+    return render_template('auth.html')
             
 @app.route('/logout')
 @login_requerido
