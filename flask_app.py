@@ -154,7 +154,7 @@ def api_productos():
 
 @app.route('/registro', methods=['GET', 'POST'])
 def registro():
-    if request.method == 'POST'
+    if request.method == 'POST':
         correo = request.form['correo']
         password = request.form['password']
         password_confirm = request.form['password_confirm']
