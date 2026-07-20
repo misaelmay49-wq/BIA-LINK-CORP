@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>BIA LINK - Acceso</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        
+        body {
+            background: #020a1f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .card {
+            background: linear-gradient(180deg, #0a2a6b 0%, #0d3a8a 100%);
+            width: 100%;
+            max-width: 420px;
+            border-radius: 20px;
+            padding: 30px 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-weight: bold;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        .icon-user {
+            width: 60px; height: 60px;
+            border: 2px solid #3b82f6;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            margin: 0 auto 15px;
+            color: #3b82f6;
+            font-size: 28px;
+        }
+
+        h2 { text-align: center; color: white; font-size: 24px; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #a0b4e0; font-size: 14px; margin-bottom: 25px; }
+
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; color: white; margin-bottom: 8px; font-size: 14px; font-weight: 500; }
+        
+        .input-box {
+            position: relative;
+            background: #0d1a3d;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+        }
+        .input-box i { color: #a0b4e0; font-size: 16px; }
+        .input-box input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            padding: 14px 10px;
+            color: white;
+            font-size: 15px;
+        }
+        .input-box input::placeholder { color: #5a6a94; }
+        .toggle-pass { cursor: pointer; }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: none;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+        }
+        .btn:active { transform: scale(0.98); }
+
+        .btn-primary { background: #2563eb; color: white; }
+        .btn-primary:hover { background: #1d4ed8; }
+
+        .footer-links { text-align: center; margin-top: 18px; font-size: 14px; color: #a0b4e0; }
+        .footer-links a { color: #3b82f6; font-weight: bold; text-decoration: none; cursor: pointer; }
+        .footer-links a:hover { text-decoration: underline; }
+
+        .hidden { display: none; }
+        .flash { padding: 10px; border-radius: 8px; margin-bottom: 15px; text-align: center; font-size: 14px; }
+        .flash.error { background: #dc3545; color: white; }
+        .flash.success { background: #28a745; color: white; }
+
+        @media (max-width: 480px) { 
+            .card { padding: 25px 20px; }
+        } 
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            BIA LINK <i class="fa-solid fa-chart-line"></i>
+        </div>
+
+        <div class="icon-user"><i class="fa-solid fa-user"></i></div>
+        
+        <h2 id="titulo">Crea tu cuenta</h2>
+        <p class="subtitle" id="subtitulo">Completa los datos para crear tu cuenta</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form id="form-registro" action="{{ url_for('registro') }}" method="POST">
+            <div class="form-group">
+                <label>Correo electrónico</label>
+                <div class="input-box">
+                    <i class="fa-regular fa-envelope"></i>
+                    <input type="email" name="correo" placeholder="ejemplo@correo.com" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Contraseña</label>
+                <div class="input-box">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" name="password" id="pass-reg" placeholder="Ingresa tu contraseña" required>
+                    <i class="fa-regular fa-eye toggle-pass" onclick="togglePass('pass-reg', this)"></i>
+                </div>
+            </div>
+            <div class="form-group" id="confirm-group">
+                <label>Confirmar contraseña</label>
+                <div class="input-box">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" name="confirmar" id="pass-conf" placeholder="Confirma tu contraseña" required>
+                    <i class="fa-regular fa-eye toggle-pass" onclick="togglePass('pass-conf', this)"></i>
+                </div>
+            </div>
+            <button type="submit" id="btn-principal" class="btn btn-primary"><i class="fa-solid fa-user-plus"></i> Crear cuenta</button>
+        </form>
+
+        <!-- FORM LOGIN -->
+        <form id="form-login" action="{{ url_for('login') }}" method="POST" class="hidden">
+            <div class="form-group">
+                <label>Correo electrónico</label>
+                <div class="input-box">
+                    <i class="fa-regular fa-envelope"></i>
+                    <input type="email" name="correo" placeholder="ejemplo@correo.com" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Contraseña</label>
+                <div class="input-box">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" name="password" id="pass-login" placeholder="Ingresa tu contraseña" required>
+                    <i class="fa-regular fa-eye toggle-pass" onclick="togglePass('pass-login', this)"></i>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-lock"></i> Iniciar sesión</button>
+        </form>
+
+        <!-- LINKS AZULES DE ABAJO -->
+        <div class="footer-links" id="links-registro">
+            ¿Ya tienes cuenta? <a onclick="mostrarLogin()">Iniciar sesión</a>
+        </div>
+        <div class="footer-links hidden" id="links-login">
+            ¿No tienes cuenta? <a onclick="mostrarRegistro()">Regístrate</a>
+        </div>
+    </div>
+
+    <script>
+        function mostrarLogin() {
+            document.getElementById('form-registro').classList.add('hidden');
+            document.getElementById('form-login').classList.remove('hidden');
+            document.getElementById('links-registro').classList.add('hidden');
+            document.getElementById('links-login').classList.remove('hidden');
+            document.getElementById('titulo').innerText = 'Bienvenido';
+            document.getElementById('subtitulo').innerText = 'Inicia sesión para continuar';
+        }
+        function mostrarRegistro() {
+            document.getElementById('form-login').classList.add('hidden');
+            document.getElementById('form-registro').classList.remove('hidden');
+            document.getElementById('links-login').classList.add('hidden');
+            document.getElementById('links-registro').classList.remove('hidden');
+            document.getElementById('titulo').innerText = 'Crea tu cuenta';
+            document.getElementById('subtitulo').innerText = 'Completa los datos para crear tu cuenta';
+        }
+        function togglePass(id, icon) {
+            let input = document.getElementById(id);
+            if(input.type === "password"){
+                input.type = "text";
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = "password";
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+    </script>
+</body>
+  </html>
