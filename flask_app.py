@@ -30,7 +30,7 @@ def obtener_productos(usuario_id):
         conn.close()
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/registrar', methods=['GET', 'POST'])
 def registrar():
     if request.method == 'POST':
         try:
@@ -157,7 +157,7 @@ def registro():
     if request.method == 'POST':
         correo = request.form['correo']
         password = request.form['password']
-        password_confirm = request.form['password_confirm']
+        password_confirm = request.form['confirmar']
         nombre = request.form['correo'].split('@')[0]
         if password!= password_confirm:
            flash("❌ Las contraseñas no coinciden", "error")
