@@ -12,7 +12,7 @@ def login_requerido(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
         if 'user_id' not in session:
-            return redirect(url_for('index'))
+            return redirect(url_for('login'))
         return f(*args, **kwargs)
     return wrapper
 
