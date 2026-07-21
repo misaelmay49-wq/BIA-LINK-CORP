@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Éxito - BIA LINK</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body {
+            background: #050a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .card {
+            background: #0d1a3a;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 20px;
+            padding: 30px 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 30px;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+        }
+        .check-circle {
+            width: 80px;
+            height: 80px;
+            border: 3px solid #00ff88;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+        .check-circle svg { width: 40px; height: 40px; stroke: #00ff88; stroke-width: 3; fill: none; }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00ff88;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .subtitle {
+            color: #a0b0d0;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .btn {
+            background: linear-gradient(135deg, #0066ff, #0044cc);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            transition: 0.3s;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,102,255,0.4); }
+        .footer {
+            color: #a0b0d0;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .footer span { color: #00ff88; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            BIA LINK 📊
+        </div>
+
+        <div class="check-circle">
+            <svg viewBox="0 0 24 24">
+                <path d="M5 13l4 4L19 7" />
+            </svg>
+        </div>
+
+        <div class="title">
+            ✅ 👤 Cuenta creada correctamente
+        </div>
+
+        <div class="subtitle">
+            Tu cuenta se ha creado exitosamente. <br>
+            Ya puedes iniciar sesión para comenzar <br>
+            a administrar tu negocio.
+        </div>
+
+        <a href="{{ url_for('registrar_producto') }}" class="btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+            </svg>
+            Ir al inicio
+        </a>
+
+        <div class="footer">
+            🚀 Ya puedes empezar a <span>crecer tu negocio</span>.
+        </div>
+    </div>
+</body>
+</html>
