@@ -83,6 +83,10 @@ def registrar():
 def exito():
        return render_template('exito.html', active_page='registrar')
 
+@app.route('/exito_cuenta')
+def exito_cuenta():
+    return render_template('exito_cuenta.html', active_page='auth')
+
 @app.route('/')
 @app.route('/dashboard')
 @login_requerido
