@@ -175,7 +175,7 @@ def registro():
             cursor.execute("INSERT INTO usuarios (nombre, correo, password) VALUES (%s,%s,%s)", (nombre, correo, hash_pass))
             conn.commit()
             flash("✅ Usuario registrado. Ya puedes iniciar sesión", "success")
-            return redirect(url_for('login'))
+            return redirect(url_for('exito_cuenta'))
         except:
             flash("❌ Ese correo ya existe", "error")
         finally:
