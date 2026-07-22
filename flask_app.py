@@ -200,7 +200,7 @@ def login():
             return redirect(url_for('dashboard')) 
         else:
             flash("❌ Correo o contraseña incorrecta", "error")
-    return render_template('auth.html')
+    return render_template('login.html')
             
 @app.route('/logout')
 @login_requerido
