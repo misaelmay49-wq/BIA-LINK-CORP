@@ -156,12 +156,12 @@ def api_productos():
         })
     return jsonify(lista)
 
-@app.route('/registro',methods=['GET','POTS'])
+@app.route('/registro',methods=['GET','POST'])
 def registro():
  if 'user_id' in session:
      return redirect(url_for('login_exito'))
 
- if request.method == 'POTS':
+ if request.method == 'POST':
         correo = request.form['correo']
         password = request.form['password']
         password_confirm = request.form['confirmar']
@@ -184,7 +184,7 @@ def registro():
         finally:
             cursor.close()
             conn.close()
-    return render_template('auth.html')
+            return render_template('auth.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
