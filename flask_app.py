@@ -199,7 +199,7 @@ def login():
         conn.close()
         if user and check_password_hash(user[1], password):
             session['user_id'] = user[0]
-            return redirect(url_for('dashboard')) 
+            return redirect(url_for('registrar')) 
         else:
             flash("❌ Correo o contraseña incorrecta", "error")
     return render_template('login.html')
