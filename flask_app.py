@@ -199,10 +199,15 @@ def login():
         conn.close()
         if user and check_password_hash(user[1], password):
             session['user_id'] = user[0]
-            return redirect(url_for('registrar')) 
+            return redirect(url_for('login_exito')) 
         else:
             flash("❌ Correo o contraseña incorrecta", "error")
     return render_template('login.html')
+
+@app.route('/login_exito')
+@login_requerido
+def login_exito():
+    return render_template('login_exito.html')
             
 @app.route('/logout')
 @login_requerido
