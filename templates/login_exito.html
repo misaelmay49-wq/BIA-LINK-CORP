@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BIA LINK - Bienvenido</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body { 
+        background: #0a1e4a; 
+        color: white; 
+        min-height: 100vh;
+        padding: 25px 20px;
+    }
+    .container {
+        max-width: 420px;
+        margin: 0 auto;
+    }
+    .logo { 
+        font-size: 22px; 
+        font-weight: 700; 
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .logo .chart {
+        background: white;
+        color: #ef4444;
+        padding: 2px 4px;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+    h2 { 
+        font-size: 24px; 
+        font-weight: 700;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    p { 
+        color: #d1d5db; 
+        font-size: 15px; 
+        line-height: 1.6; 
+        margin-bottom: 12px;
+    }
+    .btn { 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        width: 100%; 
+        padding: 16px; 
+        background: #1d4ed8; 
+        color: white; 
+        border-radius: 12px; 
+        text-align: center; 
+        text-decoration: none; 
+        font-weight: 700; 
+        font-size: 16px; 
+        margin-top: 50px;
+        border: none;
+        cursor: pointer;
+    }
+    .btn:hover { background: #1e40af; }
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="logo">
+        BIA LINK <span class="chart"><i class="fa-solid fa-chart-line"></i></span>
+    </div>
+    
+    <h2>Bienvenido de nuevo a BIA LINK 👋</h2>
+    
+    <p>Has iniciado sesión correctamente.</p>
+    <p>Ya puedes continuar administrando y haciendo crecer tu negocio.</p>
+    
+    <a href="{{ url_for('registrar') }}" class="btn">
+        Ir al Inicio <i class="fa-solid fa-house"></i>
+    </a>
+</div>
+</body>
+</html>
