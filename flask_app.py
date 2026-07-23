@@ -179,7 +179,7 @@ def registro():
             conn.commit()
             flash("✅ Usuario registrado. Ya puedes iniciar sesión", "success")
             return redirect(url_for('exito_cuenta'))
-        except:
+        except Exception as e:
             flash("❌ Ese correo ya existe", "error")
             print("ERROR BD:", e) 
             flash(f"❌ Error: {e}","error")
