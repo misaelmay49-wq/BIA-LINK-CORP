@@ -165,7 +165,7 @@ def registro():
         correo = request.form['correo']
         password = request.form['password']
         password_confirm = request.form['confirmar']
-        nombre = request.form['correo'].split('@')[0]
+        nombre = correo.split('@')[0]
         if password!= password_confirm:
            flash("❌ Las contraseñas no coinciden", "error")
            return render_template('auth.html')
