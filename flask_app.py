@@ -181,6 +181,8 @@ def registro():
             return redirect(url_for('exito_cuenta'))
         except:
             flash("❌ Ese correo ya existe", "error")
+            print("ERROR BD:", e) 
+            flash(f"❌ Error: {e}","error")
         finally:
             cursor.close()
             conn.close()
