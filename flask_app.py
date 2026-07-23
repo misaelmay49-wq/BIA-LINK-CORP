@@ -186,7 +186,7 @@ def registro():
         finally:
             cursor.close()
             conn.close()
-  return render_template('auth.html')
+   return render_templates('auth.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
