@@ -158,22 +158,23 @@ def api_productos():
 
 @app.route('/registro',methods=['GET','POST'])
 def registro():
- if 'user_id' in session:
-     return redirect(url_for('login_exito'))
+    if 'user_id' in session:
+        return redirect(url_for('login_exito'))
 
- if request.method == 'POST':
+    if request.method == 'POST':
         correo = request.form['correo']
         password = request.form['password']
         password_confirm = request.form['confirmar']
         nombre = correo.split('@')[0]
+
         if password!= password_confirm:
-           flash("❌ Las contraseñas no coinciden", "error")
-           return render_template('auth.html')
-        
+            flash("❌ Las contraseñas no coinciden", "error")
+            return render_template('auth.html')
+
         hash_pass = generate_password_hash(password)
-        
         conn = get_conn()
         cursor = conn.cursor()
+
         try:
             cursor.execute("INSERT INTO usuarios (nombre, correo, password) VALUES (%s,%s,%s)", (nombre, correo, hash_pass))
             conn.commit()
@@ -181,14 +182,14 @@ def registro():
             return redirect(url_for('exito_cuenta'))
         except Exception as e:
             flash("❌ Ese correo ya existe", "error")
-            print("ERROR BD:", e) 
+            print("ERROR BD:", e)
             flash(f"❌ Error: {e}","error")
         finally:
             cursor.close()
             conn.close()
-   return render_template('auth.html')
 
-
+    return render_template('auth.html')
+            
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
