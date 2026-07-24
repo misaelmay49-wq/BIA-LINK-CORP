@@ -205,7 +205,7 @@ def login():
         cursor.close()
         conn.close()
         if user and check_password_hash(user[1], password):
-            session.permanet
+            session.permanent = True
             session['user_id'] = user[0]
             return redirect(url_for('login_exito')) 
         else:
