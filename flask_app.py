@@ -7,7 +7,7 @@ import uuid
 from logica import registrar_producto, procesar_venta_logica, get_conn
 
 app = Flask(__name__)
-app.secret_key = 'bialink_clave_secreta_123
+app.secret_key = 'bialink_clave_secreta_123'
 app.permanent_session_lifetime = timedelta(days=30)
 
 @app.route('/')
@@ -185,6 +185,12 @@ def registro():
         try:
             cursor.execute("INSERT INTO usuarios (nombre, correo, password) VALUES (%s,%s,%s)", (nombre, correo, hash_pass))
             conn.commit()
+            
+            cursor.execute("SELECT id FROM usuarios WHERE correo=%s", (correo,))
+            nuevo_user = cursor.fetchone()
+            session.permanent = True
+            session['user_id'] = nuevo_user[0]
+            
             flash("✅ Usuario registrado. Ya puedes iniciar sesión", "success")
             return redirect(url_for('exito_cuenta'))
         except Exception as e:
