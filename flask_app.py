@@ -95,7 +95,6 @@ def exito():
 def exito_cuenta():
     return render_template('exito_cuenta.html', active_page='auth')
 
-@app.route('/')
 @app.route('/dashboard')
 @login_requerido
 def dashboard():
