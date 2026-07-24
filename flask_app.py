@@ -167,7 +167,7 @@ def api_productos():
 @app.route('/registro',methods=['GET','POST'])
 def registro():
     if 'user_id' in session:
-        return redirect(url_for('login_exito'))
+        return redirect(url_for('dashboard'))
 
     if request.method == 'POST':
         correo = request.form['correo']
