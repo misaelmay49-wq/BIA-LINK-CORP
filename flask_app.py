@@ -2,11 +2,13 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify 
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
+from datetime import timedelta
 import uuid
 from logica import registrar_producto, procesar_venta_logica, get_conn
 
 app = Flask(__name__)
 app.secret_key = 'bialink_clave_secreta_123
+app.permanent_session_lifetime = timedelta(days=30)
 
 @app.route('/')
 def inicio():
