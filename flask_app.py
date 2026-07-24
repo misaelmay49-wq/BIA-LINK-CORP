@@ -6,7 +6,13 @@ import uuid
 from logica import registrar_producto, procesar_venta_logica, get_conn
 
 app = Flask(__name__)
-app.secret_key = 'bialink_clave_secreta_123'
+app.secret_key = 'bialink_clave_secreta_123
+
+@app.route('/')
+def inicio():
+    if 'user_id' in session:
+        return redirect(url_for('dashboard'))
+    return redirect(url_for('registro'))
 
 def login_requerido(f):
     @wraps(f)
