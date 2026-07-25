@@ -13,7 +13,7 @@ app.permanent_session_lifetime = timedelta(days=30)
 @app.route('/')
 def inicio():
     if 'user_id' in session:
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('registrar'))
     return redirect(url_for('registro'))
 
 def login_requerido(f):
@@ -166,7 +166,7 @@ def api_productos():
 @app.route('/registro',methods=['GET','POST'])
 def registro():
     if 'user_id' in session:
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('registrar'))
 
     if request.method == 'POST':
         correo = request.form['correo']
@@ -206,7 +206,7 @@ def registro():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if 'user_id' in session:
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('registrar'))
 
     if request.method == 'POST':
         correo = request.form['correo']
