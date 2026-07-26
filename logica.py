@@ -55,7 +55,7 @@ def cargar_productos(usuario_id):
                 'nombre': p[0],
                 'precio': float(p[1]),
                 'ganancia': float(p[2]),
-                'cantidad': p[3]
+                'stock': p[3]
             })
         return productos
     except Exception as e:
