@@ -163,8 +163,9 @@ def procesar_venta_logica(producto_id, cantidad_vendida, usuario_id):
 
                 if not p:
                     return False, "❌ Producto inválido"
-
-                nombre = p['nombre']  # <- estas 4 líneas van aquí
+                    
+                producto_id_db = p['identificación']
+                nombre = p['nombre']
                 precio = Decimal(p['precio'])
                 costo = Decimal(p['costo'])
                 cantidad = int(p['cantidad'])
