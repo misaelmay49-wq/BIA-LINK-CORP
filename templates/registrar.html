@@ -223,7 +223,7 @@
                 {% endif %}
             {% endwith %}
 
-            <form method="POST" action="/">
+            <form method="POST" action="{{ url_for('registrar') }}">
                 <label>Nombre del producto:</label>
                 <input type="text" name="nombre" placeholder="Ej: Chetos" maxlength="50" required>
 
