@@ -91,7 +91,7 @@ def registrar_producto(usuario_id, nombre, precio, costo, cantidad):
         conn = get_conn()
         cursor = conn.cursor()
         cursor.execute(
-    'INSERT INTO productos (usuario_id, nombre, precio, costo, cantidad) VALUES (%s, %s, %s, %s, %s)',
+    'INSERT INTO productos (usuario_id, nombre, precio, costo, stock) VALUES (%s, %s, %s, %s, %s)',
     (usuario_id, nombre, precio, costo, cantidad)
 )
         conn.commit()
