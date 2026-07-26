@@ -178,7 +178,7 @@ def procesar_venta_logica(producto_id, cantidad_vendida, usuario_id):
                     UPDATE productos
                     SET cantidad = cantidad - %s
                     WHERE "identificación" = %s
-                """, (cantidad_vendida, producto_id))
+                """, (cantidad_vendida, producto_id_db))
 
                 total_venta = precio * cantidad_vendida
                 ganancia_total = ganancia * cantidad_vendida
