@@ -46,7 +46,7 @@ def cargar_productos(usuario_id):
         conn = get_conn()
         cursor = conn.cursor()
         cursor.execute(
-            'SELECT nombre, precio, (precio - costo) as ganancia, cantidad FROM productos WHERE usuario_id = %s ORDER BY id DESC',
+            'SELECT nombre, precio, (precio - costo) as ganancia, stock FROM productos WHERE usuario_id = %s ORDER BY id DESC',
             (usuario_id,)
         )
         productos = []
