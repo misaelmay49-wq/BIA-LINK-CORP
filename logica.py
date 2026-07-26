@@ -154,7 +154,7 @@ def procesar_venta_logica(producto_id, cantidad_vendida, usuario_id):
                     return False, "❌ La cantidad debe ser mayor a 0"
 
                 cur.execute("""
-                    SELECT id, nombre, precio, costo, cantidad
+                    SELECT identificaci, nombre, precio, costo, cantidad
                     FROM productos
                     WHERE id = %s AND usuario_id = %s
                     FOR UPDATE
@@ -177,7 +177,7 @@ def procesar_venta_logica(producto_id, cantidad_vendida, usuario_id):
                 cur.execute("""
                     UPDATE productos
                     SET cantidad = cantidad - %s
-                    WHERE id = %s
+                    WHERE \"indentificación"/ = %s
                 """, (cantidad_vendida, producto_id))
 
                 total_venta = precio * cantidad_vendida
