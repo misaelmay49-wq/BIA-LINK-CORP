@@ -29,7 +29,7 @@ def login_requerido(f):
 
 def obtener_productos(usuario_id):
     conn = get_conn()
-    cursor = conn.cursor()
+    cursor = conn.cursor(cursor_factory=RealDictCursor) 
     try:
         cursor.execute("SELECT id, nombre, precio FROM productos WHERE usuario_id=%s", (usuario_id,))
         productos = cursor.fetchall()
