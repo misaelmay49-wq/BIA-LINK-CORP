@@ -46,7 +46,7 @@ def cargar_productos(usuario_id):
         conn = get_conn()
         cursor = conn.cursor()
         cursor.execute(
-            'SELECT nombre, precio, (precio - costo) as ganancia, stock FROM productos WHERE usuario_id = %s ORDER BY id DESC',
+            'SELECT nombre, precio, (precio - costo) as ganancia, cantidad FROM productos WHERE usuario_id = %s ORDER BY id DESC',
             (usuario_id,)
         )
         productos = []
@@ -55,7 +55,7 @@ def cargar_productos(usuario_id):
                 'nombre': p[0],
                 'precio': float(p[1]),
                 'ganancia': float(p[2]),
-                'stock': p[3]
+                'cantidad': p[3]
             })
         return productos
     except Exception as e:
@@ -91,7 +91,7 @@ def registrar_producto(usuario_id, nombre, precio, costo, cantidad):
         conn = get_conn()
         cursor = conn.cursor()
         cursor.execute(
-    'INSERT INTO productos (usuario_id, nombre, precio, costo, stock) VALUES (%s, %s, %s, %s, %s)',
+    'INSERT INTO productos (usuario_id, nombre, precio, costo, cantidad) VALUES (%s, %s, %s, %s, %s)',
     (usuario_id, nombre, precio, costo, cantidad)
 )
         conn.commit()
