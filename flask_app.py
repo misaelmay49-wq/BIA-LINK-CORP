@@ -158,11 +158,11 @@ def api_productos():
     lista = []
     for p in productos:
         lista.append({
-            'id': p[0],
-            'nombre': p[1],
-            'precio': float(p[2]),
-            'costo': float(p[3]),
-            'cantidad': p[4]
+           'id': p['id'],
+           'nombre': p['nombre'],
+           'precio': float(p['precio']),
+           'costo': float(p['costo']),
+           'cantidad': p['cantidad']
         })
     return jsonify(lista)
 
