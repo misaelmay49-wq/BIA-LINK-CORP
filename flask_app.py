@@ -150,7 +150,7 @@ def api_productos():
     usuario_id = session['user_id']
     conn=get_conn()
     cursor = conn.cursor(cursor_factory=RealDictCursor) 
-    cursor.execute("SELECT id, nombre, precio, costo, cantidad FROM productos WHERE usuario_id = %s", (usuario_id,))
+    cursor.execute("SELECT identificacion, nombre, precio, costo, cantidad FROM productos WHERE usuario_id = %s", (usuario_id,))
     productos = cursor.fetchall()
     cursor.close()
     conn.close()
@@ -162,7 +162,7 @@ def api_productos():
            'nombre': p['nombre'],
            'precio': float(p['precio']) or 0),
            'costo': float(p['costo']) or 0),
-           'cantidad': p['cantidad'] or 0)
+           'cantidad': p['cantidad'] or 0
         })
     return jsonify(lista)
 
