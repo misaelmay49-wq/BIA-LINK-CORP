@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 from datetime import timedelta
 import uuid
+from decimal import Decimal, InvalidOperation
 from logica import registrar_producto, procesar_venta_logica, get_conn
 
 app = Flask(__name__)
