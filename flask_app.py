@@ -158,7 +158,7 @@ def api_productos():
     lista = []
     for p in productos:
         lista.append({
-           'id': p['id'],
+           'id': p['identificacion'],
            'nombre': p['nombre'],
            'precio': float(p['precio']),
            'costo': float(p['costo']),
