@@ -149,7 +149,7 @@ def api_productos():
 
     usuario_id = session['user_id']
     conn=get_conn()
-    cursor = conn.cursor()
+    cursor = conn.cursor(cursor_factory=RealDictCursor) 
     cursor.execute("SELECT id, nombre, precio, costo, cantidad FROM productos WHERE usuario_id = %s", (usuario_id,))
     productos = cursor.fetchall()
     cursor.close()
