@@ -156,7 +156,7 @@ def procesar_venta_logica(producto_id, cantidad_vendida, usuario_id):
                 cur.execute("""
                     SELECT identificación, nombre, precio, costo, cantidad
                     FROM productos
-                    WHERE identificación = %s AND usuario_id = %s
+                    WHERE "identificación" = %s AND usuario_id = %s
                     FOR UPDATE
                 """, (producto_id, usuario_id))
                 p = cur.fetchone()
@@ -177,7 +177,7 @@ def procesar_venta_logica(producto_id, cantidad_vendida, usuario_id):
                 cur.execute("""
                     UPDATE productos
                     SET cantidad = cantidad - %s
-                    WHERE indentificación = %s
+                    WHERE "identificación" = %s
                 """, (cantidad_vendida, producto_id))
 
                 total_venta = precio * cantidad_vendida
