@@ -120,15 +120,7 @@
                     <table>
                         <thead><tr><th>#</th><th>Producto</th><th>Precio</th><th>Costo</th><th>Stock</th></tr></thead>
                         <tbody>
-                            {% for p in productos %}
-                            <tr>
-                                <td>{{ loop.index }}</td>
-                                <td>{{ p.nombre }}</td>
-                                <td class="green">${{ "%.2f"|format(p.precio) }}</td>
-                                <td class="orange">${{ "%.2f"|format(p.costo) }}</td>
-                                <td class="blue">{{ p.cantidad }} u</td>
-                            </tr>
-                            {% endfor %}
+                         <tr><td colspan="5">Cargando productos...</td></tr>
                         </tbody>
                     </table>
                 </div>
