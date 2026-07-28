@@ -238,3 +238,57 @@ def login_exito():
 def logout():
     session.pop('user_id', None)
     return redirect(url_for('login'))
+
+@app.route('/api/analisis-ventas')
+@login_requerido
+def api_analisis_ventas():
+    usuario_id = session['user_id']
+
+    try:
+        exito, productos, total_dia = analizar_ventas(usuario_id, get_conn)
+
+        if not exito:
+            return jsonify({
+                "hay_ventas": False,
+                "mensaje": "No hay ventas registradas hoy",
+                "total_dia": 0.0,
+                "productos": {},
+                "estado_dia": "sin_ventas",
+                "sugerencias": []
+            })
+
+        if total_dia >= 2000: estado = "excelente"
+        elif total_dia >= 1000: estado = "bueno"
+        else: estado = "bajo"
+
+        productos_json = {}
+        sugerencias = []
+        for nombre, ganancia in productos.items():
+            ganancia_float = float(ganancia)
+            productos_json[nombre] = {
+                "ganancia": ganancia_float,
+                "rendimiento": "bueno" if ganancia_float >= 500 else "bajo"
+            }
+            if ganancia_float < 300:
+                sugerencias.append(f"Haz promoción en {nombre}")
+
+        return jsonify({
+            "hay_ventas": True,
+            "mensaje": "Análisis del día",
+            "total_dia": float(total_dia),
+            "estado_dia": estado,
+            "productos": productos_json,
+            "sugerencias": sugerencias
+        })
+
+    except Exception as e:
+        print("ERROR API ANALISIS:", e)
+        return jsonify({
+            "hay_ventas": False,
+            "mensaje": f"Error al obtener análisis: {str(e)}",
+            "total_dia": 0.0,
+            "productos": {},
+            "estado_dia": "error",
+            "sugerencias": [],
+            "error": str(e)
+        }), 500
