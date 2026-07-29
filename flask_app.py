@@ -7,7 +7,7 @@ import uuid
 from decimal import Decimal, InvalidOperation
 import psycopg2
 from psycopg2.extras import RealDictCursor
-from logica import registrar_producto, procesar_venta_logica, get_conn
+from logica import registrar_producto, procesar_venta_logica, get_conn, analizar_ventas
 
 app = Flask(__name__)
 app.secret_key = 'bialink_clave_secreta_123'
