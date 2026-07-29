@@ -23,10 +23,22 @@ def login_requerido(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
         if 'user_id' not in session:
+            
+            if request.path.startswith('/api/'):
+                return jsonify({
+                    "hay_ventas": False,
+                    "mensaje": "Inicia sesión para continuar",
+                    "total_dia": 0.0,
+                    "productos": {},
+                    "estado_dia": "error",
+                    "sugerencias": [],
+                    "error": "No autenticado"
+                }), 401
+        
             return redirect(url_for('login'))
         return f(*args, **kwargs)
     return wrapper
-
+                            
 def obtener_productos(usuario_id):
     conn = get_conn()
     cursor = conn.cursor(cursor_factory=RealDictCursor) 
