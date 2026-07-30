@@ -195,12 +195,11 @@ def procesar_venta_logica(producto_id, cantidad_vendida, usuario_id):
         if conn:
             conn.rollback()
         return False, f"❌ Error: {e}" 
-
 def analizar_ventas(usuario_id, get_conn):
     """
-    Versión usando ganancia_total que ya tienes en ventas
+    Versión corregida con columnas reales: cantidad_vendida, venta_total, ganancia_total
     """
-    print("\n- - GANANCIA DEL DIA -")
+    print("\n- GANANCIA DEL DIA -")
     conn = None
     cursor = None
     try:
@@ -209,9 +208,14 @@ def analizar_ventas(usuario_id, get_conn):
         fecha_hoy = datetime.now().strftime("%Y-%m-%d")
 
         cursor.execute("""
-            SELECT nombre_producto, ganancia_total
+            SELECT
+                nombre_producto,
+                SUM(cantidad_vendida) AS unidades_vendidas,
+                SUM(venta_total) AS ganancia_bruta,
+                SUM(ganancia_total) AS ganancia_neta
             FROM ventas
             WHERE usuario_id = %s AND DATE(fecha) = %s
+            GROUP BY nombre_producto
         """, (usuario_id, fecha_hoy))
 
         ventas = cursor.fetchall()
@@ -222,25 +226,33 @@ def analizar_ventas(usuario_id, get_conn):
 
         productos = {}
         total_dia = Decimal("0.00")
-        
-        for nombre, ganancia_total in ventas:
-            ganancia_total = Decimal(str(ganancia_total))
-            total_dia += ganancia_total
-            productos[nombre] = productos.get(nombre, Decimal("0.00")) + ganancia_total
+
+        for nombre, unidades, ganancia_bruta, ganancia_neta in ventas:
+            unidades = int(unidades)
+            ganancia_bruta = Decimal(str(ganancia_bruta))
+            ganancia_neta = Decimal(str(ganancia_neta))
+            total_dia += ganancia_neta
+
+            productos[nombre] = {
+                "unidades": unidades,
+                "ganancia_bruta": ganancia_bruta,
+                "ganancia_neta": ganancia_neta,
+                "rendimiento": "bueno" if ganancia_neta >= 500 else "bajo"
+            }
 
         print("\n📊 RESUMEN DEL DÍA ")
-        for nombre, total in productos.items():
-            print(f"{nombre} -> Ganancia ${round(total,2)}")
-            print("✅ Buen producto(se vende bien)" if total >= 500 else "❌ Bajo rendimiento")
+        for nombre, datos in productos.items():
+            print(f"{nombre} -> Ganancia Neta ${round(datos['ganancia_neta'],2)}")
+            print("✅ Buen producto(se vende bien)" if datos['ganancia_neta'] >= 500 else "❌ Bajo rendimiento")
 
         print("\n💰 GANANCIA REAL DEL DÍA:", round(total_dia, 2))
         if total_dia >= 2000: print("🔥 Excelente dia")
-        elif total_dia >= 1000: print("🙂 Buen día")
+        elif total_dia >= 1000: print("😊 Buen día")
         else: print("⚠️ Dia bajo")
 
         print("\n🔥 Sugerencias:")
-        for nombre, total in productos.items():
-            if total < 300: print(f"Haz promocion en {nombre}")
+        for nombre, datos in productos.items():
+            if datos['ganancia_neta'] < 300: print(f"Haz promocion en {nombre}")
 
         return True, productos, total_dia
 
@@ -249,4 +261,4 @@ def analizar_ventas(usuario_id, get_conn):
         return False, {}, Decimal("0.00")
     finally:
         if cursor: cursor.close()
-        if conn: conn.close()
+        if conn: conn.close()Y
