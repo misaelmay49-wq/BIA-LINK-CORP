@@ -261,4 +261,4 @@ def analizar_ventas(usuario_id, get_conn):
         return False, {}, Decimal("0.00")
     finally:
         if cursor: cursor.close()
-        if conn: conn.close()Y
+        if conn: conn.close()
