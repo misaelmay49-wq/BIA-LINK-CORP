@@ -254,50 +254,56 @@ def logout():
 @app.route('/api/analisis-ventas')
 @login_requerido
 def api_analisis_ventas():
-    usuario_id = session['user_id']
-
     try:
-        exito, productos, total_dia = analizar_ventas(usuario_id, get_conn)
+        usuario_id = session['user_id']
+        hay_ventas, productos, total_dia = analizar_ventas(usuario_id, get_conn)
 
-        if not exito:
+        if not hay_ventas:
             return jsonify({
                 "hay_ventas": False,
                 "mensaje": "No hay ventas registradas hoy",
                 "total_dia": 0.0,
                 "productos": {},
                 "estado_dia": "sin_ventas",
-                "sugerencias": []
+                "sugerencias": ["Registra tu primera venta del día"]
             })
-
-        if total_dia >= 2000: estado = "excelente"
-        elif total_dia >= 1000: estado = "bueno"
-        else: estado = "bajo"
 
         productos_json = {}
         sugerencias = []
-        for nombre, ganancia in productos.items():
-            ganancia_float = float(ganancia)
+
+        for nombre, datos in productos.items():
+            ganancia_neta = float(datos['ganancia_neta'])
             productos_json[nombre] = {
-                "ganancia": ganancia_float,
-                "rendimiento": "bueno" if ganancia_float >= 500 else "bajo"
+                "unidades": int(datos['unidades']),
+                "ganancia_bruta": float(datos['ganancia_bruta']),
+                "ganancia_neta": ganancia_neta,
+                "rendimiento": datos['rendimiento']
             }
-            if ganancia_float < 300:
+            if ganancia_neta < 300:
                 sugerencias.append(f"Haz promoción en {nombre}")
+
+        total_dia = float(total_dia)
+        if total_dia >= 2000:
+            estado = "excelente"
+        elif total_dia >= 1000:
+            estado = "bueno"
+        else:
+            estado = "bajo"
 
         return jsonify({
             "hay_ventas": True,
-            "mensaje": "Análisis del día",
-            "total_dia": float(total_dia),
-            "estado_dia": estado,
+            "mensaje": "Ventas del día cargadas",
+            "total_dia": total_dia,
             "productos": productos_json,
+            "estado_dia": estado,
             "sugerencias": sugerencias
         })
 
     except Exception as e:
-        print("ERROR API ANALISIS:", e)
+        print("❌ Error en /api/analisis-ventas:", e)
         return jsonify({
             "hay_ventas": False,
-            "mensaje": f"Error al obtener análisis: {str(e)}",
+            "mensaje": "Error al cargar datos",
             "total_dia": 0.0,
             "productos": {},
             "estado_dia": "error",
