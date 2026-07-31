@@ -5,7 +5,24 @@
     <title>Analizar Ventas - BIA LINK</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
+     
+    /* AJUSTES MOBILE */
+.table-wrapper { 
+    overflow-x: auto; 
+    -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 640px) {
+    .stats-grid { grid-template-columns: 1fr; }
+    body { padding: 12px; }
+    .title-main { font-size: 22px; }
+    .stat-value { font-size: 28px; }
+    .card { padding: 16px; }
+    table { font-size: 12px; }
+    tbody td, thead th { padding: 10px 8px; }
+    .stat-box { gap: 12px; }
+}
+</style>  <!-- Este ya lo tienes, solo pega arriba de aquí -->
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
