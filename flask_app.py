@@ -52,6 +52,29 @@ def obtener_productos(usuario_id):
         cursor.close()
         conn.close()
 
+def obtener_producto_por_id(producto_id, usuario_id):
+    conn = get_conn()
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    try:
+        cursor.execute("""
+            SELECT identificacion, nombre, precio, costo, cantidad 
+            FROM productos 
+            WHERE identificacion = %s AND usuario_id = %s
+        """, (producto_id, usuario_id))
+        producto = cursor.fetchone()
+        
+        if not producto:
+            return False, "Producto no encontrado", None
+            
+        return True, "Producto encontrado", producto
+        
+    except Exception as e:
+        print("Error obtener_producto_por_id:", str(e))
+        return False, "Error al buscar producto", None
+    finally:
+        cursor.close()
+        conn.close()
+
 
 @app.route('/registrar', methods=['GET', 'POST'])
 def registrar():
