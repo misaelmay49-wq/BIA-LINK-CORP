@@ -57,9 +57,9 @@ def obtener_producto_por_id(producto_id, usuario_id):
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
         cursor.execute("""
-            SELECT identificacion, nombre, precio, costo, cantidad 
+            SELECT identificación, nombre, precio, costo, cantidad 
             FROM productos 
-            WHERE identificacion = %s AND usuario_id = %s
+            WHERE identificación = %s AND usuario_id = %s
         """, (producto_id, usuario_id))
         producto = cursor.fetchone()
         
