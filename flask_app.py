@@ -310,3 +310,8 @@ def api_analisis_ventas():
             "sugerencias": [],
             "error": str(e)
         }), 500
+
+@app.route('/analisis')  
+@login_requerido
+def analizar_ventas():
+    return render_template('analizar_ventas.html')
