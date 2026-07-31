@@ -171,30 +171,42 @@ def registrar_venta():
     usuario_id = session['user_id']
     
     if request.method == 'POST':
-        try:
+    try:
+        print("=== DATOS DEL FORM ===", request.form)
         
-            print("=== DATOS DEL FORM ===", request.form)
-            
-            producto_id = request.form.get('producto_id')
-            cantidad = request.form.get('cantidad') 
-            #precio = request.form.get('precio')
-            
-            print(f"Producto: {producto_id}, Cantidad: {cantidad}, Precio: {precio}")
-            
-            if not all([producto_id, cantidad]):
-                return "Faltan campos del formulario", 400
-            
-            return redirect(url_for('analizar_ventas'))
-            
-        except Exception as e:
-            print("=== ERROR EN POST ===", str(e))
-            return f"Error: {str(e)}", 400
-    
-    print("BUSCANDO PRODUCTOS PARA:", usuario_id)
-    exito, mensaje, productos = obtener_productos(usuario_id)
-    print("ENCONTRO:", len(productos), "productos")
-    
-    return render_template('registrar_venta.html', productos=productos, active_page='venta')
+        producto_id = request.form.get('producto_id')
+        cantidad = request.form.get('cantidad')
+        
+        print(f"Producto: {producto_id}, Cantidad: {cantidad}")
+        
+        if not all([producto_id, cantidad]):
+            return "Faltan campos del formulario", 400
+        
+        producto_id = int(producto_id)
+        cantidad = int(cantidad)
+        
+        exito, mensaje, producto = obtener_producto_por_id(producto_id, usuario_id)
+        
+        if not exito:
+            flash(mensaje, 'error')
+            return redirect(url_for('registrar_venta'))
+        
+        if producto['cantidad'] < cantidad:
+            flash(f'Solo tienes {producto["cantidad"]} en stock', 'error')
+            return redirect(url_for('registrar_venta'))
+        
+        precio = float(producto['precio'])
+        costo = float(producto['costo'])
+        total = precio * cantidad
+        
+        print(f"Venta OK: {producto['nombre']} x{cantidad} = ${total}")
+        
+        flash(f'Venta registrada: {producto["nombre"]} x{cantidad} = ${total}', 'success')
+        return redirect(url_for('analizar_ventas'))
+        
+    except Exception as e:
+        print("=== ERROR EN POST ===", str(e))
+        return f"Error: {str(e)}", 400
     
 @app.route('/api/productos')
 @login_requerido
