@@ -200,6 +200,8 @@ def registrar_venta():
         total = precio * cantidad
         
         print(f"Venta OK: {producto['nombre']} x{cantidad} = ${total}")
+
+        ganancia = (precio - costo) * cantidad
         
         flash(f'Venta registrada: {producto["nombre"]} x{cantidad} = ${total}', 'success')
         return redirect(url_for('analizar_ventas'))
