@@ -148,24 +148,31 @@ def registrar_venta():
     usuario_id = session['user_id']
     
     if request.method == 'POST':
-        producto_id = request.form['producto']
-        cantidad = request.form['cantidad']
-        precio = request.form['precio']
+        try:
         
-        exito, mensaje = guardar_venta(usuario_id, producto_id, cantidad, precio)
-        
-        if exito:
-            flash('Venta registrada con éxito', 'success')
+            print("=== DATOS DEL FORM ===", request.form)
+            
+            producto_id = request.form.get('producto')
+            cantidad = request.form.get('cantidad') 
+            precio = request.form.get('precio')
+            
+            print(f"Producto: {producto_id}, Cantidad: {cantidad}, Precio: {precio}")
+            
+            if not all([producto_id, cantidad, precio]):
+                return "Faltan campos del formulario", 400
+            
             return redirect(url_for('analizar_ventas'))
-        else:
-            flash(f'Error: {mensaje}', 'error')
+            
+        except Exception as e:
+            print("=== ERROR EN POST ===", str(e))
+            return f"Error: {str(e)}", 400
     
     print("BUSCANDO PRODUCTOS PARA:", usuario_id)
     exito, mensaje, productos = obtener_productos(usuario_id)
     print("ENCONTRO:", len(productos), "productos")
     
     return render_template('registrar_venta.html', productos=productos, active_page='venta')
-
+    
 @app.route('/api/productos')
 @login_requerido
 def api_productos():
