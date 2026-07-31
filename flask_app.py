@@ -311,7 +311,7 @@ def api_analisis_ventas():
             "error": str(e)
         }), 500
 
-@app.route('/analisis')  
+@app.route('/analizar')  
 @login_requerido
 def analizar_ventas():
     return render_template('analizar_ventas.html')
