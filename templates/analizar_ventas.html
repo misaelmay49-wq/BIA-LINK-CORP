@@ -161,13 +161,15 @@
     <div class="sidebar-close" onclick="toggleMenu()">✕</div>
     <div class="sidebar-header">📈 BIA LINK</div>
 
-    <a href="/registrar-producto" class="menu-item">➕ Registrar Producto</a>
-    <a href="/registrar-venta" class="menu-item">🛒 Registrar Venta</a>
-
-    <!-- FUNCIONES DESACTIVADAS -->
+    <nav class="menu">
+    <a href="{{ url_for('registrar') }}" class="menu-item">+ Registrar Producto</a>
+    <a href="{{ url_for('registrar_venta') }}" class="menu-item">🛒 Registrar Venta</a>
+    <a href="{{ url_for('analizar_ventas') }}" class="menu-item">📊 Analizar Ventas</a>
+    
     <div class="menu-item disabled">📦 Rellenar Stock</div>
     <div class="menu-item disabled">📈 Dashboard</div>
     <div class="menu-item disabled">⚙️ Configuración</div>
+ </nav>
 
     <a href="/analizar-ventas" class="menu-item active">📊 Analizar Ventas</a>
 </div>
