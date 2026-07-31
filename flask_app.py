@@ -152,13 +152,13 @@ def registrar_venta():
         
             print("=== DATOS DEL FORM ===", request.form)
             
-            producto_id = request.form.get('producto')
+            producto_id = request.form.get('producto_id')
             cantidad = request.form.get('cantidad') 
-            precio = request.form.get('precio')
+            #precio = request.form.get('precio')
             
             print(f"Producto: {producto_id}, Cantidad: {cantidad}, Precio: {precio}")
             
-            if not all([producto_id, cantidad, precio]):
+            if not all([producto_id, cantidad]):
                 return "Faltan campos del formulario", 400
             
             return redirect(url_for('analizar_ventas'))
