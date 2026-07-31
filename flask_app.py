@@ -139,20 +139,33 @@ def procesar_venta():
         flash(mensaje, "error")
         return redirect(url_for('registrar_venta'))
                    
-@app.route('/venta')
+@app.route('/venta', methods=['GET', 'POST'])
 @login_requerido
 def registrar_venta():
     if 'user_id' not in session:
         return redirect(url_for('login'))
-        
-    usuario_id = session['user_id']
-    print("BUSCANDO PRODUCTOS PARA:", usuario_id)
     
+    usuario_id = session['user_id']
+    
+    if request.method == 'POST':
+        producto_id = request.form['producto']
+        cantidad = request.form['cantidad']
+        precio = request.form['precio']
+        
+        exito, mensaje = guardar_venta(usuario_id, producto_id, cantidad, precio)
+        
+        if exito:
+            flash('Venta registrada con éxito', 'success')
+            return redirect(url_for('analizar_ventas'))
+        else:
+            flash(f'Error: {mensaje}', 'error')
+    
+    print("BUSCANDO PRODUCTOS PARA:", usuario_id)
     exito, mensaje, productos = obtener_productos(usuario_id)
-    print("ENCONTRO:", len(productos), "productos") 
+    print("ENCONTRO:", len(productos), "productos")
     
     return render_template('registrar_venta.html', productos=productos, active_page='venta')
-        
+
 @app.route('/api/productos')
 @login_requerido
 def api_productos():
