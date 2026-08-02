@@ -169,66 +169,70 @@ def registrar_venta():
         return redirect(url_for('login'))
     
     usuario_id = session['user_id']
-
-if request.method == 'POST':
     
+    if request.method == 'POST':
+        
         print("=== DATOS DEL FORM ===", request.form)
-            
+        
         producto_id = request.form.get('producto_id')
         cantidad = request.form.get('cantidad')
-            
+        
         print(f"Producto: {producto_id}, Cantidad: {cantidad}")
-            
+        
         if not all([producto_id, cantidad]):
-           return "Faltan campos del formulario", 400
-            
+            return "Faltan campos del formulario", 400
+        
         producto_id = int(producto_id)
         cantidad = int(cantidad)
-            
+        
         exito, mensaje, producto = obtener_producto_por_id(producto_id, usuario_id)
-            
+        
         if not exito:
-           flash(mensaje, 'error')
-           return redirect(url_for('registrar_venta'))
-            
+            flash(mensaje, 'error')
+            return redirect(url_for('registrar_venta'))
+        
         if producto['cantidad'] < cantidad:
-                flash(f'Solo tienes {producto["cantidad"]} en stock', 'error')
-                return redirect(url_for('registrar_venta'))
-            
+            flash(f'Solo tienes {producto["cantidad"]} en stock', 'error')
+            return redirect(url_for('registrar_venta'))
+        
         precio = float(producto['precio'])
         costo = float(producto['costo'])
         total = precio * cantidad
-            
+        
         print(f"Venta OK: {producto['nombre']} x{cantidad} = ${total}")
-            
+        
         ganancia = (precio - costo) * cantidad
-
+        
         conn = get_conn()
         cursor = conn.cursor()
         try:
-           cursor.execute("""
-               INSERT INTO ventas (usuario_id, producto_id, cantidad, precio_unitario, costo_unitario, total, ganancia, fecha)
-               VALUES (%s, %s, %s, %s, %s, %s, %s, NOW())
-           """, (usuario_id, producto_id, cantidad, precio, costo, total, ganancia))
-                
-           cursor.execute("""
-               UPDATE productos SET cantidad = cantidad - %s 
-               WHERE identificacion = %s AND usuario_id = %s
-           """, (cantidad, producto_id, usuario_id))
-
-           conn.commit()
-         
+            cursor.execute("""
+                INSERT INTO ventas (usuario_id, producto_id, cantidad, precio_unitario, costo_unitario, total, ganancia, fecha)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, NOW())
+            """, (usuario_id, producto_id, cantidad, precio, costo, total, ganancia))
+            
+            cursor.execute("""
+                UPDATE productos SET cantidad = cantidad - %s
+                WHERE identificacion = %s AND usuario_id = %s
+            """, (cantidad, producto_id, usuario_id))
+            
+            conn.commit()
+            
+            flash(f'Venta registrada: {producto["nombre"]} x {cantidad} = ${total}','success')
+            return redirect(url_for('analizar_ventas'))
+            
         except Exception as e:
-          conn.rollback()
-          flash(f'Error al guardar: {str(e)}', 'error')
-          print('=== ERROR EN POST ===', str(e))
-          return redirect(url_for('registrar_venta'))
+            conn.rollback()
+            flash(f'Error al guardar: {str(e)}', 'error')
+            print('=== ERROR EN POST ===', str(e))
+            return redirect(url_for('registrar_venta'))
+            
         finally:
-             cursor.close()
-             conn.close()
+            cursor.close()
+            conn.close()
+    
+    return render_template('venta.html')
 
-        flash(f'Venta registrada: {producto["nombre"]} x {cantidad} = ${total}','success')
-        return redirect(url_for('analizar_ventas'))
             
 @app.route('/api/productos')
 @login_requerido
