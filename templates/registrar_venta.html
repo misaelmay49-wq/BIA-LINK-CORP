@@ -169,8 +169,6 @@
 
 alert('JS SI CORRE');
 document.addEventListener('DOMContentLoaded', function() {
-    
-document.addEventListener('DOMContentLoaded', function() {
 const form = document.getElementById('ventaForm');
 const productoNumero = document.getElementById('productoNumero');
 const productoIdReal = document.getElementById('productoIdReal');
@@ -215,7 +213,7 @@ function actualizarTabla() {
     if(productos.length === 0){
         tbody.innerHTML = '<tr><td colspan="5">No hay productos registrados</td></tr>';
         return;
-    }
+    }}
 
     productos.forEach((prod, index) => {
         const fila = `
