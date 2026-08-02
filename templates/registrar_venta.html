@@ -247,6 +247,7 @@ async function cargarProductos() {
     document.querySelector('tbody').innerHTML = 
         `<tr><td colspan="5" style="color:red">Error: ${error.message}</td></tr>`;
 })
+    }
         
 productoNumero.addEventListener('input', actualizar);
 cantidadInput.addEventListener('input', actualizar);
