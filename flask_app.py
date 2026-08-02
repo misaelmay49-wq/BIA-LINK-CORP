@@ -220,7 +220,7 @@ if request.method == 'POST':
          
         except Exeption as e:
           conn.rollback()
-          flash(f*Error al guardar: {str(e)}', 'error')
+          flash(f'Error al guardar: {str(e)}', 'error')
           return redirect(url_for('registrar_venta'))
         finally:
              cursor.close()
