@@ -43,7 +43,7 @@ def obtener_productos(usuario_id):
     conn = get_conn()
     cursor = conn.cursor(cursor_factory=RealDictCursor) 
     try:
-        cursor.execute("SELECT identificación, nombre, precio, costo, cantidad FROM productos WHERE usuario_id=%s AND cantidad > 0", (usuario_id,)) 
+        cursor.execute(' SELECT "identificación", nombre, precio, costo, cantidad FROM productos WHERE usuario_id=%s AND cantidad > 0', (usuario_id,)) 
         productos = cursor.fetchall()
         return True, "Productos cargados", productos 
     except:
@@ -231,14 +231,7 @@ def registrar_venta():
            cursor.close()
            conn.close()
 
-    conn = get_conn()
-    cursor = conn.cursor()
-    cursor.execute(" SELECT 'identificación', nombre, precio FROM productos WHERE usuario_id = %s",(usuario_id,))
-    productos = cursor.fetchall()
-    cursor.close()
-    conn.close()
-
-    return render_template('registrar_venta.html', productos=productos)
+    return render_template('registrar_venta.html')
            
 @app.route('/api/productos')
 @login_requerido
