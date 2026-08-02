@@ -211,10 +211,10 @@ if request.method == 'POST':
              VALUES (%s, %s, %s, %s, %s, %s, %s, NOW())
         """, (usuario_id, producto_id, cantidad, precio, costo, total, ganancia))
                 
-            cursor.execute("""
-              UPDATE productos SET cantidad = cantidad - %s 
-              WHERE identificacion = %s AND usuario_id = %s
-         """, (cantidad, producto_id, usuario_id))
+           cursor.execute("""
+             UPDATE productos SET cantidad = cantidad - %s 
+             WHERE identificacion = %s AND usuario_id = %s
+        """, (cantidad, producto_id, usuario_id))
                 
          conn.commit()
        except Exception as e:
