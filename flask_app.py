@@ -171,7 +171,7 @@ def registrar_venta():
     usuario_id = session['user_id']
 
 if request.method == 'POST':
-     try:
+    
         print("=== DATOS DEL FORM ===", request.form)
             
         producto_id = request.form.get('producto_id')
@@ -221,6 +221,7 @@ if request.method == 'POST':
         except Exception as e:
           conn.rollback()
           flash(f'Error al guardar: {str(e)}', 'error')
+          print('=== ERROR EN POST ===', str(e))
           return redirect(url_for('registrar_venta'))
         finally:
              cursor.close()
@@ -228,10 +229,6 @@ if request.method == 'POST':
 
         flash(f'Venta registrada: {producto["nombre"]} x {cantidad} = ${total}','success')
         return redirect(url_for('analizar_ventas'))
-                        
-     except Exception as e:
-       print('=== ERROR EN POST ===', str(e))
-       return 'Error:' + str(e), 400
             
 @app.route('/api/productos')
 @login_requerido
