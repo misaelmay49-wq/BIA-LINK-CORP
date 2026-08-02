@@ -166,6 +166,8 @@
         </form>
     </main>
 <script>
+    
+document.addEventListener('DOMContentLoaded', function() {
 const form = document.getElementById('ventaForm');
 const productoNumero = document.getElementById('productoNumero');
 const productoIdReal = document.getElementById('productoIdReal');
@@ -259,6 +261,7 @@ menuToggle.onclick = () => { sidebar.classList.add('active'); overlay.classList.
 overlay.onclick = () => { sidebar.classList.remove('active'); overlay.classList.remove('active') };
 
 cargarProductos();
+});
     
  </script>
 </body>
