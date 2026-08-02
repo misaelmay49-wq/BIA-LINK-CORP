@@ -238,7 +238,7 @@ def registrar_venta():
       cursor.close()
       conn.clse()
 
-      return render_template('venta_registrada.html', productos=productos)
+      return render_template('venta_exito.html', productos=productos)
            
 @app.route('/api/productos')
 @login_requerido
