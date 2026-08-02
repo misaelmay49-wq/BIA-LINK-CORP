@@ -217,17 +217,18 @@ if request.method == 'POST':
            """, (cantidad, producto_id, usuario_id))
 
            conn.commit()
-         except Exception as e:
-           conn.rollback()
-           flash(f'Error al guardar: {str(e)}', 'error')
-           return redirect(url_for('registrar_venta'))
+         
+        except Exeption as e:
+          conn.rollback()
+          flash(f*Error al guardar: {str(e)}', 'error')
+          return redirect(url_for('registrar_venta'))
         finally:
-           cursor.close()
-           conn.close()
-            
-        flash(f'Venta registrada: {producto["nombre"]} x{cantidad} = ${total}', 'success')
-        return redirect(url_for('analizar_ventas'))
-            
+             cursor.close()
+             cunn.close()
+
+        flash(f'Venta registrada: {producto["nombre"]} x {cantidad} = ${total}','success')
+        return redirect(url_for('analizar_ventas')
+                        
       except Exception as e:
         print("=== ERROR EN POST ===", str(e))
         return f"Error: {str(e)}", 400
