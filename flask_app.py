@@ -202,35 +202,35 @@ if request.method == 'POST':
         print(f"Venta OK: {producto['nombre']} x{cantidad} = ${total}")
             
         ganancia = (precio - costo) * cantidad
-            
+
         conn = get_conn()
         cursor = conn.cursor()
         try:
            cursor.execute("""
-             INSERT INTO ventas (usuario_id, producto_id, cantidad, precio_unitario, costo_unitario, total, ganancia, fecha)
-             VALUES (%s, %s, %s, %s, %s, %s, %s, NOW())
-        """, (usuario_id, producto_id, cantidad, precio, costo, total, ganancia))
+               INSERT INTO ventas (usuario_id, producto_id, cantidad, precio_unitario, costo_unitario, total, ganancia, fecha)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, NOW())
+           """, (usuario_id, producto_id, cantidad, precio, costo, total, ganancia))
                 
            cursor.execute("""
-             UPDATE productos SET cantidad = cantidad - %s 
-             WHERE identificacion = %s AND usuario_id = %s
-        """, (cantidad, producto_id, usuario_id))
+               UPDATE productos SET cantidad = cantidad - %s 
+               WHERE identificacion = %s AND usuario_id = %s
+           """, (cantidad, producto_id, usuario_id))
                 
-         conn.commit()
-       except Exception as e:
-         conn.rollback()
-         flash(f'Error al guardar: {str(e)}', 'error')
-         return redirect(url_for('registrar_venta'))
-       finally:
-              cursor.close()
-              conn.close()
+           conn.commit()
+         except Exception as e:
+           conn.rollback()
+           flash(f'Error al guardar: {str(e)}', 'error')
+           return redirect(url_for('registrar_venta'))
+        finally:
+           cursor.close()
+           conn.close()
             
-       flash(f'Venta registrada: {producto["nombre"]} x{cantidad} = ${total}', 'success')
-       return redirect(url_for('analizar_ventas'))
+        flash(f'Venta registrada: {producto["nombre"]} x{cantidad} = ${total}', 'success')
+        return redirect(url_for('analizar_ventas'))
             
-     except Exception as e:
-         print("=== ERROR EN POST ===", str(e))
-         return f"Error: {str(e)}", 400
+      except Exception as e:
+        print("=== ERROR EN POST ===", str(e))
+        return f"Error: {str(e)}", 400
             
 @app.route('/api/productos')
 @login_requerido
