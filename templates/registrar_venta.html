@@ -166,111 +166,103 @@
         </form>
     </main>
 <script>
-
-alert('JS SI CORRE');
 document.addEventListener('DOMContentLoaded', function() {
-const form = document.getElementById('ventaForm');
-const productoNumero = document.getElementById('productoNumero');
-const productoIdReal = document.getElementById('productoIdReal');
-const cantidadInput = document.getElementById('cantidadInput');
-const errorProducto = document.getElementById('errorProducto');
-const productoInputWrapper = document.getElementById('productoInputWrapper');
+    const form = document.getElementById('ventaForm');
+    const productoNumero = document.getElementById('productoNumero');
+    const productoIdReal = document.getElementById('productoIdReal');
+    const cantidadInput = document.getElementById('cantidadInput');
+    const errorProducto = document.getElementById('errorProducto');
+    const productoInputWrapper = document.getElementById('productoInputWrapper');
+    let productos = [];
 
-let productos = []; // SOLO UNA VEZ
-
-function actualizar() {
-    const num = parseInt(productoNumero.value);
-    const cant = parseInt(cantidadInput.value) || 0;
-    const prod = productos.find(p => p.numero === num);
-    
-    if(prod) {
-        productoIdReal.value = prod.id;
-        productoInputWrapper.classList.remove('error');
-        errorProducto.style.display = 'none';
-        const gananciaUnidad = prod.precio - prod.costo;
-        document.getElementById('resPrecio').innerText = `$${prod.precio.toFixed(2)}`;
-        document.getElementById('resCosto').innerText = `$${prod.costo.toFixed(2)}`;
-        document.getElementById('resStock').innerText = `${prod.cantidad} unidades`;
-        document.getElementById('resGanancia').innerText = `$${gananciaUnidad.toFixed(2)}`;
-        document.getElementById('gananciaTotal').innerText = `$${(gananciaUnidad * cant).toFixed(2)}`;
-        cantidadInput.max = prod.cantidad;
-    } else {
-        productoIdReal.value = ''
-        
-        document.getElementById('resPrecio').innerText = '$0.00';
-        document.getElementById('resCosto').innerText = '$0.00';
-        document.getElementById('resStock').innerText = '0 unidades';
-        document.getElementById('resGanancia').innerText = '$0.00';
-        document.getElementById('gananciaTotal').innerText = '$0.00';
-    }
-}
-    
-
-function actualizarTabla() {
-    const tbody = document.querySelector('.section-body table tbody'); // agarra el tbody que ya tienes
-    tbody.innerHTML = ''; // limpia lo que pintó Jinja
-
-    if(productos.length === 0){
-        tbody.innerHTML = '<tr><td colspan="5">No hay productos registrados</td></tr>';
-        return;
+    function actualizar() {
+        const num = parseInt(productoNumero.value);
+        const cant = parseInt(cantidadInput.value) || 0;
+        const prod = productos.find(p => p.numero === num);
+        if(prod) {
+            productoIdReal.value = prod.id;
+            productoInputWrapper.classList.remove('error');
+            errorProducto.style.display = 'none';
+            const gananciaUnidad = prod.precio - prod.costo;
+            document.getElementById('resPrecio').innerText = `$${prod.precio.toFixed(2)}`;
+            document.getElementById('resCosto').innerText = `$${prod.costo.toFixed(2)}`;
+            document.getElementById('resStock').innerText = `${prod.cantidad} unidades`;
+            document.getElementById('resGanancia').innerText = `$${gananciaUnidad.toFixed(2)}`;
+            document.getElementById('gananciaTotal').innerText = `$${(gananciaUnidad * cant).toFixed(2)}`;
+            cantidadInput.max = prod.cantidad;
+        } else {
+            productoIdReal.value = '';
+            document.getElementById('resPrecio').innerText = '$0.00';
+            document.getElementById('resCosto').innerText = '$0.00';
+            document.getElementById('resStock').innerText = '0 unidades';
+            document.getElementById('resGanancia').innerText = '$0.00';
+            document.getElementById('gananciaTotal').innerText = '$0.00';
+        }
     }
 
-    productos.forEach((prod, index) => {
-        const fila = `
-            <tr>
-                <td>${index + 1}</td>
-                <td>${prod.nombre}</td>
-                <td class="green">$${prod.precio.toFixed(2)}</td>
-                <td class="orange">$${prod.costo.toFixed(2)}</td>
-                <td class="blue">${prod.cantidad} u</td>
-            </tr>
-        `;
-        tbody.innerHTML += fila;
+    function actualizarTabla() {
+        const tbody = document.querySelector('.section-body table tbody');
+        tbody.innerHTML = '';
+        if(productos.length === 0){
+            tbody.innerHTML = '<tr><td colspan="5">No hay productos registrados</td></tr>';
+            return;
+        }
+        productos.forEach((prod, index) => {
+            tbody.innerHTML += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${prod.nombre}</td>
+                    <td class="green">$${prod.precio.toFixed(2)}</td>
+                    <td class="orange">$${prod.costo.toFixed(2)}</td>
+                    <td class="blue">${prod.cantidad} u</td>
+                </tr>
+            `;
+        });
+    }
+
+    async function cargarProductos() {
+        const tbody = document.querySelector('tbody');
+        try {
+            const r = await fetch('/api/productos', {credentials: 'same-origin'});
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            const data = await r.json();
+            if (data.error) throw new Error(data.mensaje);
+            productos = data.map((p, i) => ({...p, numero: i + 1}));
+            actualizarTabla();
+        } catch (error) {
+            tbody.innerHTML = `<tr><td colspan="5" style="color:red">Error: ${error.message}</td></tr>`;
+        }
+    }
+
+    productoNumero.addEventListener('input', actualizar);
+    cantidadInput.addEventListener('input', actualizar);
+    
+    form.addEventListener('submit', function(e) {
+        if (!productoIdReal.value) {
+            e.preventDefault();
+            productoInputWrapper.classList.add('error');
+            errorProducto.style.display = 'block';
+            productoNumero.focus();
+        }
     });
 
-async function cargarProductos() {
-    const tbody = document.querySelector('tbody');
-    console.log('1. Iniciando carga...');
-    try {
-        console.log('2. Haciendo fetch...');
-        fetch('/api/productos', {credentials: 'same-origin'})
-.then(r => {
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    return r.json();
-})
-.then(data => {
-    if (data.error) throw new Error(data.mensaje);
-    productos = data.map((p, i) => ({...p, numero: i + 1}));
-    actualizarTabla();
-})
-.catch(error => {
-    document.querySelector('tbody').innerHTML = 
-        `<tr><td colspan="5" style="color:red">Error: ${error.message}</td></tr>`;
-})
-    }
-        
-productoNumero.addEventListener('input', actualizar);
-cantidadInput.addEventListener('input', actualizar);
+    const menuToggle = document.getElementById('menuToggle');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    menuToggle.onclick = () => {
+        sidebar.classList.add('active');
+        overlay.classList.add('active');
+    };
+    overlay.onclick = () => {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+    };
 
-form.addEventListener('submit', function(e) {
-    if (!productoIdReal.value) {
-        e.preventDefault();
-        productoInputWrapper.classList.add('error');
-        errorProducto.style.display = 'block';
-        productoNumero.focus();
-    }
-});
-
-const menuToggle = document.getElementById('menuToggle');
-const sidebar = document.getElementById('sidebar');
-const overlay = document.getElementById('overlay');
-menuToggle.onclick = () => { sidebar.classList.add('active'); overlay.classList.add('active') };
-overlay.onclick = () => { sidebar.classList.remove('active'); overlay.classList.remove('active') };
-
-  cargarProductos();
-    
+    cargarProductos();
 });
     
- </script>
-</body>
-</html>
+</script>
+<script>
+ <body/>
+  <html>
+
