@@ -230,20 +230,32 @@ function actualizarTabla() {
 
 async function cargarProductos() {
     const tbody = document.querySelector('tbody');
+    console.log('1. Iniciando carga...');
     try {
+        console.log('2. Haciendo fetch...');
         const res = await fetch('/api/productos', {credentials: 'same-origin'});
-        const data = await res.json();
+        console.log('3. Status:', res.status);
         
-        if (!res.ok || data.error) {
-            throw new Error(data.mensaje || 'Inicia sesión para continuar');
+        const data = await res.json();
+        console.log('4. Data recibida:', data);
+        
+        if (!res.ok) {
+            throw new Error(`HTTP ${res.status}: ${data.mensaje || 'Error'}`);
+        }
+        
+        if (data.error) {
+            throw new Error(data.mensaje || 'No autenticado');
         }
         
         productos = data.map((p, i) => ({...p, numero: i + 1}));
+        console.log('5. Productos procesados:', productos);
         actualizarTabla();
+        
     } catch (error) {
+        console.log('ERROR:', error);
         tbody.innerHTML = `<tr><td colspan="5" style="color:#ef4444">Error: ${error.message}</td></tr>`;
     }
- }
+}
 
 productoNumero.addEventListener('input', actualizar);
 cantidadInput.addEventListener('input', actualizar);
