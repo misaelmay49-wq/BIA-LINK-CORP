@@ -226,14 +226,20 @@ def registrar_venta():
             flash(f'Error al guardar: {str(e)}', 'error')
             print('=== ERROR EN POST ===', str(e))
             return redirect(url_for('registrar_venta'))
-            
-        finally:
-            cursor.close()
-            conn.close()
-    
-    return render_template('venta.html')
 
-            
+        finally:
+           cursor.close()
+           conn.close()
+
+      conn = get_conn()
+      cursor = conn.cursor()
+      cursor.exectue(" SELECT identificación, nombre, precio FROM productos WHERE usuario_id = %s",(usuario_id))
+      productos = cursor.fetchall()
+      cursor.close()
+      conn.clse()
+
+      return render_template('venta_registrada.html', productos=productos)
+           
 @app.route('/api/productos')
 @login_requerido
 def api_productos():
