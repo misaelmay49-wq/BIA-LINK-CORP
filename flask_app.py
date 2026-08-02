@@ -233,7 +233,7 @@ def registrar_venta():
 
     conn = get_conn()
     cursor = conn.cursor()
-    cursor.exectue(" SELECT identificación, nombre, precio FROM productos WHERE usuario_id = %s",(usuario_id))
+    cursor.execute(" SELECT identificacion, nombre, precio FROM productos WHERE usuario_id = %s",(usuario_id))
     productos = cursor.fetchall()
     cursor.close()
     conn.close()
