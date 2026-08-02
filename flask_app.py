@@ -230,8 +230,8 @@ if request.method == 'POST':
         return redirect(url_for('analizar_ventas'))
                         
      except Exception as e:
-       print("=== ERROR EN POTS ===",str(e))
-       return f"Error: {str(e))}",400
+       print('=== ERROR EN POTS ===',str(e))
+       return f'Error: {str(e))}', 400
             
 @app.route('/api/productos')
 @login_requerido
