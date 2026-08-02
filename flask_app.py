@@ -257,6 +257,25 @@ def api_productos():
         })
     return jsonify(lista)
 
+@app.route('/api/debug/tabla')
+@login_requerido
+def debug_tabla():
+    try:
+        conn = get_conn()
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+        cursor.execute("""
+            SELECT column_name, data_type 
+            FROM information_schema.columns 
+            WHERE table_name = 'productos'
+            ORDER BY ordinal_position
+        """)
+        columnas = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        return jsonify(columnas)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/registro',methods=['GET','POST'])
 def registro():
     if 'user_id' in session:
