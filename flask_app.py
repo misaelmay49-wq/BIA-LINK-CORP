@@ -238,7 +238,7 @@ def registrar_venta():
 def api_productos():
     if 'user_id' not in session:
         return jsonify([])
-
+ try:
     conn=get_conn()
     cursor = conn.cursor(cursor_factory=RealDictCursor) 
     cursor.execute(' SELECT "identificación", nombre, precio, costo, cantidad FROM productos WHERE usuario_id = %s AND cantidad > 0', (usuario_id,))
@@ -256,6 +256,9 @@ def api_productos():
            'cantidad': p['cantidad'] or 0
         })
     return jsonify(lista)
+
+ except Exception as e:
+   return jsonify({'error': True, 'mensaje': stre(e)}),500
 
 @app.route('/api/debug/tabla')
 @login_requerido
