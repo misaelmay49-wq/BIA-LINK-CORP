@@ -171,67 +171,67 @@ def registrar_venta():
     usuario_id = session['user_id']
 
 if request.method == 'POST':
-        try:
-            print("=== DATOS DEL FORM ===", request.form)
+     try:
+        print("=== DATOS DEL FORM ===", request.form)
             
-            producto_id = request.form.get('producto_id')
-            cantidad = request.form.get('cantidad')
+        producto_id = request.form.get('producto_id')
+        cantidad = request.form.get('cantidad')
             
-            print(f"Producto: {producto_id}, Cantidad: {cantidad}")
+        print(f"Producto: {producto_id}, Cantidad: {cantidad}")
             
-            if not all([producto_id, cantidad]):
-                return "Faltan campos del formulario", 400
+        if not all([producto_id, cantidad]):
+           return "Faltan campos del formulario", 400
             
-            producto_id = int(producto_id)
-            cantidad = int(cantidad)
+        producto_id = int(producto_id)
+        cantidad = int(cantidad)
             
-            exito, mensaje, producto = obtener_producto_por_id(producto_id, usuario_id)
+        exito, mensaje, producto = obtener_producto_por_id(producto_id, usuario_id)
             
-            if not exito:
-                flash(mensaje, 'error')
-                return redirect(url_for('registrar_venta'))
+        if not exito:
+           flash(mensaje, 'error')
+           return redirect(url_for('registrar_venta'))
             
-            if producto['cantidad'] < cantidad:
+        if producto['cantidad'] < cantidad:
                 flash(f'Solo tienes {producto["cantidad"]} en stock', 'error')
                 return redirect(url_for('registrar_venta'))
             
-            precio = float(producto['precio'])
-            costo = float(producto['costo'])
-            total = precio * cantidad
+        precio = float(producto['precio'])
+        costo = float(producto['costo'])
+        total = precio * cantidad
             
-            print(f"Venta OK: {producto['nombre']} x{cantidad} = ${total}")
+        print(f"Venta OK: {producto['nombre']} x{cantidad} = ${total}")
             
-            ganancia = (precio - costo) * cantidad
+        ganancia = (precio - costo) * cantidad
             
-            conn = get_conn()
-            cursor = conn.cursor()
-            try:
-                cursor.execute("""
-                    INSERT INTO ventas (usuario_id, producto_id, cantidad, precio_unitario, costo_unitario, total, ganancia, fecha)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, NOW())
-                """, (usuario_id, producto_id, cantidad, precio, costo, total, ganancia))
+        conn = get_conn()
+        cursor = conn.cursor()
+        try:
+           cursor.execute("""
+             INSERT INTO ventas (usuario_id, producto_id, cantidad, precio_unitario, costo_unitario, total, ganancia, fecha)
+             VALUES (%s, %s, %s, %s, %s, %s, %s, NOW())
+        """, (usuario_id, producto_id, cantidad, precio, costo, total, ganancia))
                 
-                cursor.execute("""
-                    UPDATE productos SET cantidad = cantidad - %s 
-                    WHERE identificacion = %s AND usuario_id = %s
-                """, (cantidad, producto_id, usuario_id))
+            cursor.execute("""
+              UPDATE productos SET cantidad = cantidad - %s 
+              WHERE identificacion = %s AND usuario_id = %s
+         """, (cantidad, producto_id, usuario_id))
                 
-                conn.commit()
-            except Exception as e:
-                conn.rollback()
-                flash(f'Error al guardar: {str(e)}', 'error')
-                return redirect(url_for('registrar_venta'))
-            finally:
-                cursor.close()
-                conn.close()
+         conn.commit()
+       except Exception as e:
+         conn.rollback()
+         flash(f'Error al guardar: {str(e)}', 'error')
+         return redirect(url_for('registrar_venta'))
+       finally:
+              cursor.close()
+              conn.close()
             
-            flash(f'Venta registrada: {producto["nombre"]} x{cantidad} = ${total}', 'success')
-            return redirect(url_for('analizar_ventas'))
+       flash(f'Venta registrada: {producto["nombre"]} x{cantidad} = ${total}', 'success')
+       return redirect(url_for('analizar_ventas'))
             
-        except Exception as e:
-            print("=== ERROR EN POST ===", str(e))
-            return f"Error: {str(e)}", 400
-
+     except Exception as e:
+         print("=== ERROR EN POST ===", str(e))
+         return f"Error: {str(e)}", 400
+            
 @app.route('/api/productos')
 @login_requerido
 def api_productos():
