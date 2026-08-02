@@ -227,7 +227,7 @@ if request.method == 'POST':
              cunn.close()
 
         flash(f'Venta registrada: {producto["nombre"]} x {cantidad} = ${total}','success')
-        return redirect(url_for('analizar_ventas')
+        return redirect(url_for('analizar_ventas'))
                         
       except Exception as e:
         print("=== ERROR EN POST ===", str(e))
