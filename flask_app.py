@@ -215,7 +215,7 @@ if request.method == 'POST':
                UPDATE productos SET cantidad = cantidad - %s 
                WHERE identificacion = %s AND usuario_id = %s
            """, (cantidad, producto_id, usuario_id))
-                
+
            conn.commit()
          except Exception as e:
            conn.rollback()
