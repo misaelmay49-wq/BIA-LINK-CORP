@@ -229,9 +229,9 @@ if request.method == 'POST':
         flash(f'Venta registrada: {producto["nombre"]} x {cantidad} = ${total}','success')
         return redirect(url_for('analizar_ventas'))
                         
-      except Exception as e:
-        print("=== ERROR EN POST ===", str(e))
-        return f"Error: {str(e)}", 400
+    except Exception as e:
+      print("=== ERROR EN POST ===", str(e))
+      return f"Error: {str(e)}", 400
             
 @app.route('/api/productos')
 @login_requerido
