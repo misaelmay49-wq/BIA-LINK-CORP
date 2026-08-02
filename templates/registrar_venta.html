@@ -229,13 +229,15 @@ function actualizarTabla() {
     });
 
 async function cargarProductos() {
-    const tbody = document.querySelector('.section-body table tbody');
+    const tbody = document.querySelector('tbody');
     try {
-        const res = await fetch('/api/productos', {
-            credentials: 'same-origin'
-        });
-        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const res = await fetch('/api/productos', {credentials: 'same-origin'});
         const data = await res.json();
+        
+        if (!res.ok || data.error) {
+            throw new Error(data.mensaje || 'Inicia sesión para continuar');
+        }
+        
         productos = data.map((p, i) => ({...p, numero: i + 1}));
         actualizarTabla();
     } catch (error) {
