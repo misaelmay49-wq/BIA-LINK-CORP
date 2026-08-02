@@ -231,7 +231,7 @@ if request.method == 'POST':
                         
      except Exception as e:
        print("=== ERROR EN POTS ===",str(e))
-       return f"Error: {str(e))}", 400
+       return f"Error: {str(e))}",400
             
 @app.route('/api/productos')
 @login_requerido
