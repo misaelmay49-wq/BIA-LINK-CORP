@@ -213,7 +213,7 @@ function actualizarTabla() {
     if(productos.length === 0){
         tbody.innerHTML = '<tr><td colspan="5">No hay productos registrados</td></tr>';
         return;
-    }}
+    }
 
     productos.forEach((prod, index) => {
         const fila = `
@@ -241,7 +241,7 @@ async function cargarProductos() {
     } catch (error) {
         tbody.innerHTML = `<tr><td colspan="5" style="color:#ef4444">Error: ${error.message}</td></tr>`;
     }
-            }
+ }
 
 productoNumero.addEventListener('input', actualizar);
 cantidadInput.addEventListener('input', actualizar);
