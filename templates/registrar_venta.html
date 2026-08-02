@@ -224,16 +224,21 @@ function actualizarTabla() {
         `;
         tbody.innerHTML += fila;
     });
-}
 
 async function cargarProductos() {
-    const res = await fetch('/api/productos');
-    const data = await res.json();
-    productos = data.map((p, i) => ({...p, numero: i + 1}));
-    actualizarTabla(); 
-
-    
-}
+    const tbody = document.querySelector('.section-body table tbody');
+    try {
+        const res = await fetch('/api/productos', {
+            credentials: 'same-origin'
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        productos = data.map((p, i) => ({...p, numero: i + 1}));
+        actualizarTabla();
+    } catch (error) {
+        tbody.innerHTML = `<tr><td colspan="5" style="color:#ef4444">Error: ${error.message}</td></tr>`;
+    }
+            }
 
 productoNumero.addEventListener('input', actualizar);
 cantidadInput.addEventListener('input', actualizar);
@@ -253,9 +258,8 @@ const overlay = document.getElementById('overlay');
 menuToggle.onclick = () => { sidebar.classList.add('active'); overlay.classList.add('active') };
 overlay.onclick = () => { sidebar.classList.remove('active'); overlay.classList.remove('active') };
 
-window.onload = function() {
-    cargarProductos(); 
-}
+cargarProductos();
+    
  </script>
 </body>
 </html>
