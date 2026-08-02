@@ -231,14 +231,14 @@ def registrar_venta():
            cursor.close()
            conn.close()
 
-   conn = get_conn()
-   cursor = conn.cursor()
-   cursor.exectue(" SELECT identificación, nombre, precio FROM productos WHERE usuario_id = %s",(usuario_id))
-   productos = cursor.fetchall()
-   cursor.close()
-   conn.close()
+    conn = get_conn()
+    cursor = conn.cursor()
+    cursor.exectue(" SELECT identificación, nombre, precio FROM productos WHERE usuario_id = %s",(usuario_id))
+    productos = cursor.fetchall()
+    cursor.close()
+    conn.close()
 
-   return render_template('venta_exito.html', productos=productos)
+    return render_template('venta_registrar.html', productos=productos)
            
 @app.route('/api/productos')
 @login_requerido
