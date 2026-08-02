@@ -218,13 +218,13 @@ if request.method == 'POST':
 
            conn.commit()
          
-        except Exeption as e:
+        except Exception as e:
           conn.rollback()
           flash(f'Error al guardar: {str(e)}', 'error')
           return redirect(url_for('registrar_venta'))
         finally:
              cursor.close()
-             cunn.close()
+             conn.close()
 
         flash(f'Venta registrada: {producto["nombre"]} x {cantidad} = ${total}','success')
         return redirect(url_for('analizar_ventas'))
