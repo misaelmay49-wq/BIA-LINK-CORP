@@ -225,7 +225,7 @@ def registrar_venta():
             conn.rollback()
             flash(f'Error al guardar: {str(e)}', 'error')
             print('=== ERROR EN POST ===', str(e))
-            return redirect(url_for('registrar_venta'))
+            return redirect(url_for('venta_exito.html'))
 
         finally:
            cursor.close()
