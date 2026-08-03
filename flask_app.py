@@ -238,27 +238,34 @@ def registrar_venta():
 def api_productos():
     if 'user_id' not in session:
         return jsonify([])
-try:
-    conn=get_conn()
-    cursor = conn.cursor(cursor_factory=RealDictCursor) 
-    cursor.execute(' SELECT "identificación", nombre, precio, costo, cantidad FROM productos WHERE usuario_id = %s AND cantidad > 0', (usuario_id,))
-    productos = cursor.fetchall()
-    cursor.close()
-    conn.close()
 
-    lista = []
-    for p in productos:
-        lista.append({
-           'id': p['identificación'],
-           'nombre': p['nombre'],
-           'precio': float(p['precio'] or 0),
-           'costo': float(p['costo'] or 0),
-           'cantidad': p['cantidad'] or 0
-        })
-    return jsonify(lista)
+    try:
+        conn = get_conn()
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+        
+        cursor.execute('''
+            SELECT "identificación", nombre, precio, costo, cantidad 
+            FROM productos 
+            WHERE usuario_id = %s AND cantidad > 0
+        ''', (session['user_id'],))
+        
+        productos = cursor.fetchall()
+        cursor.close()
+        conn.close()
 
-except Exection as e:
-  return jsonify({'error': True, 'mensaje': str(e)}),500
+        lista = []
+        for p in productos:
+            lista.append({
+                'id': p['identificación'],
+                'nombre': p['nombre'],
+                'precio': float(p['precio'] or 0),
+                'costo': float(p['costo'] or 0),
+                'cantidad': p['cantidad'] or 0
+            })
+        return jsonify(lista)
+        
+    except Exception as e:
+        return jsonify({'error': True, 'mensaje': str(e)}), 500
 
 @app.route('/api/debug/tabla')
 @login_requerido
