@@ -219,7 +219,7 @@ def registrar_venta():
             conn.commit()
             
             flash(f'Venta registrada: {producto["nombre"]} x {cantidad} = ${total}','success')
-            return redirect('venta_exito.html'))
+            return render_template('venta_exito.html')
             
         except Exception as e:
             conn.rollback()
