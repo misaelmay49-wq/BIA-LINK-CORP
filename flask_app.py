@@ -213,7 +213,7 @@ def registrar_venta():
             
             cursor.execute("""
                 UPDATE productos SET cantidad = cantidad - %s
-                WHERE identificacion = %s AND usuario_id = %s
+                WHERE "identificación" = %s AND usuario_id = %s
             """, (cantidad, producto_id, usuario_id))
             
             conn.commit()
