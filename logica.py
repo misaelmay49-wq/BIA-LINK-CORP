@@ -205,18 +205,19 @@ def analizar_ventas(usuario_id, get_conn, tz='America/Mexico_city'):
     try:
         conn = get_conn()
         cursor = conn.cursor()
-        fecha_hoy = datetime.now().strftime("%Y-%m-%d")
 
         cursor.execute("""
-            SELECT
-                nombre_producto,
-                SUM(cantidad_vendida) AS unidades_vendidas,
-                SUM(venta_total) AS ganancia_bruta,
-                SUM(ganancia_total) AS ganancia_neta
-            FROM ventas
-            WHERE usuario_id = %s AND DATE(fecha) = %s
-            GROUP BY nombre_producto
-        """, (usuario_id, fecha_hoy))
+          SELECT 
+          nombre_producto,
+          SUM(cantidad_vendida) AS unidades_vendidas,
+          SUM(venta_total) AS ganancia_bruta,
+          SUM(ganancia_total) AS ganancia_neta
+        FROM ventas
+        WHERE usuario_id = %s 
+        AND fecha >= (NOW() AT TIME ZONE %s)::date
+        AND fecha < (NOW() AT TIME ZONE %s)::date + interval '1 day'
+      GROUP BY nombre_producto
+  """, (usuario_id, tz, tz))  
 
         ventas = cursor.fetchall()
 
