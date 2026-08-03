@@ -364,6 +364,8 @@ def logout():
 def api_analisis_ventas():
     try:
         usuario_id = session['user_id']
+        tz = request.args.get('tz', 'America/Mexico_city')
+        
         hay_ventas, productos, total_dia = analizar_ventas(usuario_id, get_conn)
 
         if not hay_ventas:
