@@ -247,8 +247,9 @@ function toggleMenu() {
     document.getElementById('sidebar').classList.toggle('active');
     document.getElementById('overlay').classList.toggle('active');
 }
-
-fetch('/api/analisis-ventas')
+    
+const tz = lntl.DateTimeFormat().resolverOptions().timeZone;
+fetch('/api/analisis-ventas?tz=${tz}')
 .then(r => r.json())
 .then(data => {
     document.getElementById('loading').classList.add('hidden');
