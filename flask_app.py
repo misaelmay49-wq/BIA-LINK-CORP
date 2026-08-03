@@ -219,13 +219,13 @@ def registrar_venta():
             conn.commit()
             
             flash(f'Venta registrada: {producto["nombre"]} x {cantidad} = ${total}','success')
-            return redirect(url_for('analizar_ventas'))
+            return redirect(url_for('venta_exito.html'))
             
         except Exception as e:
             conn.rollback()
             flash(f'Error al guardar: {str(e)}', 'error')
             print('=== ERROR EN POST ===', str(e))
-            return redirect(url_for('venta_exito.html'))
+            return redirect(url_for('registrar_venta'))
 
         finally:
            cursor.close()
