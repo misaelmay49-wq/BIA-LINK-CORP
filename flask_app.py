@@ -258,7 +258,7 @@ try:
     return jsonify(lista)
 
 except Exection as e:
-   return jsonify({'error': True, 'mensaje': stre(e)}),500
+  return jsonify({'error': True, 'mensaje': str(e)}),500
 
 @app.route('/api/debug/tabla')
 @login_requerido
