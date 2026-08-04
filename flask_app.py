@@ -363,10 +363,15 @@ def logout():
 @login_requerido
 def api_analisis_ventas():
     try:
+        print(">>>ENTRE A LA API")
         usuario_id = session['user_id']
         tz = request.args.get('tz', 'America/Mexico_City')
+
+        print(f"[DEBUG] usuario_id: {usuario_id}, tz: {tz}")
         
         hay_ventas, productos, total_dia = analizar_ventas(usuario_id, get_conn, tz)
+
+        print(f"[DEBUG] Resultado: hay_ventas={hay_ventas}, total={total_dia}")
 
         if not hay_ventas:
             return jsonify({
