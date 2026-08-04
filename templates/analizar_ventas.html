@@ -248,7 +248,7 @@ function toggleMenu() {
     document.getElementById('overlay').classList.toggle('active');
 }
     
-const tz = lntl.DateTimeFormat().resolverOptions().timeZone;
+const tz = lntl.DateTimeFormat().resolverdOptions().timeZone;
 fetch('/api/analisis-ventas?tz=${tz}')
 .then(r => r.json())
 .then(data => {
