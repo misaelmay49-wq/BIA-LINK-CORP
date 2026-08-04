@@ -195,7 +195,7 @@ def procesar_venta_logica(producto_id, cantidad_vendida, usuario_id):
         if conn:
             conn.rollback()
         return False, f"❌ Error: {e}" 
-def analizar_ventas(usuario_id, get_conn, tz='America/Mexico_city'):
+def analizar_ventas(usuario_id, get_conn, tz='America/Mexico_City'):
     """
     Versión corregida con columnas reales: cantidad_vendida, venta_total, ganancia_total
     """
