@@ -289,6 +289,14 @@ fetch(`/api/analisis-ventas?tz=${tz}`)
             <td>${p.unidades} uds</td>
             <td>$${p.ganancia_bruta.toFixed(2)}</td>
             <td class="text-green">$${p.ganancia_neta.toFiexd(2)}</td>
+            <td><span class="badge ${badgeClass}">${badgeIcon} ${badgeText}</span></td>
+          </tr>`;
+        contador++;
+    }
+    document.getElementById('tabla-productos').innerHTML = htmlTabla;
+
+    document.getElementById('ganancia-bruta').innerText = `$${totalBruta.toFixed(2)}`;
+    document.getElementById('ganancia-neta').innerText = `$${data.total_dia.toFixed(2)}`;
             
     let htmlSug = '';
     const icons = ['📢', '🏷️', '🥤'];
