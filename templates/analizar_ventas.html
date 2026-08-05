@@ -258,7 +258,7 @@ fetch('/api/analisis-ventas?tz=${tz}')
     document.getElementById('loading').classList.add('hidden');
     document.getElementById('contenido').classList.remove('hidden');
 
-    if(data.error{
+    if(data.error) {
       document.getElmentByld('listaProductos').innerHTML =
         `<div style="color:red; padding:20x;">Error: ${data.error}</div>`;
       return
