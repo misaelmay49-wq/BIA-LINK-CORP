@@ -247,8 +247,19 @@ function toggleMenu() {
     document.getElementById('sidebar').classList.toggle('active');
     document.getElementById('overlay').classList.toggle('active');
 }
+
+}
     
-const tz = lntl.DateTimeFormat().resolvedOptions().timeZone;
+window.onerror = function(msg, url, line) {
+    document.body.innerHTML = `
+        <div style="background:red;color:white;padding:20px;font-size:18px;">
+            <b>ERROR JS Línea ${line}:</b><br>${msg}
+        </div>
+    ` + document.body.innerHTML;
+    return true;
+};
+
+const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
 console.log("TZdetectado:", tz);
 
 fetch(`/api/analisis-ventas?tz=${tz}`)
