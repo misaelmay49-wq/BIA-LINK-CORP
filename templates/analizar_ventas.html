@@ -249,6 +249,8 @@ function toggleMenu() {
 }
     
 const tz = lntl.DateTimeFormat().resolverdOptions().timeZone;
+console.log("TZdetectado:", tz);
+
 fetch('/api/analisis-ventas?tz=${tz}')
 .then(r => r.json())
 .then(data => {
