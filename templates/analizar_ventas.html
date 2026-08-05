@@ -246,13 +246,11 @@
 function toggleMenu() {
     document.getElementById('sidebar').classList.toggle('active');
     document.getElementById('overlay').classList.toggle('active');
-}
+} // Ya sin la llave extra
 
-}
-    
 window.onerror = function(msg, url, line) {
     document.body.innerHTML = `
-        <div style="background:red;color:white;padding:20px;font-size:18px;">
+        <div style="background:red;color:white;padding:20px;font-size:18px;position:fixed;top:0;left:0;right:0;z-index:9999;">
             <b>ERROR JS Línea ${line}:</b><br>${msg}
         </div>
     ` + document.body.innerHTML;
@@ -267,19 +265,16 @@ fetch(`/api/analisis-ventas?tz=${tz}`)
 .then(data => {
     console.log("RESPUESTA API:", data);
     document.getElementById('loading').classList.add('hidden');
-    document.getElementById('contenido').classList.remove('hidden');
 
     if(data.error) {
-      document.getElmentByld('listaProductos').innerHTML =
-        `<div style="color:red; padding:20x;">Error: ${data.error}</div>`;
-      return
-
+        document.getElementById('tabla-productos').innerHTML = `<tr><td colspan="5" style="color:red;padding:20px;">Error: ${data.error}</td></tr>`;
+        return;
     }
 
     if(!data.hay_ventas){
-        document.getElementById('tabla-productos').innerHTML = '<tr><td colspan="5" style="text-align:center; padding:40px;">No hay ventas registradas hoy</td></tr>';
+        document.getElementById('tabla-productos').innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;">No hay ventas registradas hoy</td></tr>';
         document.getElementById('lista-sugerencias').innerHTML = '<div class="sugerencia">📢 Registra tu primera venta del día</div>';
-        document.getElementById('analisis-dia').innerHTML = '<div style="text-align:center; padding:20px; color:#64748B;">Sin datos para analizar</div>';
+        document.getElementById('analisis-dia').innerHTML = '<div style="text-align:center;padding:20px;color:#64748B;">Sin datos para analizar</div>';
         return;
     }
 
@@ -290,7 +285,6 @@ fetch(`/api/analisis-ventas?tz=${tz}`)
     for(let nombre in data.productos){
         let p = data.productos[nombre];
         totalBruta += p.ganancia_bruta;
-
         let badgeClass = p.rendimiento === 'bueno'? 'badge-bueno' : 'badge-bajo';
         let badgeIcon = p.rendimiento === 'bueno'? '✅' : '😟';
         let badgeText = p.rendimiento === 'bueno'? 'Bueno' : 'Bajo';
@@ -299,16 +293,16 @@ fetch(`/api/analisis-ventas?tz=${tz}`)
             <td><span class="rank">${contador}</span> ${nombre}</td>
             <td>${p.unidades} uds</td>
             <td>$${p.ganancia_bruta.toFixed(2)}</td>
-            <td class="text-green">$${p.ganancia_neta.toFiexd(2)}</td>
+            <td class="text-green">$${p.ganancia_neta.toFixed(2)}</td>
             <td><span class="badge ${badgeClass}">${badgeIcon} ${badgeText}</span></td>
-          </tr>`;
+        </tr>`;
         contador++;
     }
-    document.getElementById('tabla-productos').innerHTML = htmlTabla;
 
+    document.getElementById('tabla-productos').innerHTML = htmlTabla;
     document.getElementById('ganancia-bruta').innerText = `$${totalBruta.toFixed(2)}`;
     document.getElementById('ganancia-neta').innerText = `$${data.total_dia.toFixed(2)}`;
-            
+
     let htmlSug = '';
     const icons = ['📢', '🏷️', '🥤'];
     data.sugerencias.forEach((s, i) => {
@@ -322,14 +316,13 @@ fetch(`/api/analisis-ventas?tz=${tz}`)
 
     const total = data.total_dia;
     let htmlAnalisis = '';
-
     if(total >= 2000){
         htmlAnalisis = `<div class="analisis-item">
             <div class="analisis-left">
                 <div class="analisis-icon icon-excelente">✅</div>
                 <div>
-                    <div style="font-weight: 600; color: #22C55E;">¡Excelente día!</div>
-                    <div style="font-size: 12px; color: #64748B;">Tu ganancia neta del día fue mayor o igual a $2,000.</div>
+                    <div style="font-weight:600;color:#22C55E;">¡Excelente día!</div>
+                    <div style="font-size:12px;color:#64748B;">Tu ganancia neta del día fue mayor o igual a $2,000.</div>
                 </div>
             </div>
             <div class="analisis-right">
@@ -342,12 +335,12 @@ fetch(`/api/analisis-ventas?tz=${tz}`)
             <div class="analisis-left">
                 <div class="analisis-icon icon-bueno">😊</div>
                 <div>
-                    <div style="font-weight: 600; color: #EAB308;">Buen día</div>
-                    <div style="font-size: 12px; color: #64748B;">Tu ganancia neta del día fue mayor o igual a $1,000 pero menor a $2,000.</div>
+                    <div style="font-weight:600;color:#EAB308;">Buen día</div>
+                    <div style="font-size:12px;color:#64748B;">Tu ganancia neta del día fue mayor o igual a $1,000 pero menor a $2,000.</div>
                 </div>
             </div>
             <div class="analisis-right">
-                <div class="analisis-value" style="color: #EAB308;">$${total.toFixed(2)}</div>
+                <div class="analisis-value" style="color:#EAB308;">$${total.toFixed(2)}</div>
                 <div class="analisis-label">Ganancia neta del día</div>
             </div>
         </div>`;
@@ -356,23 +349,23 @@ fetch(`/api/analisis-ventas?tz=${tz}`)
             <div class="analisis-left">
                 <div class="analisis-icon icon-bajo">😟</div>
                 <div>
-                    <div style="font-weight: 600; color: #EF4444;">Día bajo</div>
-                    <div style="font-size: 12px; color: #64748B;">Tu ganancia neta del día fue menor a $1,000.</div>
+                    <div style="font-weight:600;color:#EF4444;">Día bajo</div>
+                    <div style="font-size:12px;color:#64748B;">Tu ganancia neta del día fue menor a $1,000.</div>
                 </div>
             </div>
             <div class="analisis-right">
-                <div class="analisis-value" style="color: #EF4444;">$${total.toFixed(2)}</div>
+                <div class="analisis-value" style="color:#EF4444;">$${total.toFixed(2)}</div>
                 <div class="analisis-label">Ganancia neta del día</div>
             </div>
         </div>`;
     }
     document.getElementById('analisis-dia').innerHTML = htmlAnalisis;
-
 })
 .catch(err => {
-    document.getElementById('loading').innerText = 'Error al cargar datos';
+    document.getElementById('loading').innerText = 'Error al cargar datos: ' + err.message;
     console.error(err);
 });
 </script>
+            
 </body>
-          </html>
+ </html>
