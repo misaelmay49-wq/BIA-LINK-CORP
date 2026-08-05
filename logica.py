@@ -215,7 +215,7 @@ def analizar_ventas(usuario_id, get_conn, tz='America/Mexico_City'):
         FROM ventas v
         JOIN productos p ON v.producto_id = p.identificación
         WHERE usuario_id = %s 
-        (v.fecha AT TIME ZONE 'UTC' AT TIME ZONE %s)::date = (CURRENT_DATE AT TIME ZONE 'UTC' AT TIME ZONE %s)::date
+        AND (v.fecha AT TIME ZONE 'UTC' AT TIME ZONE %s)::date = (CURRENT_DATE AT TIME ZONE 'UTC' AT TIME ZONE %s)::date
       GROUP BY p.nombre
   """, (usuario_id, tz, tz))  
 
