@@ -208,8 +208,8 @@ def analizar_ventas(usuario_id, get_conn, tz='America/Mexico_City'):
 
         cursor.execute("""
           SELECT 
-          nombre_producto,
-          SUM(v.vendida) AS unidades_vendidas,
+          p.nombre,
+          SUM(v.cantidad) AS unidades_vendidas,
           SUM(v.total) AS ganancia_bruta,
           SUM(v.ganancia) AS ganancia_neta
         FROM ventas v
