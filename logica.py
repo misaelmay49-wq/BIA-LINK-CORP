@@ -217,7 +217,7 @@ def analizar_ventas(usuario_id, get_conn, tz='America/Mexico_City'):
         WHERE usuario_id = %s 
         AND fecha >= (NOW() AT TIME ZONE %s)::date
         AND fecha < (NOW() AT TIME ZONE %s)::date + interval '1 day'
-      GROUP BY nombre_producto
+      GROUP BY p.nombre
   """, (usuario_id, tz, tz))  
 
         ventas = cursor.fetchall()
