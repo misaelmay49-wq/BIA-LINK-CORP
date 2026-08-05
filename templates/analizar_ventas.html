@@ -258,6 +258,13 @@ fetch('/api/analisis-ventas?tz=${tz}')
     document.getElementById('loading').classList.add('hidden');
     document.getElementById('contenido').classList.remove('hidden');
 
+    if(data.error{
+      document.getElmentByld('listaProductos').innerHTML =
+        `<div style="color:red; padding:20x;">Error: ${data.error}</div>`;
+      return
+
+    }
+
     if(!data.hay_ventas){
         document.getElementById('tabla-productos').innerHTML = '<tr><td colspan="5" style="text-align:center; padding:40px;">No hay ventas registradas hoy</td></tr>';
         document.getElementById('lista-sugerencias').innerHTML = '<div class="sugerencia">📢 Registra tu primera venta del día</div>';
