@@ -251,7 +251,7 @@ function toggleMenu() {
 const tz = lntl.DateTimeFormat().resolvedOptions().timeZone;
 console.log("TZdetectado:", tz);
 
-fetch('/api/analisis-ventas?tz=${tz}')
+fetch(`/api/analisis-ventas?tz=${tz}`)
 .then(r => r.json())
 .then(data => {
     console.log("RESPUESTA API:", data);
