@@ -209,10 +209,11 @@ def analizar_ventas(usuario_id, get_conn, tz='America/Mexico_City'):
         cursor.execute("""
           SELECT 
           nombre_producto,
-          SUM(cantidad_vendida) AS unidades_vendidas,
-          SUM(venta_total) AS ganancia_bruta,
-          SUM(ganancia_total) AS ganancia_neta
-        FROM ventas
+          SUM(v.vendida) AS unidades_vendidas,
+          SUM(v.total) AS ganancia_bruta,
+          SUM(v.ganancia) AS ganancia_neta
+        FROM ventas v
+        JOIN productos p ON v.producto_id = p.identificación
         WHERE usuario_id = %s 
         AND fecha >= (NOW() AT TIME ZONE %s)::date
         AND fecha < (NOW() AT TIME ZONE %s)::date + interval '1 day'
