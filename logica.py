@@ -214,7 +214,7 @@ def analizar_ventas(usuario_id, get_conn, tz='America/Mexico_City'):
           SUM(v.ganancia) AS ganancia_neta
         FROM ventas v
         JOIN productos p ON v.producto_id = p.identificación
-        WHERE usuario_id = %s 
+        WHERE v.usuario_id = %s 
         AND (v.fecha AT TIME ZONE 'UTC' AT TIME ZONE %s)::date = (CURRENT_DATE AT TIME ZONE 'UTC' AT TIME ZONE %s)::date
       GROUP BY p.nombre
   """, (usuario_id, tz, tz))  
