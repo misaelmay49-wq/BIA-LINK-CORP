@@ -428,5 +428,5 @@ def api_analisis_ventas():
 
 @app.route('/analizar-ventas')  
 @login_requerido
-def analizar_ventas():
+def pagina_analizar_ventas():
     return render_template('analizar_ventas.html')
