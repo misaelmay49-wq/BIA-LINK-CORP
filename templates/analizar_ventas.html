@@ -303,7 +303,6 @@ console.log("TZdetectado:", tz);
 fetch(`/api/analisis-ventas?tz=${tz}`)
 .then(r => r.json())
 .then(data => {
-    window.ultimaRespuestaAPI = data;
     console.log("RESPUESTA API:", data);
     document.getElementById('loading').classList.add('hidden');
 
@@ -409,19 +408,6 @@ fetch(`/api/analisis-ventas?tz=${tz}`)
 </script>
 <div id="debug" style="background:#1a1228; color:#94A3B8; padding:10px; margin:20px; border-radius:8px; font-size:12px; word-break:break-all;"></div>
 
-<script>
-    
-setTimeout(() => {
-    const debug = document.getElementById('debug');
-    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const ahora = new Date().toLocaleString('es-MX', {timeZone: tz});
-    debug.innerHTML = `
-        <b>Tu zona:</b> ${tz}<br>
-        <b>Tu fecha/hora:</b> ${ahora}<br>
-        <b>API respondió:</b> ${JSON.stringify(window.ultimaRespuestaAPI || 'No capturado')}
-    `;
-}, 2000);
-</script>
-            
+<script>            
 </body>
  </html>
