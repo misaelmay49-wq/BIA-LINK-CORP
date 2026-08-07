@@ -152,6 +152,46 @@
       .text-green { color: #22C55E; }
          #loading { text-align: center; padding: 60px; font-size: 18px; }
       .hidden { display: none; }
+
+      /* Centrar "No hay ventas registradas hoy" */
+      #tabla-productos tr td[colspan="5"] {
+        text-align: center !important;
+        padding: 40px 10px !important;
+        color: #94A3B8;
+        white-space: normal;
+      }
+
+     /* Scroll-snap para tarjetas GANANCIA en móvil */
+     .stats-grid {
+        display: flex !important;
+        gap: 20px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        margin: 0 -20px;
+        padding: 5px 20px 15px 20px;
+     }
+    .stats-grid::-webkit-scrollbar { display: none; }
+    .stats-grid .card {
+       min-width: 85%;
+       flex: 0 0 auto;
+       scroll-snap-align: center;
+       margin-bottom: 0;
+    }
+    .stat-box { justify-content: center; }
+    .stat-box > div { text-align: center; }
+    .stat-box .card-title { justify-content: center; }
+
+    @media (min-width: 700px) {
+     .stats-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        overflow-x: visible;
+        margin: 0;
+        padding: 0;
+    }
+    .stats-grid .card { min-width: auto; }
+}
     </style>
 </head>
 <body>
