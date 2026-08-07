@@ -35,8 +35,18 @@
         
         .section { background: var(--bg-card); border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--border); }
         .section-header { padding: 20px 25px; border-bottom: 1px solid var(--border); }
-        .section-body { padding: 25px; }
-        table { width: 100%; border-collapse: collapse; }
+        .section-body { padding: 25px; } 
+        /* AGREGA ESTO */
+        .table-wrapper {
+          overflow-x: auto;
+          width: 100%;
+          -webkit-overflow-scrolling: touch;
+        }
+        table { 
+         width: 100%; 
+         border-collapse: collapse; 
+         min-width: 600px; /* AGREGA ESTA LÍNEA */
+        }
         thead { background: var(--blue-dark); }
         th, td { padding: 16px; text-align: left; }
         .green { color: var(--green); } .orange { color: var(--orange); } .blue { color: #3b82f6; } .purple { color: var(--purple); }
