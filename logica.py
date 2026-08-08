@@ -208,16 +208,17 @@ def analizar_ventas(usuario_id, get_conn, tz='America/Mexico_City'):
 
         cursor.execute("""
           SELECT 
-          p.nombre,
-          SUM(v.cantidad) AS unidades_vendidas,
-          SUM(v.total) AS ganancia_bruta,
-          SUM(v.ganancia) AS ganancia_neta
-        FROM ventas v
-        JOIN productos p ON v.producto_id = p.identificación
-        WHERE v.usuario_id = %s 
-        AND DATE(v.fecha AT TIME ZONE %s) = (NOW() AT TIME ZONE %s)::date
-      GROUP BY p.nombre
-  """, (usuario_id, tz, tz))  
+            p.nombre,
+            SUM(v.cantidad) AS unidades_vendidas,
+            SUM(v.total) AS ganancia_bruta,
+            SUM(v.ganancia) AS ganancia_neta
+          FROM ventas v
+          JOIN productos p ON v.producto_id = p.identificación
+          WHERE v.usuario_id = %s 
+          AND v.fecha >= (NOW() AT TIME ZONE %s)::date
+          AND v.fecha < ((NOW() AT TIME ZONE %s)::date + INTERVAL '1 day')
+          GROUP BY p.nombre
+     """, (usuario_id, tz, tz))
 
         ventas = cursor.fetchall()
 
