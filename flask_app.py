@@ -430,3 +430,29 @@ def api_analisis_ventas():
 @login_requerido
 def pagina_analizar_ventas():
     return render_template('analizar_ventas.html')
+
+@app.route('/rellenar_stock', methods=['GET', 'POST'])
+def rellenar_stock_route():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    usuario_id = session['user_id']
+
+    if request.method == 'POST':
+        opcion = request.form.get('opcion')
+        cantidad_agregar = request.form.get('cantidad_agregar', type=int)
+
+        if cantidad_agregar is None or cantidad_agregar <= 0:
+            flash('❌ Cantidad inválida', 'error')
+            return redirect(url_for('rellenar_stock_route'))
+
+        if not opcion:
+            flash('❌ Selecciona un producto', 'error')
+            return redirect(url_for('rellenar_stock_route'))
+
+        success, mensaje = rellenar_stock(get_conn, usuario_id, opcion, cantidad_agregar)
+        flash(mensaje, 'success' if success else 'error')
+        return redirect(url_for('rellenar_stock_route'))
+
+    productos = obtener_productos_para_rellenar(get_conn, usuario_id)
+    return render_template('rellenar_stock.html', productos=productos)
