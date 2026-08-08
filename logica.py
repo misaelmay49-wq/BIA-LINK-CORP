@@ -223,7 +223,9 @@ def analizar_ventas(usuario_id, get_conn, tz='America/Mexico_City'):
      """, (usuario_id, tz, tz))
 
         ventas = cursor.fetchall()
-
+        
+        print("[DEBUG] Fecha HOY en México:", (datetime.now(pytz.timezone(tz))).date())
+        print("[DEBUG] Ventas encontradas:", len(ventas), ventas)
         print("[DEBUG] Usuario ID:", usuario_id)
         print("[DEBUG] TZ usada:", tz)
         print("[DEBUG] Fecha hoy en esa TZ:", (datetime.now(pytz.timezone(tz))).date())
