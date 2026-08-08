@@ -217,7 +217,7 @@ def analizar_ventas(usuario_id, get_conn, tz='America/Mexico_City'):
           FROM ventas v
           JOIN productos p ON v.producto_id = p.identificación
           WHERE v.usuario_id = %s 
-          AND v.fecha >= ((NOW() AT TIME ZONE %s)::date) AT TIME ZONE 'UTC')
+          AND v.fecha >= ((NOW() AT TIME ZONE %s)::date) AT TIME ZONE 'UTC'
           AND v.fecha < ((NOW() AT TIME ZONE %s)::date) + INTERVAL '1 day') AT TIME ZONE 'UTC')
           GROUP BY p.nombre
      """, (usuario_id, tz, tz))
