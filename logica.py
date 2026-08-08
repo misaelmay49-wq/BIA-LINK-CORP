@@ -221,6 +221,11 @@ def analizar_ventas(usuario_id, get_conn, tz='America/Mexico_City'):
 
         ventas = cursor.fetchall()
 
+        print("[DEBUG] Usuario ID:", usuario_id)
+        print("[DEBUG] TZ usada:", tz)
+        print("[DEBUG] Fecha hoy en esa TZ:", (datetime.now(pytz.timezone(tz))).date())
+        print("[DEBUG] Ventas crudas de BD:", ventas)
+
         if len(ventas) == 0:
             print("❌ No hay ventas registradas hoy")
             return False, {}, Decimal("0.00")
