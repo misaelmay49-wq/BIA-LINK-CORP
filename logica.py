@@ -263,3 +263,88 @@ def analizar_ventas(usuario_id, get_conn, tz='America/Mexico_City'):
     finally:
         if cursor: cursor.close()
         if conn: conn.close()
+
+def rellenar_stock(get_conn, usuario_id, opcion, cantidad_agregar):
+    conn = None
+    cursor = None
+    try:
+        conn = get_conn()
+        cursor = conn.cursor()
+
+        cursor.execute(
+            'SELECT "identificación", nombre, precio, costo, cantidad FROM productos WHERE usuario_id = %s ORDER BY "identificación"',
+            (usuario_id,)
+        )
+        lineas = cursor.fetchall()
+
+        if len(lineas) == 0:
+            return False, "❌ No hay productos registrados"
+
+        productos = {}
+        for i, linea in enumerate(lineas):
+            identificacion = linea[0]
+            nombre = linea[1]
+            precio = Decimal(linea[2])
+            costo = Decimal(linea[3])
+            stock = int(linea[4])
+            productos[str(i+1)] = [identificacion, nombre, precio, costo, stock]
+
+        if opcion not in productos:
+            return False, "❌ Producto invalido"
+
+        if cantidad_agregar <= 0:
+            return False, "❌ Cantidad inválida"
+
+        identificacion, nombre, precio, costo, stock = productos[opcion]
+        nuevo_stock = stock + cantidad_agregar
+
+        cursor.execute(
+            'UPDATE productos SET cantidad = %s WHERE "identificación" = %s AND usuario_id = %s',
+            (nuevo_stock, identificacion, usuario_id)
+        )
+        conn.commit()
+
+        return True, f"✅ Nuevo stock {nombre}: {nuevo_stock}"
+
+    except Exception as e:
+        if conn:
+            conn.rollback()
+        return False, f"❌ Error: {str(e)}"
+
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
+def obtener_productos_para_rellenar(get_conn, usuario_id):
+    conn = None
+    cursor = None
+    try:
+        conn = get_conn()
+        cursor = conn.cursor()
+        cursor.execute(
+            'SELECT "identificación", nombre, precio, costo, cantidad FROM productos WHERE usuario_id = %s ORDER BY "identificación"',
+            (usuario_id,)
+        )
+        lineas = cursor.fetchall()
+
+        productos = {}
+        for i, linea in enumerate(lineas):
+            identificacion = linea[0]
+            nombre = linea[1]
+            precio = Decimal(linea[2])
+            costo = Decimal(linea[3])
+            stock = int(linea[4])
+            productos[str(i+1)] = [identificacion, nombre, precio, costo, stock]
+
+        return productos
+
+    except Exception:
+        return {}
+
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
