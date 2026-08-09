@@ -456,3 +456,7 @@ def rellenar_stock_route():
 
     productos = obtener_productos_para_rellenar(get_conn, usuario_id)
     return render_template('rellenar_stock.html', productos=productos)
+
+@app.route('/stock_actualizado')
+def stock_actualizado():
+    return render_template('stock_actualizado.html')
