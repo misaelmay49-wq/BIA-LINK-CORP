@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Stock Actualizado - BIA LINK</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0A0E27;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .card {
+            background: #111834;
+            border-radius: 20px;
+            padding: 32px 24px;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .header {
+            color: #FFFFFF;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-icon {
+            font-size: 18px;
+        }
+
+        .check-circle {
+            width: 80px;
+            height: 80px;
+            border: 3px solid #00D47E;
+            border-radius: 50%;
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .check-circle svg {
+            width: 40px;
+            height: 40px;
+            stroke: #00D47E;
+            stroke-width: 3;
+            fill: none;
+        }
+
+        .titulo {
+            text-align: center;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .titulo-icon {
+            font-size: 20px;
+        }
+
+        .titulo-texto {
+            color: #00D47E;
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .descripcion {
+            color: #8B92B9;
+            text-align: center;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 32px;
+            padding: 0 8px;
+        }
+
+        .btn-volver {
+            background: #0052FF;
+            color: #FFFFFF;
+            border: none;
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            touch-action: manipulation;
+        }
+
+        .btn-volver:active {
+            transform: scale(0.97);
+            background: #0041CC;
+        }
+
+        @media (hover: hover) {
+            .btn-volver:hover {
+                background: #0041CC;
+            }
+        }
+
+        /* Para pantallas muy chicas */
+        @media (max-width: 360px) {
+            .card {
+                padding: 24px 16px;
+            }
+            .titulo-texto {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            BIA LINK <span class="header-icon">📈</span>
+        </div>
+
+        <div class="check-circle">
+            <svg viewBox="0 0 24 24">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+        </div>
+
+        <div class="titulo">
+            <span class="titulo-icon">✅</span>
+            <span class="titulo-icon">📦</span>
+            <span class="titulo-texto">Stock actualizado<br>correctamente</span>
+        </div>
+
+        <p class="descripcion">
+            El stock del producto se ha actualizado exitosamente en el sistema.
+        </p>
+
+        <button class="btn-volver" onclick="window.location.href='/menu'">
+            ← Ir al inicio
+        </button>
+    </div>
+
+    <script>
+      
+        const params = new URLSearchParams(window.location.search);
+        const producto = params.get('producto');
+        const agregado = params.get('agregado');
+        
+        if(producto && agregado) {
+            const desc = document.querySelector('.descripcion');
+            desc.innerHTML = `Se agregaron <strong style="color:#00D47E">${agregado} uds</strong> de <strong style="color:#00D47E">${producto}</strong> al inventario.`;
+        }
+    </script>
+</body>
+</html>
