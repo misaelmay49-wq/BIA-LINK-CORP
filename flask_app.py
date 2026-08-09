@@ -450,9 +450,12 @@ def rellenar_stock_route():
             flash('❌ Selecciona un producto', 'error')
             return redirect(url_for('rellenar_stock_route'))
 
-        success, mensaje = rellenar_stock(get_conn, usuario_id, opcion, cantidad_agregar)
-        flash(mensaje, 'success' if success else 'error')
-        return redirect(url_for('rellenar_stock_route'))
+        success, mensaje, nombre_producto = rellenar_stock(get_conn, usuario_id, opcion, cantidad_agregar)
+        if success:
+            return redirect(url_for('stock_actualizado', producto=nombre_producto, agregado=cantidad_agregar))
+        else:
+          flash(mensaje, 'error')
+          return redirect(url_for('rellenar_stock_route'))
 
     productos = obtener_productos_para_rellenar(get_conn, usuario_id)
     return render_template('rellenar_stock.html', productos=productos)
