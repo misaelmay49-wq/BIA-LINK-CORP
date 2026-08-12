@@ -288,8 +288,8 @@ def rellenar_stock(get_conn, usuario_id, opcion, cantidad_agregar):
         lineas = cursor.fetchall()
 
         if len(lineas) == 0:
-            return False, "❌ No hay productos registrados"
-
+            return False, "❌ No hay productos registrados", None
+            
         productos = {}
         for i, linea in enumerate(lineas):
             identificacion = linea[0]
@@ -300,10 +300,10 @@ def rellenar_stock(get_conn, usuario_id, opcion, cantidad_agregar):
             productos[str(i+1)] = [identificacion, nombre, precio, costo, stock]
 
         if opcion not in productos:
-            return False, "❌ Producto invalido"
+            return False, "❌ Producto invalido", None
 
         if cantidad_agregar <= 0:
-            return False, "❌ Cantidad inválida"
+            return False, "❌ Cantidad inválida", None 
 
         identificacion, nombre, precio, costo, stock = productos[opcion]
         nuevo_stock = stock + cantidad_agregar
@@ -314,12 +314,12 @@ def rellenar_stock(get_conn, usuario_id, opcion, cantidad_agregar):
         )
         conn.commit()
 
-        return True, f"✅ Nuevo stock {nombre}: {nuevo_stock}"
+        return True, f"✅ Nuevo stock {nombre}: {nuevo_stock}", nombre 
 
     except Exception as e:
         if conn:
             conn.rollback()
-        return False, f"❌ Error: {str(e)}"
+        return False, f"❌ Error: {str(e)}", None
 
     finally:
         if cursor:
