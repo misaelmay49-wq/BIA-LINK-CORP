@@ -463,3 +463,7 @@ def rellenar_stock_route():
 @app.route('/stock_actualizado')
 def stock_actualizado():
     return render_template('stock_actualizado.html')
+
+@app.route('/salir')
+def salir():
+    return render_template('salir.html')
