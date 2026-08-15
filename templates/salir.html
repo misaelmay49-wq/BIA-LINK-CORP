@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saliendo de BiaLink</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #0a0e1a;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .card {
+            background: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 16px;
+            padding: 32px 40px;
+            width: 320px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .logo {
+            color: #e5e7eb;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-bars {
+            display: flex;
+            gap: 2px;
+            align-items: flex-end;
+        }
+
+        .logo-bars span {
+            width: 3px;
+            background: #e5e7eb;
+            border-radius: 1px;
+        }
+
+        .logo-bars span:nth-child(1) { height: 8px; }
+        .logo-bars span:nth-child(2) { height: 12px; }
+        .logo-bars span:nth-child(3) { height: 6px; }
+
+        .titulo {
+            color: #f97316;
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .mensaje {
+            color: #9ca3af;
+            font-size: 14px;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .mensaje p {
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="logo">
+            BIA LINK 
+            <div class="logo-bars">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="titulo">Saliendo de BiaLink 👋...</div>
+        
+        <div class="mensaje">
+            <p>Gracias por usar BiaLink.</p>
+            <p>¡Hasta pronto!</p>
+        </div>
+    </div>
+
+    <script>
+      
+        setTimeout(() => {
+            window.location.href = "https://www.google.com";
+        }, 3000);
+    </script>
+</body>
+</html>
