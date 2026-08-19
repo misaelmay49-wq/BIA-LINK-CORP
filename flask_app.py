@@ -1,5 +1,6 @@
 
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify 
+from flask_babel import Babel, gettext, _
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 from datetime import timedelta
@@ -12,6 +13,16 @@ from logica import registrar_producto, procesar_venta_logica, get_conn, analizar
 app = Flask(__name__)
 app.secret_key = 'bialink_clave_secreta_123'
 app.permanent_session_lifetime = timedelta(days=30)
+
+babel = Babel(app)
+
+app.config['BABEL_DEFAULT_LOCALE'] = 'es'
+app.config['BABEL_SUPPORTED_LOCALES'] = ['es', 'en']
+
+def get_locale():
+    return request.accept_languages.best_match(['es', 'en'])
+
+babel.init_app(app, locale_selector=get_locale)
 
 @app.route('/')
 def inicio():
