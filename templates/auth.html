@@ -115,7 +115,7 @@
         <div class="icon-user"><i class="fa-solid fa-user"></i></div>
         
         <h2 id="titulo">{{_('Crea tu cuenta') }}</h2>
-        <p class="subtitle" id="subtitulo">Completa los datos para crear tu cuenta</p>
+        <p class="subtitle" id="subtitulo">{{_('Completa los datos para crear tu cuenta') }}</p>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -127,14 +127,14 @@
 
         <form id="form-registro" action="{{ url_for('registro') }}" method="POST">
             <div class="form-group">
-                <label>Correo electrónico</label>
+                <label>{{_('Correo electrónico') }}</label>
                 <div class="input-box">
                     <i class="fa-regular fa-envelope"></i>
                     <input type="email" name="correo" placeholder="ejemplo@correo.com" required>
                 </div>
             </div>
             <div class="form-group">
-                <label>Contraseña</label>
+                <label>{{_('Contraseña') }}</label>
                 <div class="input-box">
                     <i class="fa-solid fa-lock"></i>
                     <input type="password" name="password" id="pass-reg" placeholder="Ingresa tu contraseña" required>
@@ -142,7 +142,7 @@
                 </div>
             </div>
             <div class="form-group" id="confirm-group">
-                <label>Confirmar contraseña</label>
+                <label>{{_('Confirmar contraseña') }}</label>
                 <div class="input-box">
                     <i class="fa-solid fa-lock"></i>
                     <input type="password" name="confirmar" id="pass-conf" placeholder="Confirma tu contraseña" required>
@@ -155,21 +155,21 @@
         <!-- FORM LOGIN -->
         <form id="form-login" action="{{ url_for('login') }}" method="POST" class="hidden">
             <div class="form-group">
-                <label>Correo electrónico</label>
+                <label>{{_('Correo electrónico') }}</label>
                 <div class="input-box">
                     <i class="fa-regular fa-envelope"></i>
                     <input type="email" name="correo" placeholder="ejemplo@correo.com" required>
                 </div>
             </div>
             <div class="form-group">
-                <label>Contraseña</label>
+                <label>{{_('Contraseña') }}</label>
                 <div class="input-box">
                     <i class="fa-solid fa-lock"></i>
                     <input type="password" name="password" id="pass-login" placeholder="Ingresa tu contraseña" required>
                     <i class="fa-regular fa-eye toggle-pass" onclick="togglePass('pass-login', this)"></i>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-lock"></i> Iniciar sesión</button>
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-lock"></i> {{_('Iniciar sesión') }}</button>
         </form>
 
         <!-- LINKS AZULES DE ABAJO -->
