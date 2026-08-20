@@ -130,14 +130,14 @@
                 <label>{{_('Correo electrónico') }}</label>
                 <div class="input-box">
                     <i class="fa-regular fa-envelope"></i>
-                    <input type="email" name="correo" placeholder="ejemplo@correo.com" required>
+                    <input type="email" name="correo" placeholder="{{_('ejemplo@correo.com') }}" required>
                 </div>
             </div>
             <div class="form-group">
                 <label>{{_('Contraseña') }}</label>
                 <div class="input-box">
                     <i class="fa-solid fa-lock"></i>
-                    <input type="password" name="password" id="pass-reg" placeholder="Ingresa tu contraseña" required>
+                    <input type="password" name="password" id="pass-reg" placeholder="{{_('Ingresa tu contraseña') }}" required>
                     <i class="fa-regular fa-eye toggle-pass" onclick="togglePass('pass-reg', this)"></i>
                 </div>
             </div>
@@ -145,7 +145,7 @@
                 <label>{{_('Confirmar contraseña') }}</label>
                 <div class="input-box">
                     <i class="fa-solid fa-lock"></i>
-                    <input type="password" name="confirmar" id="pass-conf" placeholder="Confirma tu contraseña" required>
+                    <input type="password" name="confirmar" id="pass-conf" placeholder="{{_('Confirma tu contraseña') }}" required>
                     <i class="fa-regular fa-eye toggle-pass" onclick="togglePass('pass-conf', this)"></i>
                 </div>
             </div>
@@ -158,14 +158,14 @@
                 <label>{{_('Correo electrónico') }}</label>
                 <div class="input-box">
                     <i class="fa-regular fa-envelope"></i>
-                    <input type="email" name="correo" placeholder="ejemplo@correo.com" required>
+                    <input type="email" name="correo" placeholder="{{_('ejemplo@correo.com') }}" required>
                 </div>
             </div>
             <div class="form-group">
                 <label>{{_('Contraseña') }}</label>
                 <div class="input-box">
                     <i class="fa-solid fa-lock"></i>
-                    <input type="password" name="password" id="pass-login" placeholder="Ingresa tu contraseña" required>
+                    <input type="password" name="password" id="pass-login" placeholder="{{_('Ingresa tu contraseña') }}" required>
                     <i class="fa-regular fa-eye toggle-pass" onclick="togglePass('pass-login', this)"></i>
                 </div>
             </div>
@@ -187,7 +187,7 @@
             document.getElementById('form-login').classList.remove('hidden');
             document.getElementById('links-registro').classList.add('hidden');
             document.getElementById('links-login').classList.remove('hidden');
-            document.getElementById('titulo').innerText = 'Bienvenido';
+            document.getElementById('titulo').innerText = '{{_('Bienvenido') }}';
             document.getElementById('subtitulo').innerText = '{{_('Inicia sesión para continuar') }}';
         }
         function mostrarRegistro() {
