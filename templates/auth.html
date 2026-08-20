@@ -174,10 +174,10 @@
 
         <!-- LINKS AZULES DE ABAJO -->
         <div class="footer-links" id="links-registro">
-            ¿Ya tienes cuenta? <a onclick="mostrarLogin()">Iniciar sesión</a>
+            {{_('¿Ya tienes cuenta?') }} <a onclick="mostrarLogin()">{{_('Iniciar sesión') }}</a>
         </div>
         <div class="footer-links hidden" id="links-login">
-            ¿No tienes cuenta? <a onclick="mostrarRegistro()">Regístrate</a>
+            {{_('¿No tienes cuenta?') }} <a onclick="mostrarRegistro()">{{_('Regístrate') }}</a>
         </div>
     </div>
 
@@ -188,15 +188,15 @@
             document.getElementById('links-registro').classList.add('hidden');
             document.getElementById('links-login').classList.remove('hidden');
             document.getElementById('titulo').innerText = 'Bienvenido';
-            document.getElementById('subtitulo').innerText = 'Inicia sesión para continuar';
+            document.getElementById('subtitulo').innerText = '{{_('Inicia sesión para continuar') }}';
         }
         function mostrarRegistro() {
             document.getElementById('form-login').classList.add('hidden');
             document.getElementById('form-registro').classList.remove('hidden');
             document.getElementById('links-login').classList.add('hidden');
             document.getElementById('links-registro').classList.remove('hidden');
-            document.getElementById('titulo').innerText = 'Crea tu cuenta';
-            document.getElementById('subtitulo').innerText = 'Completa los datos para crear tu cuenta';
+            document.getElementById('titulo').innerText = '{{_('Crea tu cuenta') }}';
+            document.getElementById('subtitulo').innerText = '{{_('Completa los datos para crear tu cuenta') }}';
         }
         function togglePass(id, icon) {
             let input = document.getElementById(id);
