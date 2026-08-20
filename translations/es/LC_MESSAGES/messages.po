@@ -1,4 +1,7 @@
 
+
+
+
 # Spanish base file for BIA LINK
 msgid ""
 msgstr ""
@@ -53,6 +56,9 @@ msgstr "Inicia sesión para continuar"
 
 msgid "ejemplo@correo.com"
 msgstr "ejemplo@correo.com"
+
+
+
 
 
 
