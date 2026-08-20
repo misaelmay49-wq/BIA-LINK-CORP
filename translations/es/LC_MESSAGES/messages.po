@@ -1,31 +1,54 @@
-# Spanish base, English translation
+# Spanish base file for BIA LINK
 msgid ""
 msgstr ""
 "Project-Id-Version: BIA-LINK-CORP 1.0\n"
-"Language: en\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Crea tu cuenta"
-msgstr "Create your account"
+msgstr "Crea tu cuenta"
 
-msgid "Iniciar sesión"
-msgstr "Login"
-
-msgid "Contraseña"
-msgstr "Password"
+msgid "Completa los datos para crear tu cuenta"
+msgstr "Completa los datos para crear tu cuenta"
 
 msgid "Correo electrónico"
-msgstr "Email"
+msgstr "Correo electrónico"
+
+msgid "Contraseña"
+msgstr "Contraseña"
 
 msgid "Confirmar contraseña"
-msgstr "Confirm password"
+msgstr "Confirmar contraseña"
+
+msgid "Crear cuenta"
+msgstr "Crear cuenta"
+
+msgid "Ingresa tu contraseña"
+msgstr "Ingresa tu contraseña"
+
+msgid "Confirma tu contraseña"
+msgstr "Confirma tu contraseña"
+
+msgid "Iniciar sesión"
+msgstr "Iniciar sesión"
 
 msgid "¿Ya tienes cuenta?"
-msgstr "Already have an account?"
+msgstr "¿Ya tienes cuenta?"
 
 msgid "¿No tienes cuenta?"
-msgstr "Don't have an account?"
+msgstr "¿No tienes cuenta?"
 
 msgid "Regístrate"
-msgstr "Register"
+msgstr "Regístrate"
+
+msgid "Bienvenido"
+msgstr "Bienvenido"
+
+msgid "Inicia sesión para continuar"
+msgstr "Inicia sesión para continuar"
+
+msgid "ejemplo@correo.com"
+msgstr "ejemplo@correo.com"
