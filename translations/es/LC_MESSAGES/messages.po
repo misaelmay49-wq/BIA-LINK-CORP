@@ -70,7 +70,7 @@ msgid "Ej: Chetos"
 msgstr "Ej: Chetos"
 
 msgid "Precio de venta:"
-msgstr "Precio de venta:
+msgstr "Precio de venta:"
 
 msgid "Ej: 20.00"
 msgstr "Ej: 20.00"
