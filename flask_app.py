@@ -14,10 +14,10 @@ app = Flask(__name__)
 app.secret_key = 'bialink_clave_secreta_123'
 app.permanent_session_lifetime = timedelta(days=30)
 
-babel = Babel(app)
-
 app.config['BABEL_DEFAULT_LOCALE'] = 'es'
 app.config['BABEL_SUPPORTED_LOCALES'] = ['es', 'en']
+
+babel = Babel()
 
 def get_locale():
     return request.accept_languages.best_match(['es', 'en'])
