@@ -53,3 +53,54 @@ msgstr "Login to continue"
 
 msgid "ejemplo@correo.com"
 msgstr "example@email.com"
+
+msgid "Registrar Producto"
+msgstr "Register Product"
+
+msgid "Ingresa los datos del nuevo producto"
+msgstr "Enter the new product details"
+
+msgid "Nombre del producto:"
+msgstr "Product name:"
+
+msgid "Ej: Chetos"
+msgstr "Ex: Cheetos"
+
+msgid "Precio de venta:"
+msgstr "Sale price:"
+
+msgid "Ej: 20.00"
+msgstr "Ex: 20.00"
+
+msgid "Costo de producción:"
+msgstr "Production cost:"
+
+msgid "Ej: 10.00"
+msgstr "Ex: 10.00"
+
+msgid "Cantidad:"
+msgstr "Quantity:"
+
+msgid "Ej: 50"
+msgstr "Ex: 50"
+
+msgid "💾 Guardar Producto"
+msgstr "💾 Save Product"
+
+msgid "➕ Registrar Producto"
+msgstr "➕ Register Product"
+
+msgid "🛒 Registrar Venta"
+msgstr "🛒 Register Sale"
+
+msgid "📦 Rellenar Stock"
+msgstr "📦 Restock"
+
+msgid "📊 Analizar Ventas"
+msgstr "📊 Analyze Sales"
+
+msgid "⚙️ Configuración"
+msgstr "⚙️ Settings"
+
+msgid "🔙 Salir de BiaLink"
+msgstr "🔙 Exit BiaLink"
