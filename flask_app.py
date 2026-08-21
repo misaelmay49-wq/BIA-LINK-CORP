@@ -480,4 +480,5 @@ def salir():
     return render_template('salir.html')
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    print(">>> ARRANCANDO FLASK EN PUERTO 5000")
+    app.run(debug=True, host='0.0.0.0', port=5000, use_reloader=False)
