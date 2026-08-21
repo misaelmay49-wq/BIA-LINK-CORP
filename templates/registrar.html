@@ -226,16 +226,16 @@
 
             <form method="POST" action="{{ url_for('registrar') }}">
                 <label>{{_("Nombre del producto:") }}</label>
-                <input type="text" name="{{_("nombre") }}" placeholder="{{_("Ej: Chetos") }}" maxlength="50" required>
+                <input type="text" name="nombre" placeholder="{{_("Ej: Chetos") }}" maxlength="50" required>
 
                 <label>{{_("Precio de venta:") }}</label>
-                <input type="number" step="0.01" min="0.01" name="{{_("precio") }}" placeholder="{{_("Ej: 20.00") }}" required>
+                <input type="number" step="0.01" min="0.01" name="precio" placeholder="{{_("Ej: 20.00") }}" required>
 
                 <label>{{_("Costo de producción:") }}</label>
-                <input type="number" step="0.01" min="0" name="{{_("costo") }}" placeholder="{{_("Ej: 10.00") }}" required>
+                <input type="number" step="0.01" min="0" name="costo" placeholder="{{_("Ej: 10.00") }}" required>
 
                 <label>{{_("Cantidad:") }}</label>
-                <input type="number" min="1" name="{{_("cantidad") }}" placeholder="{{_("Ej: 50") }}" required>
+                <input type="number" min="1" name="cantidad" placeholder="{{_("Ej: 50") }}" required>
 
                 <button type="submit">{{_("💾 Guardar Producto") }}</button>
             </form>
