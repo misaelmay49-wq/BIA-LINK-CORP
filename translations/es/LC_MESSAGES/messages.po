@@ -57,6 +57,57 @@ msgstr "Inicia sesión para continuar"
 msgid "ejemplo@correo.com"
 msgstr "ejemplo@correo.com"
 
+msgid "Registrar Producto"
+msgstr "Registrar Producto"
+
+msgid "Ingresa los datos del nuevo producto"
+msgstr "Ingresa los datos del nuevo producto"
+
+msgid "Nombre del producto:"
+msgstr "Nombre del producto:"
+
+msgid "Ej: Chetos"
+msgstr "Ej: Chetos"
+
+msgid "Precio de venta:"
+msgstr "Precio de venta:
+
+msgid "Ej: 20.00"
+msgstr "Ej: 20.00"
+
+msgid "Costo de producción:"
+msgstr "Costo de producción:"
+
+msgid "Ej: 10.00"
+msgstr "Ej: 10.00"
+
+msgid "Cantidad:"
+msgstr "Cantidad:"
+
+msgid "Ej: 50"
+msgstr "Ej: 50"
+
+msgid "💾 Guardar Producto"
+msgstr "💾 Guardar Producto"
+
+msgid "➕ Registrar Producto"
+msgstr "➕ Registrar Producto"
+
+msgid "🛒 Registrar Venta"
+msgstr "🛒 Registrar Venta"
+
+msgid "📦 Rellenar Stock"
+msgstr "📦 Rellenar Stock"
+
+msgid "📊 Analizar Ventas"
+msgstr "📊 Analizar Ventas"
+
+msgid "⚙️ Configuración"
+msgstr "⚙️ Configuración"
+
+msgid "🔙 Salir de BiaLink"
+msgstr "🔙 Salir de BiaLink"
+
 
 
 
