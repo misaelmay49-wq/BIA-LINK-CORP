@@ -1,4 +1,4 @@
-
+print(">>> 1. EL ARCHIVO SI SE EJECUTA")
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify 
 from flask_babel import Babel, gettext, _
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -10,6 +10,7 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 from logica import registrar_producto, procesar_venta_logica, get_conn, analizar_ventas, rellenar_stock, obtener_productos_para_rellenar
 
+print(">>> 2. IMPORTS LISTOS")
 app = Flask(__name__)
 app.secret_key = 'bialink_clave_secreta_123'
 app.permanent_session_lifetime = timedelta(days=30)
