@@ -21,7 +21,10 @@ app.config['BABEL_SUPPORTED_LOCALES'] = ['es', 'en']
 babel = Babel()
 
 def get_locale():
-    return request.accept_languages.best_match(['es', 'en'])
+    print(">>> LENGUAJES QUE MANDA EL NAVEGADOR:", request.accept_languages)
+    idioma_elegido = request.accept_languages.best_match(['es', 'en'])
+    print(">>> IDIOMA QUE ESCOGIÓ BABEL:", idioma_elegido)
+    return idioma_elegido
 
 babel.init_app(app, locale_selector=get_locale)
 print(">>> 3. BABEL INICIALIZADO")
