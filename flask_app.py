@@ -24,6 +24,7 @@ def get_locale():
     return request.accept_languages.best_match(['es', 'en'])
 
 babel.init_app(app, locale_selector=get_locale)
+print(">>> 3. BABEL INICIALIZADO")
 
 @app.route('/')
 def inicio():
