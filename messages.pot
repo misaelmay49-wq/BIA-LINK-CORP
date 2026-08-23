@@ -1,0 +1,79 @@
+# Translations template for PROJECT.
+# Copyright (C) 2026 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-08-21 21:37+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: templates/auth.html:117 templates/auth.html:198
+msgid "Crea tu cuenta"
+msgstr ""
+
+#: templates/auth.html:118 templates/auth.html:199
+msgid "Completa los datos para crear tu cuenta"
+msgstr ""
+
+#: templates/auth.html:130 templates/auth.html:158
+msgid "Correo electrónico"
+msgstr ""
+
+#: templates/auth.html:133 templates/auth.html:161
+msgid "ejemplo@correo.com"
+msgstr ""
+
+#: templates/auth.html:137 templates/auth.html:165
+msgid "Contraseña"
+msgstr ""
+
+#: templates/auth.html:140 templates/auth.html:168
+msgid "Ingresa tu contraseña"
+msgstr ""
+
+#: templates/auth.html:145
+msgid "Confirmar contraseña"
+msgstr ""
+
+#: templates/auth.html:148
+msgid "Confirma tu contraseña"
+msgstr ""
+
+#: templates/auth.html:152
+msgid "Crear cuenta"
+msgstr ""
+
+#: templates/auth.html:172 templates/auth.html:177
+msgid "Iniciar sesión"
+msgstr ""
+
+#: templates/auth.html:177
+msgid "¿Ya tienes cuenta?"
+msgstr ""
+
+#: templates/auth.html:180
+msgid "¿No tienes cuenta?"
+msgstr ""
+
+#: templates/auth.html:180
+msgid "Regístrate"
+msgstr ""
+
+#: templates/auth.html:190
+msgid "Bienvenido"
+msgstr ""
+
+#: templates/auth.html:191
+msgid "Inicia sesión para continuar"
+msgstr ""
+
