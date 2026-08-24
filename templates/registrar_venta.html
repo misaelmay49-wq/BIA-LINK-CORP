@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrar Venta - BIA LINK</title>
+    <title>BIA LINK - {{_('Registrar Venta') }}</title>
     <style>
         :root {
             --bg-dark: #0a0e1a; --bg-card: #111827; --bg-input: #0f172a; --border: #1e293b;
@@ -86,17 +86,17 @@
             <div class="logo-text">BIA LINK</div>
         </div>
         <nav class="menu">
-            <a href="{{ url_for('registrar') }}">➕ Registrar Producto</a>
-            <a href="{{ url_for('registrar_venta') }}">🛒 Registrar Venta</a>
-            <a href="{{ url_for('rellenar_stock_route') }}">📦 Rellenar Stock</a>
-            <a href="{{ url_for('pagina_analizar_ventas') }}">📊 Analizar Ventas</a>
-            <a href="#">⚙️ Configuración</a>
-            <a href="{{ url_for('salir') }}">🔙 Salir de BiaLink</a>
+            <a href="{{ url_for('registrar') }}">{{_('➕ Registrar Producto') }}</a>
+            <a href="{{ url_for('registrar_venta') }}">{{_('🛒 Registrar Venta') }}</a>
+            <a href="{{ url_for('rellenar_stock_route') }}">{{_('📦 Rellenar Stock') }}</a>
+            <a href="{{ url_for('pagina_analizar_ventas') }}">{{_('📊 Analizar Ventas') }}</a>
+            <a href="#">{{_('⚙️ Configuración') }}</a>
+            <a href="{{ url_for('salir') }}">{{_('🔙 Salir de BiaLink') }}</a>
         </nav>
         <div class="sidebar-bottom">
             <div class="consejo-box">
-                <h4>💡 Consejo</h4>
-                <p>Selecciona el número del producto y registra la cantidad vendida.</p>
+                <h4>{{_('💡 Consejo') }}</h4>
+                <p>{{_('Selecciona el número del producto y registra la cantidad vendida.') }}</p>
             </div>
         </div>
     </aside>
@@ -104,7 +104,7 @@
     <main class="main">
         <div class="header-card">
             <div style="background:var(--blue);padding:22px;border-radius:16px;font-size:36px;">🛒</div>
-            <div><h1>Registrar Venta</h1><p>Registra una nueva venta y calcula tu ganancia.</p></div>
+            <div><h1>{{_('Registrar Venta') }}</h1><p>{{_('Registra una nueva venta y calcula tu ganancia.') }}</p></div>
         </div>
 
         <div class="flash-container">
@@ -125,15 +125,15 @@
             
             <div class="section">
                 <div class="section-header">
-                    <h3>📋 Productos registrados</h3>
-                    <p style="color:var(--text-gray);font-size:13px;">Consulta los productos disponibles.</p>
+                    <h3>{{_('📋 Productos registrados') }}</h3>
+                    <p style="color:var(--text-gray);font-size:13px;">{{_('Consulta los productos disponibles.') }}</p>
                 </div>
                 <div class="section-body">
                  <div class="table-wrapper">
                     <table>
                         <thead><tr><th>#</th><th>Producto</th><th>Precio</th><th>Costo</th><th>Stock</th></tr></thead>
                         <tbody>
-                         <tr><td colspan="5">Cargando productos...</td></tr>
+                         <tr><td colspan="5">{{_('Cargando productos...') }}</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -141,7 +141,7 @@
 
             <div class="grid-3">
                 <div class="input-group">
-                    <label><span class="badge-num">1</span> Número de producto:</label>
+                    <label><span class="badge-num">1</span> {{_('Número de producto:') }}</label>
                     <div class="input-icon" id="productoInputWrapper">
                         <span class="prefix">#</span>
                         <input type="number" id="productoNumero" placeholder="Ej: 1" min="1">
@@ -149,14 +149,14 @@
                     <small class="error-text" id="errorProducto">Debes seleccionar un producto válido</small>
                 </div>
                 <div class="input-group">
-                    <label><span class="badge-num">2</span> Cantidad:</label>
+                    <label><span class="badge-num">2</span> {{_('Cantidad:') }}</label>
                     <div class="input-icon">
                         <span class="prefix">🛒</span>
                         <input type="number" name="cantidad" id="cantidadInput" placeholder="Ej: 3" min="1" required>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label><span class="badge-num">3</span> Ganancia:</label>
+                    <label><span class="badge-num">3</span> {{_('Ganancia:') }}</label>
                     <div class="ganancia-card">
                         <div>💰</div>
                         <div><div style="font-size:28px;color:var(--green);" id="gananciaTotal">$0.00</div></div>
