@@ -127,7 +127,7 @@ msgid "Costo"
 msgstr "Cost"
 
 msgid "Stock"
-msgstr "Stock"
+msgstr "stock"
 
 msgid "Cargando productos..."
 msgstr "Loading products..."
