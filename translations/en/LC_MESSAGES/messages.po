@@ -104,3 +104,93 @@ msgstr "⚙️ Settings"
 
 msgid "🔙 Salir de BiaLink"
 msgstr "🔙 Exit BiaLink"
+
+msgid "Registrar Venta"
+msgstr "Register Sale"
+
+msgid "Registra una nueva venta y calcula tu ganancia."
+msgstr "Record a new sale and calculate your profit."
+
+msgid "📋 Productos registrados"
+msgstr "📋 Registered Products"
+
+msgid "Consulta los productos disponibles."
+msgstr "Check available products."
+
+msgid "Producto"
+msgstr "Product"
+
+msgid "Precio"
+msgstr "Price"
+
+msgid "Costo"
+msgstr "Cost"
+
+msgid "Stock"
+msgstr "Stock"
+
+msgid "Cargando productos..."
+msgstr "Loading products..."
+
+msgid "No hay productos registrados"
+msgstr "No products registered"
+
+msgid "Número de producto:"
+msgstr "Product number:"
+
+msgid "Ej: 1"
+msgstr "Ex: 1"
+
+msgid "Cantidad:"
+msgstr "Quantity:"
+
+msgid "Ej: 3"
+msgstr "Ex: 3"
+
+msgid "Ganancia:"
+msgstr "Profit:"
+
+msgid "Debes seleccionar un producto válido"
+msgstr "You must select a valid product"
+
+msgid "ℹ️ Detalles del producto seleccionado"
+msgstr "ℹ️ Selected product details"
+
+msgid "Ganancia u."
+msgstr "Unit profit"
+
+msgid "unidades"
+msgstr "units"
+
+msgid "u"
+msgstr "u"
+
+msgid "💾 Registrar Venta"
+msgstr "💾 Register Sale"
+
+msgid "Error:"
+msgstr "Error:"
+
+msgid "💡 Consejo"
+msgstr "💡 Tip"
+
+msgid "Selecciona el número del producto y registra la cantidad vendida."
+msgstr "Select the product number and record the quantity sold."
+
+msgid "➕ Registrar Producto"
+msgstr "➕ Register Product"
+
+msgid "🛒 Registrar Venta"
+msgstr "🛒 Register Sale"
+
+msgid "📦 Rellenar Stock"
+msgstr "📦 Restock"
+
+msgid "📊 Analizar Ventas"
+msgstr "📊 Analyze Sales"
+
+msgid "⚙️ Configuración"
+msgstr "⚙️ Settings"
+
+msgid "🔙 Salir de BiaLink"
+msgstr "🔙 Exit BiaLink"
