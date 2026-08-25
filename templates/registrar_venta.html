@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const gananciaUnidad = prod.precio - prod.costo;
             document.getElementById('resPrecio').innerText = `$${prod.precio.toFixed(2)}`;
             document.getElementById('resCosto').innerText = `$${prod.costo.toFixed(2)}`;
-            document.getElementById('resStock').innerText = `${prod.cantidad} unidades`;
+            document.getElementById('resStock').innerText = `${prod.cantidad} {{_('unidades') }}`;
             document.getElementById('resGanancia').innerText = `$${gananciaUnidad.toFixed(2)}`;
             document.getElementById('gananciaTotal').innerText = `$${(gananciaUnidad * cant).toFixed(2)}`;
             cantidadInput.max = prod.cantidad;
@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function() {
             productoIdReal.value = '';
             document.getElementById('resPrecio').innerText = '$0.00';
             document.getElementById('resCosto').innerText = '$0.00';
-            document.getElementById('resStock').innerText = '0 unidades';
+            document.getElementById('resStock').innerText = '{{_('0 unidades') }}';
             document.getElementById('resGanancia').innerText = '$0.00';
             document.getElementById('gananciaTotal').innerText = '$0.00';
         }
@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <td>${prod.nombre}</td>
                     <td class="green">$${prod.precio.toFixed(2)}</td>
                     <td class="orange">$${prod.costo.toFixed(2)}</td>
-                    <td class="blue">${prod.cantidad} u</td>
+                    <td class="blue">${prod.cantidad} {{_('u') }}</td>
                 </tr>
             `;
         });
