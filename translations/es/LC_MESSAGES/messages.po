@@ -1,7 +1,4 @@
 
-
-
-
 # Spanish base file for BIA LINK
 msgid ""
 msgstr ""
@@ -89,6 +86,96 @@ msgstr "Ej: 50"
 
 msgid "💾 Guardar Producto"
 msgstr "💾 Guardar Producto"
+
+msgid "➕ Registrar Producto"
+msgstr "➕ Registrar Producto"
+
+msgid "🛒 Registrar Venta"
+msgstr "🛒 Registrar Venta"
+
+msgid "📦 Rellenar Stock"
+msgstr "📦 Rellenar Stock"
+
+msgid "📊 Analizar Ventas"
+msgstr "📊 Analizar Ventas"
+
+msgid "⚙️ Configuración"
+msgstr "⚙️ Configuración"
+
+msgid "🔙 Salir de BiaLink"
+msgstr "🔙 Salir de BiaLink"
+
+msgid "Registrar Venta"
+msgstr "Registrar Venta"
+
+msgid "Registra una nueva venta y calcula tu ganancia."
+msgstr "Registra una nueva venta y calcula tu ganancia."
+
+msgid "📋 Productos registrados"
+msgstr "📋 Productos registrados"
+
+msgid "Consulta los productos disponibles."
+msgstr "Consulta los productos disponibles."
+
+msgid "Producto"
+msgstr "Producto"
+
+msgid "Precio"
+msgstr "Precio"
+
+msgid "Costo"
+msgstr "Costo"
+
+msgid "Stock"
+msgstr "Stock"
+
+msgid "Cargando productos..."
+msgstr "Cargando productos..."
+
+msgid "No hay productos registrados"
+msgstr "No hay productos registrados"
+
+msgid "Número de producto:"
+msgstr "Número de producto:"
+
+msgid "Ej: 1"
+msgstr "Ej: 1"
+
+msgid "Cantidad:"
+msgstr "Cantidad:"
+
+msgid "Ej: 3"
+msgstr "Ej: 3"
+
+msgid "Ganancia:"
+msgstr "Ganancia:"
+
+msgid "Debes seleccionar un producto válido"
+msgstr "Debes seleccionar un producto válido"
+
+msgid "ℹ️ Detalles del producto seleccionado"
+msgstr "ℹ️ Detalles del producto seleccionado"
+
+msgid "Ganancia u."
+msgstr "Ganancia u."
+
+msgid "unidades"
+msgstr "unidades"
+
+msgid "u"
+msgstr "u"
+
+msgid "💾 Registrar Venta"
+msgstr "💾 Registrar Venta"
+
+msgid "Error:"
+msgstr "Error:"
+
+msgid "💡 Consejo"
+msgstr "💡 Consejo"
+
+msgid "Selecciona el número del producto y registra la cantidad vendida."
+msgstr "Selecciona el número del producto y registra la cantidad vendida."
 
 msgid "➕ Registrar Producto"
 msgstr "➕ Registrar Producto"
