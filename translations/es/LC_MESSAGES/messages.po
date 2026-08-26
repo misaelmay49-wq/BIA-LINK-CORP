@@ -195,58 +195,107 @@ msgstr "⚙️ Configuración"
 msgid "🔙 Salir de BiaLink"
 msgstr "🔙 Salir de BiaLink"
 
+msgid "Analizar Ventas"
+msgstr "Analizar Ventas"
 
+msgid "Consulta el rendimiento de tus ventas del día."
+msgstr "Consulta el rendimiento de tus ventas del día."
 
+msgid "Cargando datos..."
+msgstr "Cargando datos..."
 
+msgid "📋 RENDIMIENTO POR PRODUCTO"
+msgstr "📋 RENDIMIENTO POR PRODUCTO"
 
+msgid "PRODUCTO"
+msgstr "PRODUCTO"
 
+msgid "UNIDADES VENDIDAS"
+msgstr "UNIDADES VENDIDAS"
 
+msgid "GANANCIA BRUTA"
+msgstr "GANANCIA BRUTA"
 
+msgid "GANANCIA NETA"
+msgstr "GANANCIA NETA"
 
+msgid "RENDIMIENTO"
+msgstr "RENDIMIENTO"
 
+msgid "Total generado antes de recuperar tu inversión."
+msgstr "Total generado antes de recuperar tu inversión."
 
+msgid "Esto fue lo que ganaste realmente después de recuperar tu inversión."
+msgstr "Esto fue lo que ganaste realmente después de recuperar tu inversión."
 
+msgid "💡 SUGERENCIAS PARA MEJORAR"
+msgstr "💡 SUGERENCIAS PARA MEJORAR"
 
+msgid "📈 ANÁLISIS DEL DÍA"
+msgstr "📈 ANÁLISIS DEL DÍA"
 
+msgid "🚀 Analiza diariamente tus ventas para tomar mejores decisiones."
+msgstr "🚀 Analiza diariamente tus ventas para tomar mejores decisiones."
 
+msgid "No hay ventas registradas hoy"
+msgstr "No hay ventas registradas hoy"
 
+msgid "📢 Registra tu primera venta del día"
+msgstr "📢 Registra tu primera venta del día"
 
+msgid "Sin datos para analizar"
+msgstr "Sin datos para analizar"
 
+msgid "Bueno"
+msgstr "Bueno"
 
+msgid "Bajo"
+msgstr "Bajo"
 
+msgid "uds"
+msgstr "uds"
 
+msgid "🎉 Todo bien por hoy"
+msgstr "🎉 Todo bien por hoy"
 
+msgid "¡Excelente día!"
+msgstr "¡Excelente día!"
 
+msgid "Tu ganancia neta del día fue mayor o igual a"
+msgstr "Tu ganancia neta del día fue mayor o igual a"
 
+msgid "Ganancia neta del día"
+msgstr "Ganancia neta del día"
 
+msgid "Buen día"
+msgstr "Buen día"
 
+msgid "pero menor a"
+msgstr "pero menor a"
 
+msgid "Día bajo"
+msgstr "Día bajo"
 
+msgid "Tu ganancia neta del día fue menor a"
+msgstr "Tu ganancia neta del día fue menor a"
 
+msgid "Error al cargar datos:"
+msgstr "Error al cargar datos:"
 
+msgid "+ Registrar Producto"
+msgstr "+ Registrar Producto"
 
+msgid "🛒 Registrar Venta"
+msgstr "🛒 Registrar Venta"
 
+msgid "📊 Analizar Ventas"
+msgstr "📊 Analizar Ventas"
 
+msgid "📦 Rellenar Stock"
+msgstr "📦 Rellenar Stock"
 
+msgid "⚙️ Configuración"
+msgstr "⚙️ Configuración"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+msgid "🔙 Salir de BiaLink"
+msgstr "🔙 Salir de BiaLink"
