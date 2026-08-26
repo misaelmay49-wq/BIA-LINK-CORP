@@ -194,3 +194,108 @@ msgstr "⚙️ Settings"
 
 msgid "🔙 Salir de BiaLink"
 msgstr "🔙 Exit BiaLink"
+
+msgid "Analizar Ventas"
+msgstr "Analyze Sales"
+
+msgid "Consulta el rendimiento de tus ventas del día."
+msgstr "Check your sales performance for the day."
+
+msgid "Cargando datos..."
+msgstr "Loading data..."
+
+msgid "📋 RENDIMIENTO POR PRODUCTO"
+msgstr "📋 PERFORMANCE BY PRODUCT"
+
+msgid "PRODUCTO"
+msgstr "PRODUCT"
+
+msgid "UNIDADES VENDIDAS"
+msgstr "UNITS SOLD"
+
+msgid "GANANCIA BRUTA"
+msgstr "GROSS PROFIT"
+
+msgid "GANANCIA NETA"
+msgstr "NET PROFIT"
+
+msgid "RENDIMIENTO"
+msgstr "PERFORMANCE"
+
+msgid "Total generado antes de recuperar tu inversión."
+msgstr "Total generated before recovering your investment."
+
+msgid "Esto fue lo que ganaste realmente después de recuperar tu inversión."
+msgstr "This is what you actually earned after recovering your investment."
+
+msgid "💡 SUGERENCIAS PARA MEJORAR"
+msgstr "💡 SUGGESTIONS FOR IMPROVEMENT"
+
+msgid "📈 ANÁLISIS DEL DÍA"
+msgstr "📈 DAILY ANALYSIS"
+
+msgid "🚀 Analiza diariamente tus ventas para tomar mejores decisiones."
+msgstr "🚀 Analyze your sales daily to make better decisions."
+
+msgid "No hay ventas registradas hoy"
+msgstr "No sales recorded today"
+
+msgid "📢 Registra tu primera venta del día"
+msgstr "📢 Record your first sale of the day"
+
+msgid "Sin datos para analizar"
+msgstr "No data to analyze"
+
+msgid "Bueno"
+msgstr "Good"
+
+msgid "Bajo"
+msgstr "Low"
+
+msgid "uds"
+msgstr "units"
+
+msgid "🎉 Todo bien por hoy"
+msgstr "🎉 All good for today"
+
+msgid "¡Excelente día!"
+msgstr "Excellent day!"
+
+msgid "Tu ganancia neta del día fue mayor o igual a"
+msgstr "Your net profit for the day was greater than or equal to"
+
+msgid "Ganancia neta del día"
+msgstr "Net profit for the day"
+
+msgid "Buen día"
+msgstr "Good day"
+
+msgid "pero menor a"
+msgstr "but less than"
+
+msgid "Día bajo"
+msgstr "Slow day"
+
+msgid "Tu ganancia neta del día fue menor a"
+msgstr "Your net profit for the day was less than"
+
+msgid "Error al cargar datos:"
+msgstr "Error loading data:"
+
+msgid "+ Registrar Producto"
+msgstr "+ Register Product"
+
+msgid "🛒 Registrar Venta"
+msgstr "🛒 Register Sale"
+
+msgid "📊 Analizar Ventas"
+msgstr "📊 Analyze Sales"
+
+msgid "📦 Rellenar Stock"
+msgstr "📦 Restock"
+
+msgid "⚙️ Configuración"
+msgstr "⚙️ Settings"
+
+msgid "🔙 Salir de BiaLink"
+msgstr "🔙 Exit BiaLink"
