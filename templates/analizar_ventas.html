@@ -374,7 +374,7 @@ fetch(`/api/analisis-ventas?tz=${tz}`)
             <div class="analisis-left">
                 <div class="analisis-icon icon-bueno">😊</div>
                 <div>
-                    <div style="font-weight:600;color:#EAB308;">Buen día</div>
+                    <div style="font-weight:600;color:#EAB308;">{{_('Buen día') }}</div>
                     <div style="font-size:12px;color:#64748B;">{{_('Tu ganancia neta del día fue mayor o igual a') }} $1,000 {{_('pero menor a') }} $2,000.</div>
                 </div>
             </div>
@@ -388,7 +388,7 @@ fetch(`/api/analisis-ventas?tz=${tz}`)
             <div class="analisis-left">
                 <div class="analisis-icon icon-bajo">😟</div>
                 <div>
-                    <div style="font-weight:600;color:#EF4444;">Día bajo</div>
+                    <div style="font-weight:600;color:#EF4444;">{{_('Día bajo') }}</div>
                     <div style="font-size:12px;color:#64748B;">{{_('Tu ganancia neta del día fue menor a') }} $1,000.</div>
                 </div>
             </div>
