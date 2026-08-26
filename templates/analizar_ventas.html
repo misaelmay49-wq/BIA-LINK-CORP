@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Analizar Ventas - BIA LINK</title>
+    <title>{{_('Analizar Ventas') }} - BIA LINK</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
@@ -202,15 +202,15 @@
     <div class="sidebar-header">📈 BIA LINK</div>
 
     <nav class="menu">
-    <a href="{{ url_for('registrar') }}" class="menu-item">+ Registrar Producto</a>
-    <a href="{{ url_for('registrar_venta') }}" class="menu-item">🛒 Registrar Venta</a>
-    <a href="{{ url_for('pagina_analizar_ventas') }}" class="menu-item">📊 Analizar Ventas</a>  
-    <a href="{{ url_for('rellenar_stock_route') }}" class="menu-item">📦 Rellenar Stock</a>     
-    <div class="menu-item disabled">⚙️ Configuración</div>
-    <a href="{{ url_for('salir') }}" class="menu-item">🔙 Salir de BiaLink</a>
+    <a href="{{ url_for('registrar') }}" class="menu-item">{{_('+ Registrar Producto') }}</a>
+    <a href="{{ url_for('registrar_venta') }}" class="menu-item">{{_('🛒 Registrar Venta') }}</a>
+    <a href="{{ url_for('pagina_analizar_ventas') }}" class="menu-item">{{_('📊 Analizar Ventas') }}</a>  
+    <a href="{{ url_for('rellenar_stock_route') }}" class="menu-item">{{_('📦 Rellenar Stock') }}</a>     
+    <div class="menu-item disabled">{{_('⚙️ Configuración') }}</div>
+    <a href="{{ url_for('salir') }}" class="menu-item">{{_('🔙 Salir de BiaLink') }}</a>
  </nav>
 
-    <a href="/analizar-ventas" class="menu-item active">📊 Analizar Ventas</a>
+    <a href="/analizar-ventas" class="menu-item active">{{_('📊 Analizar Ventas') }}</a>
 </div>
 
 <div class="container">
@@ -220,23 +220,23 @@
     </div>
 
     <div class="sub-header">
-        <div class="title-main">📊 Analizar Ventas</div>
-        <div class="subtitle">Consulta el rendimiento de tus ventas del día.</div>
+        <div class="title-main">{{_('📊 Analizar Ventas') }}</div>
+        <div class="subtitle">{{_('Consulta el rendimiento de tus ventas del día.') }}</div>
     </div>
 
-    <div id="loading">Cargando datos...</div>
+    <div id="loading">{{_('Cargando datos...') }}</div>
 
     <div class="card">
-    <div class="card-title">📋 RENDIMIENTO POR PRODUCTO</div>
+    <div class="card-title">{{_('📋 RENDIMIENTO POR PRODUCTO') }}</div>
     <div class="table-wrapper">
         <table>
             <thead>
                 <tr>
-                    <th>PRODUCTO</th>
-                    <th>UNIDADES VENDIDAS</th>
-                    <th>GANANCIA BRUTA</th>
-                    <th>GANANCIA NETA</th>
-                    <th>RENDIMIENTO</th>
+                    <th>{{_('PRODUCTO') }}</th>
+                    <th>{{_('UNIDADES VENDIDAS') }}</th>
+                    <th>{{_('GANANCIA BRUTA') }}</th>
+                    <th>{{_('GANANCIA NETA') }}</th>
+                    <th>{{_('RENDIMIENTO') }}</th>
                 </tr>
             </thead>
             <tbody id="tabla-productos"></tbody>
@@ -249,9 +249,9 @@
                 <div class="stat-box">
                     <div class="stat-icon">🧮</div>
                     <div>
-                        <div class="card-title">GANANCIA BRUTA</div>
+                        <div class="card-title">{{_('GANANCIA BRUTA') }}</div>
                         <div class="stat-value" id="ganancia-bruta">$0.00</div>
-                        <div class="stat-desc">Total generado antes de recuperar tu inversión.</div>
+                        <div class="stat-desc">{{_('Total generado antes de recuperar tu inversión.') }}</div>
                     </div>
                 </div>
             </div>
@@ -259,25 +259,25 @@
                 <div class="stat-box">
                     <div class="stat-icon">👛</div>
                     <div>
-                        <div class="card-title">GANANCIA NETA</div>
+                        <div class="card-title">{{_('GANANCIA NETA') }}</div>
                         <div class="stat-value green" id="ganancia-neta">$0.00</div>
-                        <div class="stat-desc">Esto fue lo que ganaste realmente después de recuperar tu inversión.</div>
+                        <div class="stat-desc">{{_('Esto fue lo que ganaste realmente después de recuperar tu inversión.') }}</div>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="card">
-            <div class="card-title">💡 SUGERENCIAS PARA MEJORAR</div>
+            <div class="card-title">{{_('💡 SUGERENCIAS PARA MEJORAR') }}</div>
             <div id="lista-sugerencias"></div>
         </div>
 
         <div class="card">
-            <div class="card-title">📈 ANÁLISIS DEL DÍA</div>
+            <div class="card-title">{{_('📈 ANÁLISIS DEL DÍA') }}</div>
             <div id="analisis-dia"></div>
         </div>
 
-        <div class="footer">🚀 Analiza diariamente tus ventas para tomar mejores decisiones.</div>
+        <div class="footer">{{_('🚀 Analiza diariamente tus ventas para tomar mejores decisiones.') }}</div>
     </div>
 </div>
 
@@ -311,9 +311,9 @@ fetch(`/api/analisis-ventas?tz=${tz}`)
     }
 
     if(!data.hay_ventas){
-        document.getElementById('tabla-productos').innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;">No hay ventas registradas hoy</td></tr>';
-        document.getElementById('lista-sugerencias').innerHTML = '<div class="sugerencia">📢 Registra tu primera venta del día</div>';
-        document.getElementById('analisis-dia').innerHTML = '<div style="text-align:center;padding:20px;color:#64748B;">Sin datos para analizar</div>';
+        document.getElementById('tabla-productos').innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;">{{_('No hay ventas registradas hoy') }}</td></tr>';
+        document.getElementById('lista-sugerencias').innerHTML = '<div class="sugerencia">{{_('📢 Registra tu primera venta del día') }}</div>';
+        document.getElementById('analisis-dia').innerHTML = '<div style="text-align:center;padding:20px;color:#64748B;">{{_('Sin datos para analizar') }}</div>';
         return;
     }
 
@@ -326,7 +326,7 @@ fetch(`/api/analisis-ventas?tz=${tz}`)
         totalBruta += p.ganancia_bruta;
         let badgeClass = p.rendimiento === 'bueno'? 'badge-bueno' : 'badge-bajo';
         let badgeIcon = p.rendimiento === 'bueno'? '✅' : '😟';
-        let badgeText = p.rendimiento === 'bueno'? 'Bueno' : 'Bajo';
+        let badgeText = p.rendimiento === 'bueno'? '{{_('Bueno') }}' : '{{_('Bajo') }}';
 
         htmlTabla += `<tr>
             <td><span class="rank">${contador}</span> ${nombre}</td>
@@ -351,7 +351,7 @@ fetch(`/api/analisis-ventas?tz=${tz}`)
             <div>›</div>
         </div>`;
     });
-    document.getElementById('lista-sugerencias').innerHTML = htmlSug || '<div class="sugerencia">🎉 Todo bien por hoy</div>';
+    document.getElementById('lista-sugerencias').innerHTML = htmlSug || '<div class="sugerencia">{{_('🎉 Todo bien por hoy') }}</div>';
 
     const total = data.total_dia;
     let htmlAnalisis = '';
@@ -360,13 +360,13 @@ fetch(`/api/analisis-ventas?tz=${tz}`)
             <div class="analisis-left">
                 <div class="analisis-icon icon-excelente">✅</div>
                 <div>
-                    <div style="font-weight:600;color:#22C55E;">¡Excelente día!</div>
-                    <div style="font-size:12px;color:#64748B;">Tu ganancia neta del día fue mayor o igual a $2,000.</div>
+                    <div style="font-weight:600;color:#22C55E;">{{¡Excelente día!') }}</div>
+                    <div style="font-size:12px;color:#64748B;">{{_('Tu ganancia neta del día fue mayor o igual a') }} $2,000.</div>
                 </div>
             </div>
             <div class="analisis-right">
                 <div class="analisis-value text-green">$${total.toFixed(2)}</div>
-                <div class="analisis-label">Ganancia neta del día</div>
+                <div class="analisis-label">{{_('Ganancia neta del día') }}</div>
             </div>
         </div>`;
     } else if(total >= 1000){
@@ -375,12 +375,12 @@ fetch(`/api/analisis-ventas?tz=${tz}`)
                 <div class="analisis-icon icon-bueno">😊</div>
                 <div>
                     <div style="font-weight:600;color:#EAB308;">Buen día</div>
-                    <div style="font-size:12px;color:#64748B;">Tu ganancia neta del día fue mayor o igual a $1,000 pero menor a $2,000.</div>
+                    <div style="font-size:12px;color:#64748B;">{{_('Tu ganancia neta del día fue mayor o igual a') }} $1,000 {{_('pero menor a') }} $2,000.</div>
                 </div>
             </div>
             <div class="analisis-right">
                 <div class="analisis-value" style="color:#EAB308;">$${total.toFixed(2)}</div>
-                <div class="analisis-label">Ganancia neta del día</div>
+                <div class="analisis-label">{{_('Ganancia neta del día') }}</div>
             </div>
         </div>`;
     } else {
@@ -389,19 +389,19 @@ fetch(`/api/analisis-ventas?tz=${tz}`)
                 <div class="analisis-icon icon-bajo">😟</div>
                 <div>
                     <div style="font-weight:600;color:#EF4444;">Día bajo</div>
-                    <div style="font-size:12px;color:#64748B;">Tu ganancia neta del día fue menor a $1,000.</div>
+                    <div style="font-size:12px;color:#64748B;">{{_('Tu ganancia neta del día fue menor a') }} $1,000.</div>
                 </div>
             </div>
             <div class="analisis-right">
                 <div class="analisis-value" style="color:#EF4444;">$${total.toFixed(2)}</div>
-                <div class="analisis-label">Ganancia neta del día</div>
+                <div class="analisis-label">{{_('Ganancia neta del día') }}</div>
             </div>
         </div>`;
     }
     document.getElementById('analisis-dia').innerHTML = htmlAnalisis;
 })
 .catch(err => {
-    document.getElementById('loading').innerText = 'Error al cargar datos: ' + err.message;
+    document.getElementById('loading').innerText = '{{_('Error al cargar datos:') }} ' + err.message;
     console.error(err);
 });
 </script>
