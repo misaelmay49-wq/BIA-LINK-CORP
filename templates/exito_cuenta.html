@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Éxito - BIA LINK</title>
+    <title>{{_('Éxito') }} - BIA LINK</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body {
@@ -99,24 +99,23 @@
         </div>
 
         <div class="title">
-            ✅ 👤 Cuenta creada correctamente
+            ✅ 👤 {{_('Cuenta creada correctamente') }}
         </div>
 
         <div class="subtitle">
-            Tu cuenta se ha creado exitosamente. <br>
-            Ya puedes iniciar sesión para comenzar <br>
-            a administrar tu negocio.
+            {{{_('Tu cuenta se ha creado exitosamente.') }} <br>
+            {{_('Ya puedes iniciar sesión para comenzar a administrar tu negocio.') }} <br>
         </div>
 
         <a href="{{ url_for('registrar') }}" class="btn">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
                 <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
             </svg>
-            Ir al inicio
+            {{_('Ir al inicio') }}
         </a>
 
         <div class="footer">
-            🚀 Ya puedes empezar a <span>crecer tu negocio</span>.
+            🚀 {{_('Ya puedes empezar a') }} <span>{{_('crecer tu negocio') }}</span>.
         </div>
     </div>
 </body>
