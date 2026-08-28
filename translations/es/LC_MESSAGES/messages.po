@@ -299,3 +299,39 @@ msgstr "⚙️ Configuración"
 
 msgid "🔙 Salir de BiaLink"
 msgstr "🔙 Salir de BiaLink"
+
+msgid "Rellenar Stock"
+msgstr "Rellenar Stock"
+
+msgid "Agrega unidades a tu inventario."
+msgstr "Agrega unidades a tu inventario."
+
+msgid "Productos registrados"
+msgstr "Productos registrados"
+
+msgid "Consulta los productos disponibles."
+msgstr "Consulta los productos disponibles."
+
+msgid "Producto"
+msgstr "Producto"
+
+msgid "Stock actual"
+msgstr "Stock actual"
+
+msgid "No hay productos registrados"
+msgstr "No hay productos registrados"
+
+msgid "Número de producto:"
+msgstr "Número de producto:"
+
+msgid "Cantidad a agregar:"
+msgstr "Cantidad a agregar:"
+
+msgid "Ej:"
+msgstr "Ej:"
+
+msgid "Actualizar Stock"
+msgstr "Actualizar Stock"
+
+msgid "El stock se actualizará inmediatamente en el inventario."
+msgstr "El stock se actualizará inmediatamente en el inventario."
