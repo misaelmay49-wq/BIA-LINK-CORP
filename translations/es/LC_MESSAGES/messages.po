@@ -356,3 +356,15 @@ msgstr "Ya puedes empezar a"
 
 msgid "crecer tu negocio"
 msgstr "crecer tu negocio"
+
+msgid "Producto Registrado"
+msgstr "Producto Registrado"
+
+msgid "Producto registrado correctamente"
+msgstr "Producto registrado correctamente"
+
+msgid "El producto se ha guardado exitosamente en el sistema."
+msgstr "El producto se ha guardado exitosamente en el sistema."
+
+msgid "Volver al inicio"
+msgstr "Volver al inicio"
