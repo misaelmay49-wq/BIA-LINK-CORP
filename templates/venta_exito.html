@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Venta Registrada - Bialink</title>
+    <title>{{_('Venta Registrada') }} - Bialink</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
         body {
@@ -73,10 +73,10 @@
         
         <div class="check">✓</div>
         
-        <h2>✅📈 Venta registrada correctamente</h2>
-        <p>La venta se ha registrado correctamente en el sistema.</p>
+        <h2>✅📈 {{_('Venta registrada correctamente') }}</h2>
+        <p>{{_('La venta se ha registrado correctamente en el sistema.') }}</p>
         
-        <a href="{{ url_for('registrar_venta') }}" class="btn">← Volver al inicio</a>
+        <a href="{{ url_for('registrar_venta') }}" class="btn">← {{_('Volver al inicio') }}</a>
     </div>
 </body>
 </html>
