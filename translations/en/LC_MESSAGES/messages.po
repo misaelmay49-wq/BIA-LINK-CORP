@@ -335,3 +335,24 @@ msgstr "Update Stock"
 
 msgid "El stock se actualizará inmediatamente en el inventario."
 msgstr "Stock will be updated immediately in the inventory."
+
+msgid "Éxito"
+msgstr "Success"
+
+msgid "Cuenta creada correctamente"
+msgstr "Account created successfully"
+
+msgid "Tu cuenta se ha creado exitosamente."
+msgstr "Your account has been created successfully."
+
+msgid "Ya puedes iniciar sesión para comenzar a administrar tu negocio."
+msgstr "You can now log in to start managing your business."
+
+msgid "Ir al inicio"
+msgstr "Go to home"
+
+msgid "Ya puedes empezar a"
+msgstr "You can now start"
+
+msgid "crecer tu negocio"
+msgstr "growing your business"
