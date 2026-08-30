@@ -368,3 +368,12 @@ msgstr "The product has been saved successfully in the system."
 
 msgid "Volver al inicio"
 msgstr "Back to home"
+
+msgid "Venta Registrada"
+msgstr "Sale Registered"
+
+msgid "Venta registrada correctamente"
+msgstr "Sale registered successfully"
+
+msgid "La venta se ha registrado correctamente en el sistema."
+msgstr "The sale has been registered successfully in the system."
