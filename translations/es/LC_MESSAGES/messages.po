@@ -368,3 +368,14 @@ msgstr "El producto se ha guardado exitosamente en el sistema."
 
 msgid "Volver al inicio"
 msgstr "Volver al inicio"
+
+msgid "Venta Registrada"
+msgstr "Venta Registrada"
+
+msgid "Venta registrada correctamente"
+msgstr "Venta registrada correctamente"
+
+msgid "La venta se ha registrado correctamente en el sistema."
+msgstr "La venta se ha registrado correctamente en el sistema."
+
+
