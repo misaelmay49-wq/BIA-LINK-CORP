@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Stock Actualizado - BIA LINK</title>
+    <title>{{_('Stock Actualizado') }} - BIA LINK</title>
     <style>
         * {
             margin: 0;
@@ -149,15 +149,15 @@
         <div class="titulo">
             <span class="titulo-icon">✅</span>
             <span class="titulo-icon">📦</span>
-            <span class="titulo-texto">Stock actualizado<br>correctamente</span>
+            <span class="titulo-texto">{{_('Stock actualizado') }}<br>{{_('correctamente') }}</span>
         </div>
 
         <p class="descripcion">
-            El stock del producto se ha actualizado exitosamente en el sistema.
+            {{_('El stock del producto se ha actualizado exitosamente en el sistema.') }}
         </p>
 
         <button class="btn-volver" onclick="window.location.href='{{ url_for('rellenar_stock_route') }}'">
-            ← Ir al inicio
+            ← {{_('Ir al inicio') }}
         </button>
     </div>
 
@@ -169,7 +169,7 @@
         
         if(producto && agregado) {
             const desc = document.querySelector('.descripcion');
-            desc.innerHTML = `Se agregaron <strong style="color:#00D47E">${agregado} uds</strong> de <strong style="color:#00D47E">${producto}</strong> al inventario.`;
+            desc.innerHTML = `{{_('Se agregaron') }} <strong style="color:#00D47E">${agregado} uds</strong> {{_('de') }} <strong style="color:#00D47E">${producto}</strong> {{_('al inventario.') }}`;
         }
     </script>
 </body>
