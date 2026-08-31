@@ -402,3 +402,27 @@ msgstr "de"
 msgid "al inventario."
 msgstr "al inventario."
 
+msgid "Stock Actualizado"
+msgstr "Stock Updated"
+
+msgid "Stock actualizado"
+msgstr "Stock updated"
+
+msgid "correctamente"
+msgstr "successfully"
+
+msgid "El stock del producto se ha actualizado exitosamente en el sistema."
+msgstr "The product stock has been successfully updated in the system."
+
+msgid "Ir al inicio"
+msgstr "Go to home"
+
+msgid "Se agregaron"
+msgstr "Added"
+
+msgid "de"
+msgstr "of"
+
+msgid "al inventario."
+msgstr "to inventory."
+
