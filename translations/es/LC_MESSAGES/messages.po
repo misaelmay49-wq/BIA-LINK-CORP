@@ -378,4 +378,27 @@ msgstr "Venta registrada correctamente"
 msgid "La venta se ha registrado correctamente en el sistema."
 msgstr "La venta se ha registrado correctamente en el sistema."
 
+msgid "Stock Actualizado"
+msgstr "Stock Actualizado"
+
+msgid "Stock actualizado"
+msgstr "Stock actualizado"
+
+msgid "correctamente"
+msgstr "correctamente"
+
+msgid "El stock del producto se ha actualizado exitosamente en el sistema."
+msgstr "El stock del producto se ha actualizado exitosamente en el sistema."
+
+msgid "Ir al inicio"
+msgstr "Ir al inicio"
+
+msgid "Se agregaron"
+msgstr "Se agregaron"
+
+msgid "de"
+msgstr "de"
+
+msgid "al inventario."
+msgstr "al inventario."
 
