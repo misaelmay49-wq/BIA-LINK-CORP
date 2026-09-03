@@ -401,3 +401,12 @@ msgstr "of"
 
 msgid "al inventario."
 msgstr "to inventory."
+
+msgid "Saliendo de"
+msgstr "Leaving"
+
+msgid "Gracias por usar"
+msgstr "Thanks for using"
+
+msgid "¡Hasta pronto!"
+msgstr "See you soon!"
