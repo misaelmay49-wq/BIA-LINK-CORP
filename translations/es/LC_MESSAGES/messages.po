@@ -402,3 +402,12 @@ msgstr "de"
 msgid "al inventario."
 msgstr "al inventario."
 
+msgid "Saliendo de"
+msgstr "Saliendo de"
+
+msgid "Gracias por usar"
+msgstr "Gracias por usar"
+
+msgid "¡Hasta pronto!"
+msgstr "¡Hasta pronto!"
+
