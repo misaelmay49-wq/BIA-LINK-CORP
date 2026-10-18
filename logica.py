@@ -358,3 +358,242 @@ def obtener_productos_para_rellenar(get_conn, usuario_id):
             cursor.close()
         if conn:
             conn.close()
+            
+UPLOAD_FOLDER = os.path.abspath("static/logos")
+ALLOWED_EXT = {'png','jpg','jpeg','webp'}
+MAX_LOGO_SIZE = 2 * 1024 * 1024
+MAX_PRECIO = Decimal('1000000')
+MAX_CANTIDAD = 1000000
+RESERVED_SLUGS = {'static','admin','api','login','entrar','pruebas','tienda','salir'}
+
+logger = logging.getLogger(__name__)
+
+def init_db():
+    conn=None
+    try:
+        conn=get_conn()
+        cur=conn.cursor()
+        cur.execute("CREATE TABLE IF NOT EXISTS categorias (id SERIAL PRIMARY KEY, usuario_id TEXT NOT NULL, nombre TEXT NOT NULL)")
+        cur.execute("CREATE UNIQUE INDEX IF NOT EXISTS uq_categorias_user_lower ON categorias (usuario_id, LOWER(nombre))")
+        cur.execute("CREATE TABLE IF NOT EXISTS tiendas (id SERIAL PRIMARY KEY, usuario_id TEXT UNIQUE NOT NULL, nombre TEXT NOT NULL, slug TEXT UNIQUE NOT NULL, color TEXT NOT NULL, logo_path TEXT NOT NULL)")
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS productos (
+                id SERIAL PRIMARY KEY, usuario_id TEXT NOT NULL, nombre TEXT NOT NULL,
+                precio DECIMAL(12,2) NOT NULL, costo DECIMAL(12,2) NOT NULL,
+                cantidad INTEGER NOT NULL, ganancia DECIMAL(12,2) NOT NULL,
+                categoria_id INTEGER REFERENCES categorias(id), creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                CHECK (cantidad >=0 AND cantidad <= 1000000), CHECK (precio >=0 AND precio <= 1000000)
+            )
+        """)
+        conn.commit()
+        cur.close()
+    finally:
+        if conn: conn.close()
+
+def _safe_strip(v): return "" if v is None else str(v).strip()
+
+def _to_decimal_safe(v):
+    try:
+        d=Decimal(str(v).strip())
+        if not d.is_finite(): return None
+        return d
+    except: return None
+
+def _normalize(s):
+    s=_safe_strip(s).lower()
+    return ''.join(c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn')
+
+STOPWORDS = {'para','con','sin','una','del','las','los','un','de','la','el','en','al','por','mas'}
+COLORES_TALLAS = {'azul','rojo','negro','blanco','amarillo','gris','grande','chico','mini','mediano','pequeno','talla','xl'}
+
+def _raiz(w):
+    for suf in ('es','as','os','a','o','e','s'):
+        if w.endswith(suf) and len(w) - len(suf) >= 3:
+            return w[:-len(suf)]
+    return w
+
+_FILTRO = {_raiz(w) for w in STOPWORDS | COLORES_TALLAS} | STOPWORDS | COLORES_TALLAS
+
+def _palabras_significativas(texto):
+    palabras = re.findall(r'[a-z]{2,}', _normalize(texto))
+    return [_raiz(w) for w in palabras if _raiz(w) not in _FILTRO and w not in _FILTRO]
+
+def _validar_logo_contenido(archivo, ext):
+    try:
+        firma=archivo.read(12)
+        archivo.seek(0)
+        if len(firma)<8: return False
+        es_png=firma.startswith(b"\x89PNG\r\n\x1a\n")
+        es_jpg=firma.startswith(b"\xff\xd8\xff")
+        es_webp=firma[:4]==b"RIFF" and firma[8:12]==b"WEBP"
+        if ext=='png': return es_png
+        if ext in ('jpg','jpeg'): return es_jpg
+        if ext=='webp': return es_webp
+        return False
+    except: return False
+
+def crear_tienda_logica_completa(usuario_id, nombre_tienda, slug_tienda, color_principal, archivo_logo):
+    nombre_tienda=_safe_strip(nombre_tienda)
+    slug_tienda=_safe_strip(slug_tienda).lower()
+    color_principal=_safe_strip(color_principal)
+    if len(nombre_tienda)<3 or len(nombre_tienda)>50: return False, "Nombre inválido"
+    if len(slug_tienda)<3 or len(slug_tienda)>30: return False, "Link inválido (3-30)"
+    if not re.match(r'^[a-z0-9]+(?:-[a-z0-9]+)*$', slug_tienda): return False, "Link inválido, usa mi-tienda"
+    if slug_tienda in RESERVED_SLUGS: return False, f"El link /t/{slug_tienda} está reservado"
+    if not re.match(r'^#[0-9A-Fa-f]{6}$', color_principal): return False, "Color inválido"
+    if not archivo_logo or _safe_strip(archivo_logo.filename)=="": return False, "Falta logo"
+    if '.' not in archivo_logo.filename: return False, "Logo sin extensión"
+    ext=archivo_logo.filename.rsplit('.',1)[-1].lower()
+    if ext not in ALLOWED_EXT: return False, "Logo solo PNG,JPG,WEBP"
+    archivo_logo.seek(0, os.SEEK_END)
+    size=archivo_logo.tell()
+    archivo_logo.seek(0)
+    if size>MAX_LOGO_SIZE or size==0: return False, "Logo inválido"
+    if not _validar_logo_contenido(archivo_logo, ext): return False, "Imagen no válida"
+    conn=None
+    ruta_abs=None
+    try:
+        unique_name=f"{slug_tienda}_{uuid.uuid4().hex[:8]}.{ext}"
+        ruta_abs=os.path.join(UPLOAD_FOLDER, unique_name)
+        ruta_rel=f"/static/logos/{unique_name}"
+        os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+        archivo_logo.save(ruta_abs)
+        conn=get_conn()
+        cur=conn.cursor()
+        cur.execute("INSERT INTO tiendas (usuario_id,nombre,slug,color,logo_path) VALUES (%s,%s,%s,%s,%s)", (usuario_id,nombre_tienda,slug_tienda,color_principal,ruta_rel))
+        conn.commit()
+        cur.close()
+        return True, f"Tienda /t/{slug_tienda} creada"
+    except pg_errors.UniqueViolation as e:
+        if conn: conn.rollback()
+        if ruta_abs and os.path.exists(ruta_abs): os.remove(ruta_abs)
+        cname=getattr(e.diag,'constraint_name','') or ''
+        if cname=='tiendas_slug_key': return False, f"El link /t/{slug_tienda} ya está ocupado"
+        if cname=='tiendas_usuario_id_key': return False, "Ya tienes una tienda"
+        return False, "Ese link o esa tienda ya existe"
+    except Exception:
+        if conn: conn.rollback()
+        if ruta_abs and os.path.exists(ruta_abs): os.remove(ruta_abs)
+        logger.exception("Error crear tienda")
+        return False, "No se pudo crear"
+    finally:
+        if conn: conn.close()
+
+def obtener_mi_tienda(usuario_id):
+    conn=None
+    try:
+        conn=get_conn()
+        cur=conn.cursor()
+        cur.execute("SELECT nombre,slug,color,logo_path FROM tiendas WHERE usuario_id=%s", (usuario_id,))
+        fila=cur.fetchone()
+        cur.close()
+        if fila: return {"existe": True, "nombre": fila[0], "slug": fila[1], "color": fila[2], "logo": fila[3]}
+        return {"existe": False}
+    except Exception:
+        logger.exception("Error obtener_mi_tienda")
+        return {"existe": None, "error": "No se pudo verificar"}
+    finally:
+        if conn: conn.close()
+
+def detectar_categoria_automatica(usuario_id, nombre_producto):
+    palabras_nuevo=set(_palabras_significativas(nombre_producto))
+    if not palabras_nuevo: return None
+    conn=None
+    try:
+        conn=get_conn()
+        cur=conn.cursor()
+        cur.execute("SELECT c.nombre, p.nombre FROM productos p JOIN categorias c ON p.categoria_id=c.id WHERE p.usuario_id=%s AND LOWER(c.nombre)!='general' ORDER BY c.nombre, p.nombre", (usuario_id,))
+        mejor={}
+        for cat_ex, nombre_ex in cur.fetchall():
+            palabras_ex=set(_palabras_significativas(nombre_ex))
+            n=len(palabras_nuevo & palabras_ex)
+            if n: mejor[cat_ex]=max(mejor.get(cat_ex,0), n)
+        cur.close()
+        if not mejor: return None
+        max_n=max(mejor.values())
+        ganadoras=[cat for cat,pts in mejor.items() if pts==max_n]
+        if len(ganadoras)>1: return None
+        return ganadoras[0]
+    except Exception:
+        logger.exception("Error detectar categoria")
+        return None
+    finally:
+        if conn: conn.close()
+
+def registrar_producto_con_categoria_auto(usuario_id, nombre, precio, costo, cantidad, categoria_texto=None):
+    conn=None
+    try:
+        nombre=_safe_strip(nombre)
+        categoria_texto=_safe_strip(categoria_texto)
+        if not nombre or len(nombre)>100: return False, "Nombre inválido"
+        precio_d=_to_decimal_safe(precio)
+        costo_d=_to_decimal_safe(costo)
+        if precio_d is None or costo_d is None: return False, "Precio o costo no es número válido"
+        if precio_d>MAX_PRECIO or costo_d>MAX_PRECIO: return False, f"Precio máximo {MAX_PRECIO}"
+        precio_d=precio_d.quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+        costo_d=costo_d.quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+        if precio_d<=0: return False, "Precio debe ser mayor a 0"
+        if costo_d<0 or costo_d>precio_d: return False, "Costo inválido"
+        try: cantidad_i=int(str(cantidad).strip())
+        except: return False, "Cantidad inválida"
+        if cantidad_i<=0 or cantidad_i>MAX_CANTIDAD: return False, f"Cantidad 1-{MAX_CANTIDAD}"
+        if not categoria_texto:
+            categoria_texto=detectar_categoria_automatica(usuario_id, nombre) or "General"
+        if len(categoria_texto)>50: return False, "Categoría muy larga (máx 50)"
+        if not categoria_texto: categoria_texto="General"
+        conn=get_conn()
+        cur=conn.cursor()
+        cur.execute("INSERT INTO categorias (usuario_id,nombre) VALUES (%s,%s) ON CONFLICT (usuario_id, LOWER(nombre)) DO UPDATE SET nombre=categorias.nombre RETURNING id, nombre", (usuario_id,categoria_texto))
+        categoria_id,categoria_real=cur.fetchone()
+        ganancia=(precio_d-costo_d).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+        cur.execute("INSERT INTO productos (usuario_id,nombre,precio,costo,cantidad,ganancia,categoria_id) VALUES (%s,%s,%s,%s,%s,%s,%s)", (usuario_id,nombre,precio_d,costo_d,cantidad_i,ganancia,categoria_id))
+        conn.commit()
+        cur.close()
+        return True, f"Producto en {categoria_real} registrado"
+    except Exception:
+        if conn: conn.rollback()
+        logger.exception("Error registrar")
+        return False, "No se pudo registrar"
+    finally:
+        if conn: conn.close()
+
+def obtener_productos_agrupados_automatico(usuario_id):
+    conn=None
+    try:
+        conn=get_conn()
+        cur=conn.cursor()
+        cur.execute("SELECT p.nombre,p.precio,p.cantidad,COALESCE(c.nombre,'General') FROM productos p LEFT JOIN categorias c ON p.categoria_id=c.id WHERE p.usuario_id=%s ORDER BY 4,1", (usuario_id,))
+        filas=cur.fetchall()
+        cur.close()
+        agrupados={}
+        for n,p,c,cat in filas: agrupados.setdefault(cat, []).append({"nombre":n,"precio":p,"cantidad":c})
+        return agrupados
+    except Exception:
+        logger.exception("Error agrupados")
+        return None
+    finally:
+        if conn: conn.close()
+
+def obtener_tienda_publica_por_slug(slug):
+    slug=_safe_strip(slug).lower()
+    conn=None
+    try:
+        conn=get_conn()
+        cur=conn.cursor()
+        cur.execute("SELECT usuario_id,nombre,color,logo_path FROM tiendas WHERE slug=%s", (slug,))
+        fila=cur.fetchone()
+        if not fila:
+            cur.close()
+            return {"found": False}
+        uid,nombre,color,logo=fila
+        cur.execute("SELECT p.nombre,p.precio,COALESCE(c.nombre,'General') FROM productos p LEFT JOIN categorias c ON p.categoria_id=c.id WHERE p.usuario_id=%s ORDER BY 3,1", (uid,))
+        prods=cur.fetchall()
+        cur.close()
+        agrupados={}
+        for n,p,cat in prods: agrupados.setdefault(cat, []).append({"nombre":n,"precio":p})
+        return {"found": True, "nombre":nombre,"color":color,"logo":logo,"productos":agrupados}
+    except Exception:
+        logger.exception("Error tienda publica")
+        return {"found": None, "error": True}
+    finally:
+        if conn: conn.close()
