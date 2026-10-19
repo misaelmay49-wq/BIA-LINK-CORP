@@ -1,4 +1,5 @@
 import os
+import logging
 import psycopg2
 from psycopg2.extras import RealDictCursor 
 from decimal import Decimal, InvalidOperation 
