@@ -30,6 +30,15 @@ def get_locale():
 babel.init_app(app, locale_selector=get_locale)
 print(">>> 3. BABEL INICIALIZADO")
 
+ADMIN_ID = os.getenv("ADMIN_ID")
+
+@app.context_processor
+def inject_tester():
+    uid = session.get('user_id')
+    return dict(es_tester=bool(uid and ADMIN_ID and str(uid) == str(ADMIN_ID)))
+
+init_db()
+
 @app.route('/')
 def inicio():
     if 'user_id' in session:
