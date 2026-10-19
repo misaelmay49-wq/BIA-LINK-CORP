@@ -8,7 +8,8 @@ import uuid
 from decimal import Decimal, InvalidOperation
 import psycopg2
 from psycopg2.extras import RealDictCursor
-from logica import registrar_producto, procesar_venta_logica, get_conn, analizar_ventas, rellenar_stock, obtener_productos_para_rellenar
+import os
+from logica import registrar_producto, procesar_venta_logica, get_conn, analizar_ventas, rellenar_stock, obtener_productos_para_rellenar, init_db, crear_tienda_logica_completa, obtener_mi_tienda, registrar_producto_con_categoria_auto, obtener_productos_agrupados_automatico, obtener_tienda_publica_por_slug
 
 print(">>> 2. IMPORTS LISTOS")
 app = Flask(__name__)
