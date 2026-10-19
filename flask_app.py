@@ -1,4 +1,5 @@
 print(">>> 1. EL ARCHIVO SI SE EJECUTA")
+import os
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify 
 from flask_babel import Babel, gettext, _
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -8,7 +9,6 @@ import uuid
 from decimal import Decimal, InvalidOperation
 import psycopg2
 from psycopg2.extras import RealDictCursor
-import os
 from logica import registrar_producto, procesar_venta_logica, get_conn, analizar_ventas, rellenar_stock, obtener_productos_para_rellenar, init_db, crear_tienda_logica_completa, obtener_mi_tienda, registrar_producto_con_categoria_auto, obtener_productos_agrupados_automatico, obtener_tienda_publica_por_slug
 
 print(">>> 2. IMPORTS LISTOS")
