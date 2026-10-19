@@ -487,3 +487,59 @@ def salir():
 if __name__ == '__main__':
     print(">>> 4. ENTRE AL MAIN")
     app.run(debug=True, host='0.0.0.0', port=5000, use_reloader=False)
+
+ADMIN_ID = os.getenv("ADMIN_ID")
+
+@app.context_processor
+def inject_tester():
+    uid = session.get('user_id')
+    return dict(es_tester=bool(uid and ADMIN_ID and str(uid) == str(ADMIN_ID)))
+
+@app.route('/crear-tienda', methods=['GET','POST'])
+def crear_tienda():
+    usuario_id = session.get('user_id')
+    if not usuario_id:
+        return redirect(url_for('login'))
+
+    tienda = obtener_mi_tienda(usuario_id)
+    if tienda.get('existe'):
+        return redirect(f"/t/{tienda['slug']}")
+
+    if request.method == 'POST':
+        nombre = request.form.get('nombre_tienda','')
+        slug = request.form.get('slug_tienda','').strip().lower()
+        color = request.form.get('color_principal','#2563eb')
+        logo = request.files.get('logo')
+
+        ok, msg = crear_tienda_logica_completa(usuario_id, nombre, slug, color, logo)
+        flash(msg, 'success' if ok else 'error')
+        if ok:
+            return redirect(f"/t/{slug}")
+
+    return render_template('crear_tienda.html', tienda=tienda)
+
+@app.route('/t/<slug>')
+def tienda_publica(slug):
+    data = obtener_tienda_publica_por_slug(slug)
+    found = data.get('found')
+    if found is None:
+        return "Error temporal, intenta de nuevo", 500
+    if not found:
+        return render_template('404.html'), 404
+    return render_template('tienda_publica.html', tienda=data)
+
+@app.route('/agregar-producto', methods=['POST'])
+def agregar_producto():
+    usuario_id = session.get('user_id')
+    if not usuario_id:
+        return redirect(url_for('login'))
+    ok, msg = registrar_producto_con_categoria_auto(
+        usuario_id,
+        request.form.get('nombre',''),
+        request.form.get('precio',''),
+        request.form.get('costo',''),
+        request.form.get('cantidad',''),
+        request.form.get('categoria','')
+    )
+    flash(msg, 'success' if ok else 'error')
+    return redirect(url_for('dashboard'))
