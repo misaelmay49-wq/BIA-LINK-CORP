@@ -521,6 +521,9 @@ def crear_tienda():
         slug = request.form.get('slug_tienda','').strip().lower()
         color = request.form.get('color_principal','#2563eb')
         logo = request.files.get('logo')
+        descripcion = request.form.get('descripcion','')
+        whatsapp = request.form.get('whatsapp','')
+        banner = request.files.get('banner')
 
         ok, msg = crear_tienda_logica_completa(usuario_id, nombre, slug, color, logo, descripcion, whatsapp, banner)
         flash(msg, 'success' if ok else 'error')
