@@ -522,7 +522,7 @@ def crear_tienda():
         color = request.form.get('color_principal','#2563eb')
         logo = request.files.get('logo')
 
-        ok, msg = crear_tienda_logica_completa(usuario_id, nombre, slug, color, logo)
+        ok, msg = crear_tienda_logica_completa(usuario_id, nombre, slug, color, logo, descripcion, whatsapp, banner)
         flash(msg, 'success' if ok else 'error')
         if ok:
             return redirect(f"/t/{slug}")
