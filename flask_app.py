@@ -16,7 +16,7 @@ print(">>> 2. IMPORTS LISTOS")
 app = Flask(__name__)
 app.secret_key = 'bialink_clave_secreta_123'
 app.permanent_session_lifetime = timedelta(days=30)
-app.confing['MAX_CONTENTL_LENGTH'] = 8 * 1024 * 1024 
+app.config['MAX_CONTENT_LENGTH'] = 8 * 1024 * 1024
 
 app.config['BABEL_DEFAULT_LOCALE'] = 'es'
 app.config['BABEL_SUPPORTED_LOCALES'] = ['es', 'en']
