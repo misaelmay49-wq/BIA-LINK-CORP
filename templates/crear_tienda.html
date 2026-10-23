@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crear tienda - BIA LINK</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+*{box-sizing:border-box}html,body{overflow-x:hidden}
+body{background:#03132d;font-family:Inter,system-ui}
+.card{background:#06152f;border:1px solid #132c5a}
+.input-field{background:#061a38;border:1.5px solid #164a96;color:#d5e6ff;border-radius:12px;outline:none;width:100%;height:50px;font-size:15px;transition:.2s}
+.input-field:focus-visible{border-color:#0795ff;box-shadow:0 0 0 3px rgba(7,149,255,.25)}
+.drop-zone{border:1.5px dashed #164a96;background:#061a38;border-radius:12px;height:124px;overflow:hidden;position:relative;transition:.2s}
+.drop-zone.drag-over{border-color:#0795ff;background:#08204a}
+.drop-zone:focus-visible{border-color:#0795ff;box-shadow:0 0 0 3px rgba(7,149,255,.25)}
+.btn-primary{background:#0875ff;height:58px;border-radius:12px;transition:.15s}
+.btn-primary:disabled{opacity:.6;pointer-events:none}
+.help-text{font-size:12px;color:#6b8dc2}
+.error-text{font-size:12px;color:#ff6b6b;display:none}
+.error-text.show{display:block}
+</style>
+</head>
+<body class="text-white min-h-screen">
+
+<header class="h-[64px] flex items-center justify-between px-5 bg-[#051a36] border-b border-[#12305f]">
+  <div class="flex items-center gap-3">
+    <a href="/" aria-label="Volver" class="text-[#0795ff] text-[18px]">←</a>
+    <b class="tracking-[0.18em] text-[16px]">BIA LINK</b>
+  </div>
+  <div class="w-9 h-9 rounded-full bg-[#123a7a] border border-[#1e5aff] grid place-items-center">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="#4a7de0"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
+  </div>
+</header>
+
+<div class="w-full max-w-[980px] mx-auto px-4 sm:px-6 py-6">
+<form id="tiendaForm" method="POST" action="/crear-tienda" enctype="multipart/form-data" class="card rounded-[16px] p-5 sm:p-8 space-y-7">
+
+  <div class="flex gap-4 items-center">
+    <svg class="w-[44px] h-[44px] text-[#0795ff]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M3 9l1-5h16l1 5M5 9v10a1 1 0 001 1h12a1 1 0 001-1V9M9 14h6"/></svg>
+    <div>
+      <h1 class="text-[26px] font-bold leading-none">Crear tienda</h1>
+      <p class="help-text mt-2">Se usará en bialink.com/tu-tienda</p>
+    </div>
+  </div>
+
+  <div>
+    <label for="nombreTienda" class="text-[13px] mb-2 block text-[#c2d6f5]">Nombre de la tienda</label>
+    <input id="nombreTienda" name="nombre_tienda" required maxlength="60" placeholder="Ej. Mi Negocio" class="input-field px-4">
+  </div>
+
+  <div>
+    <label for="slugTienda" class="text-[13px] mb-2 block text-[#c2d6f5]">Identificador de la tienda</label>
+    <input id="slugTienda" name="slug_tienda" required maxlength="60" placeholder="Ej. mi-negocio" class="input-field px-4">
+    <div class="flex items-center gap-3 mt-2">
+      <p class="help-text">Se usará en: bialink.com/mi-negocio</p>
+      <button type="button" id="resetSlug" class="hidden text-[12px] text-[#0795ff] underline">Volver a automático</button>
+    </div>
+    <span id="slugErr" class="error-text mt-2"></span>
+  </div>
+
+  <div>
+    <label for="descripcion" class="text-[13px] mb-2 block">Descripción</label>
+    <textarea id="descripcion" name="descripcion" maxlength="300" placeholder="Cuéntanos de qué trata tu tienda..." class="input-field !h-auto p-4 min-h-[110px]"></textarea>
+    <p class="help-text mt-1">Máx. 300 caracteres</p>
+  </div>
+
+  <div>
+    <p class="text-[13px] mb-2">Logo de la tienda</p>
+    <label for="fileLogo" id="labelLogo" tabindex="0" aria-label="Seleccionar logo de la tienda" class="drop-zone flex items-center justify-center cursor-pointer">
+      <input type="file" name="logo" id="fileLogo" hidden accept=".png,.jpg,.jpeg,.webp">
+      <div id="logoPH" class="flex flex-col items-center pointer-events-none text-center px-2">
+        <svg class="w-8 h-8 text-[#0795ff]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+        <span class="text-[13px] text-[#6b9fff] mt-1">Selecciona un archivo o arrástralo aquí</span>
+        <span class="help-text mt-1">PNG, JPG o WEBP. Máx. 2 MB.</span>
+      </div>
+      <div id="logoPrev" class="hidden w-full h-full grid place-items-center p-1"><img id="logoImg" class="max-h-full max-w-full object-contain"><button type="button" data-clear="logo" aria-label="Quitar logo" class="absolute top-2 right-2 bg-black/60 rounded-full w-6 h-6 grid place-items-center">✕</button></div>
+    </label>
+    <span id="logoErr" class="error-text mt-2 block"></span>
+  </div>
+
+  <div>
+    <p class="text-[13px] mb-2">Banner de la tienda</p>
+    <label for="fileBanner" id="labelBanner" tabindex="0" aria-label="Seleccionar banner de la tienda" class="drop-zone flex items-center justify-center cursor-pointer">
+      <input type="file" name="banner" id="fileBanner" hidden accept=".png,.jpg,.jpeg,.webp">
+      <div id="bannerPH" class="flex flex-col items-center pointer-events-none text-center px-2">
+        <svg class="w-8 h-8 text-[#0795ff]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+        <span class="text-[13px] text-[#6b9fff] mt-1">Selecciona un archivo o arrástralo aquí</span>
+        <span class="help-text mt-1">PNG, JPG o WEBP. Máx. 5 MB.</span>
+      </div>
+      <div id="bannerPrev" class="hidden w-full h-full"><img id="bannerImg" class="w-full h-full object-cover"><button type="button" data-clear="banner" aria-label="Quitar banner" class="absolute top-2 right-2 bg-black/60 rounded-full w-6 h-6 grid place-items-center">✕</button></div>
+    </label>
+    <span id="bannerErr" class="error-text mt-2 block"></span>
+  </div>
+
+  <div>
+    <label for="whatsapp" class="text-[13px] mb-2 block">WhatsApp / contacto</label>
+    <input id="whatsapp" name="whatsapp" required inputmode="numeric" placeholder="Ej. 521234567890" class="input-field px-4">
+    <span id="waErr" class="error-text mt-2"></span>
+  </div>
+
+  <input type="hidden" name="color_principal" value="#2563eb">
+  <button id="btnSubmit" type="submit" class="btn-primary w-full font-semibold flex items-center justify-center gap-2 text-white">
+    <svg class="w-5 h-5" fill="none" stroke="white" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 9l1-5h16l1 5M5 9v10a1 1 0 001 1h12a1 1 0 001-1V9"/></svg>
+    <span id="btnText">Crear tienda</span>
+  </button>
+</form>
+</div>
+
+<script>
+const ALLOWED=['image/png','image/jpeg','image/webp'];
+let urls={logo:null,banner:null};
+const nombreEl=document.getElementById('nombreTienda');
+const slugEl=document.getElementById('slugTienda');
+const resetBtn=document.getElementById('resetSlug');
+const formEl=document.getElementById('tiendaForm');
+const waEl=document.getElementById('whatsapp');
+const btn=document.getElementById('btnSubmit');
+const btnText=document.getElementById('btnText');
+let auto=true;
+function slugify(v){return v.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
+
+nombreEl.addEventListener('input',()=>{
+  if(auto){
+    slugEl.value=slugify(nombreEl.value);
+    const e=document.getElementById('slugErr'); e.textContent=''; e.classList.remove('show');
+  }
+});
+
+slugEl.addEventListener('input',()=>{
+  auto=false; 
+  resetBtn.classList.remove('hidden'); 
+  const slugErr=document.getElementById('slugErr'); 
+  const norm=slugify(slugEl.value); 
+  if(norm){ 
+    slugErr.textContent=''; 
+    slugErr.classList.remove('show'); 
+  } 
+});
+
+resetBtn.addEventListener('click',()=>{
+  auto=true;
+  slugEl.value=slugify(nombreEl.value);
+  resetBtn.classList.add('hidden');
+  const e=document.getElementById('slugErr'); e.textContent=''; e.classList.remove('show');
+  slugEl.focus();
+});
+
+waEl.addEventListener('input',()=>{
+  const start=waEl.selectionStart;
+  const cleaned=waEl.value.replace(/\D/g,'');
+  if(waEl.value!==cleaned){
+    waEl.value=cleaned;
+    try{ waEl.setSelectionRange(start-1,start-1); }catch{}
+  }
+  const e=document.getElementById('waErr'); e.textContent=''; e.classList.remove('show');
+});
+
+function setup(type,max){
+  const input=document.getElementById(type==='logo'?'fileLogo':'fileBanner');
+  const ph=document.getElementById(type+'PH');
+  const prev=document.getElementById(type+'Prev');
+  const img=document.getElementById(type+'Img');
+  const err=document.getElementById(type+'Err');
+  const label=document.getElementById(type==='logo'?'labelLogo':'labelBanner');
+  let dragCounter=0;
+  let prevFile=null;
+
+  function restorePrev(){
+    if(prevFile && window.DataTransfer){
+      try{
+        const dt=new DataTransfer(); dt.items.add(prevFile);
+        input.files=dt.files;
+        ph.classList.add('hidden'); prev.classList.remove('hidden');
+        return true;
+      }catch(e){}
+    }
+    if(urls[type]){ URL.revokeObjectURL(urls[type]); urls[type]=null; }
+    prevFile=null; input.value='';
+    ph.classList.remove('hidden'); prev.classList.add('hidden');
+    return false;
+  }
+
+  label.addEventListener('dragenter',e=>{ e.preventDefault(); dragCounter++; label.classList.add('drag-over'); });
+  label.addEventListener('dragover',e=>e.preventDefault());
+  label.addEventListener('dragleave',e=>{ if(!e.relatedTarget || !label.contains(e.relatedTarget)){ dragCounter--; if(dragCounter<=0){dragCounter=0; label.classList.remove('drag-over');}}});
+  label.addEventListener('drop',e=>{ e.preventDefault(); dragCounter=0; label.classList.remove('drag-over'); if(e.dataTransfer.files[0]) handle(e.dataTransfer.files[0], 'drop'); });
+  label.addEventListener('keydown',e=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); input.click(); }});
+  
+  input.addEventListener('change',()=>{
+    if(input.files && input.files[0]){
+      handle(input.files[0], 'input');
+    } else {
+      if(prevFile){
+        restorePrev();
+      } else {
+        if(urls[type]){ URL.revokeObjectURL(urls[type]); urls[type]=null; }
+        ph.classList.remove('hidden'); prev.classList.add('hidden');
+        err.textContent=''; err.classList.remove('show');
+      }
+    }
+  });
+
+  function handle(file, source){
+    if(!file.type || !ALLOWED.includes(file.type)){
+      const restored=restorePrev();
+      err.textContent=restored ? 'Formato no válido. Se mantiene la imagen anterior.' : 'Formato no válido. Solo PNG, JPG o WEBP.';
+      err.classList.add('show');
+      return;
+    }
+    if(file.size>max*1024*1024){
+      const restored=restorePrev();
+      err.textContent=restored ? `Demasiado grande. Máx ${max} MB. Se mantiene la anterior.` : `Demasiado grande. Máx ${max} MB.`;
+      err.classList.add('show');
+      return;
+    }
+
+    if(source==='drop'){
+      let assigned=false;
+      if(window.DataTransfer){
+        try{
+          const dt=new DataTransfer(); dt.items.add(file);
+          input.files=dt.files;
+          if(input.files.length>0) assigned=true;
+        }catch{}
+      }
+      if(!assigned){
+        const restored=restorePrev();
+        err.textContent=restored ? 'No se pudo asignar el archivo arrastrado. Se mantiene la anterior. Usa el selector.' : 'No se pudo asignar el archivo arrastrado. Usa el selector de archivos.';
+        err.classList.add('show');
+        return;
+      }
+    }
+
+    err.textContent=''; err.classList.remove('show');
+    prevFile=file;
+    if(urls[type]) URL.revokeObjectURL(urls[type]);
+    const u=URL.createObjectURL(file); urls[type]=u; img.src=u;
+    ph.classList.add('hidden'); prev.classList.remove('hidden');
+  }
+
+  window['clear_'+type]=function(){
+    prevFile=null;
+    if(urls[type]){ URL.revokeObjectURL(urls[type]); urls[type]=null; }
+    input.value='';
+    ph.classList.remove('hidden'); prev.classList.add('hidden');
+    err.textContent=''; err.classList.remove('show');
+    label.focus();
+  };
+}
+setup('logo',2); setup('banner',5);
+function clearFile(t){ if(t==='logo') window.clear_logo(); if(t==='banner') window.clear_banner(); }
+document.querySelectorAll('[data-clear]').forEach(b=>{ b.addEventListener('click',e=>{ e.preventDefault(); e.stopPropagation(); clearFile(b.dataset.clear); }); });
+
+formEl.addEventListener('submit', e=>{
+  let normalized=slugify(slugEl.value).slice(0,60).replace(/-+$/,'');
+  slugEl.value=normalized;
+  let ok=true;
+  const slugErr=document.getElementById('slugErr');
+  const waErr=document.getElementById('waErr');
+  if(!normalized){
+    e.preventDefault(); slugErr.textContent='El identificador no puede quedar vacío'; slugErr.classList.add('show'); ok=false;
+  }
+  if(!/^[0-9]{8,15}$/.test(waEl.value.trim())){
+    e.preventDefault(); waErr.textContent='Solo números, 8 a 15 dígitos'; waErr.classList.add('show'); ok=false;
+  }
+  if(!ok){ btn.disabled=false; btnText.textContent='Crear tienda'; return; }
+  btn.disabled=true; btnText.textContent='Creando...';
+});
+window.addEventListener('pageshow',()=>{ btn.disabled=false; btnText.textContent='Crear tienda'; });
+</script>
+</body>
+ </html>
