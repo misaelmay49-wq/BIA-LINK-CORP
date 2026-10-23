@@ -253,7 +253,7 @@ function clearFile(t){ if(t==='logo') window.clear_logo(); if(t==='banner') wind
 document.querySelectorAll('[data-clear]').forEach(b=>{ b.addEventListener('click',e=>{ e.preventDefault(); e.stopPropagation(); clearFile(b.dataset.clear); }); });
 
 formEl.addEventListener('submit', e=>{
-  let normalized=slugify(slugEl.value).slice(0,60).replace(/-+$/,'');
+  let normalized=slugify(slugEl.value).slice(0,30).replace(/-+$/,'');
   slugEl.value=normalized;
   let ok=true;
   const slugErr=document.getElementById('slugErr');
