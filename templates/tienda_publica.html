@@ -1,1 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>{{ tienda.nombre }} - BIA LINK</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+* { -webkit-tap-highlight-color: transparent; }
+.touch-target { min-height:44px; min-width:44px; touch-action: manipulation; }
+.no-scrollbar::-webkit-scrollbar { display:none; }
+.no-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
+.product-card:active { transform: scale(0.97); }
+@media (hover: hover) { .product-card:hover { border-color:#1a5cff; } }
+</style>
+</head>
+<body class="bg-[#030f26] select-none">
 
+<header class="bg-[#061a38] h-[56px] flex items-center justify-between px-3 sticky top-0 z-50">
+  <div class="flex items-center gap-2">
+    {% if es_dueno %}
+    <button class="touch-target w-11 h-11 flex items-center justify-center text-white text-[24px] rounded-xl active:bg-white/10">☰</button>
+    {% endif %}
+    <span class="text-white font-bold text-[15px] truncate max-w-[130px]">{{ tienda.nombre }}</span>
+  </div>
+  <div class="flex items-center gap-2">
+    <div class="bg-[#0a2a5a] rounded-full px-3 py-2 flex items-center">
+      <input class="bg-transparent outline-none text-[12px] text-white w-[110px] sm:w-[220px]" placeholder="Buscar en {{ tienda.nombre }}...">
+    </div>
+    {% if es_dueno %}
+    <a href="/agregar-producto" class="touch-target bg-[#1a5cff] w-11 h-11 rounded-full flex items-center justify-center text-white text-[22px]">+</a>
+    {% endif %}
+  </div>
+</header>
+
+<!-- BANNER + LOGO CON IMAGEN POR DEFECTO -->
+<div class="relative w-full h-[170px] sm:h-[260px]">
+  <img src="{{ tienda.banner_path or '/static/img/banner_default.jpg' }}" onerror="this.src='/static/img/banner_default.jpg'" class="w-full h-full object-cover" alt="Banner">
+  <div class="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent"></div>
+  <div class="absolute bottom-3 left-3 flex items-center gap-3 right-20">
+    <div class="w-[68px] h-[68px] rounded-full bg-[#0a2a5a] border-2 border-[#1a5cff] overflow-hidden">
+      <img src="{{ tienda.logo_path or '/static/img/logo_default.png' }}" onerror="this.src='/static/img/logo_default.png'" class="w-full h-full object-cover">
+    </div>
+    <div class="min-w-0">
+      <h1 class="text-white font-bold text-[17px] sm:text-[22px] truncate">{{ tienda.nombre }} ✓</h1>
+      <p class="text-white/80 text-[11px] sm:text-[13px] line-clamp-2">{{ tienda.descripcion or 'Bienvenido a mi tienda oficial' }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- CATEGORIAS - SOLO NOMBRES -->
+<div class="px-3 mt-10">
+  <h2 class="text-white font-semibold">Categorías</h2>
+  <div id="catScroll" class="flex gap-2 mt-3 overflow-x-auto no-scrollbar pb-2">
+    {% for cat in categorias %}
+    <div class="shrink-0 bg-[#061a38] border border-[#0a2a5a] rounded-xl w-[84px] h-[84px] flex items-center justify-center touch-target">
+      <!-- Si categorias es lista de strings, esto funciona. Si viene como dict, usamos cat.nombre -->
+      <p class="text-white text-[11px] text-center px-1">{{ cat if cat is string else cat.nombre }}</p>
+    </div>
+    {% else %}
+    <p class="text-white/40 text-[11px]">Aún no hay categorías</p>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- CAJITA CON IDENTIDAD DE TIENDA -->
+<div class="mx-3 mt-5 bg-gradient-to-r from-[#061a38] to-[#0a2a5a] border border-[#1a3a7a] rounded-xl p-4 flex justify-between items-center">
+  <div>
+    <p class="text-white font-bold text-[16px]">Los mejores productos de<br><span class="text-[#5aa0ff]">{{ tienda.nombre }}</span></p>
+    <p class="text-[#5a7ebf] text-[10px] mt-1">{{ tienda.descripcion }}</p>
+  </div>
+  <div class="w-[90px] h-[56px] rounded-xl overflow-hidden bg-white flex items-center justify-center">
+    <img src="{{ tienda.logo_path or '/static/img/logo_default.png' }}" onerror="this.src='/static/img/logo_default.png'" class="w-full h-full object-contain p-1">
+  </div>
+</div>
+
+<!-- PRODUCTOS -->
+<div class="px-3 mt-6">
+  <h2 class="text-white font-semibold">🔥 Productos destacados</h2>
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mt-3">
+    {% for p in productos %}
+    <div class="product-card bg-[#061a38] border border-[#0a2a5a] rounded-xl p-2">
+      <img src="{{ p.imagen_path or '/static/img/producto_default.png' }}" onerror="this.src='/static/img/producto_default.png'" class="w-full h-[120px] object-contain">
+      <p class="text-white text-[12px] mt-2 h-[32px] line-clamp-2">{{ p.nombre }}</p>
+      <p class="text-[#5aa0ff] font-bold text-[13px]">${{ p.precio }} MXN</p>
+      <button class="touch-target w-full mt-2 bg-[#1a5cff] opacity-60 text-white text-[12px] py-3 rounded-xl">Agregar al carrito</button>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- LO MAS NUEVO - POR AHORA SON LOS PRIMEROS 4, LUEGO LO ORDENAMOS POR FECHA -->
+<div class="px-3 mt-8 pb-24">
+  <h2 class="text-white font-semibold">Lo más nuevo</h2>
+  <p class="text-white/30 text-[10px]">* Ordenado por fecha de registro</p>
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mt-3">
+    {% for p in productos[:4] %}
+    <div class="product-card bg-[#061a38] border border-[#0a2a5a] rounded-xl p-2">
+      <img src="{{ p.imagen_path or '/static/img/producto_default.png' }}" onerror="this.src='/static/img/producto_default.png'" class="w-full h-[120px] object-contain">
+      <p class="text-white text-[12px] mt-2">{{ p.nombre }}</p>
+      <p class="text-[#5aa0ff] font-bold text-[13px]">${{ p.precio }} MXN</p>
+      <button class="touch-target w-full mt-2 bg-[#1a5cff] opacity-60 text-white text-[12px] py-3 rounded-xl">Agregar al carrito</button>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+</body>
+</html>
