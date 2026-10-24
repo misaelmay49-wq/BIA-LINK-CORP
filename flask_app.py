@@ -1,5 +1,6 @@
 print(">>> 1. EL ARCHIVO SI SE EJECUTA")
 import os
+import re
 import logging
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify 
 from flask_babel import Babel, gettext, _
