@@ -266,6 +266,33 @@ setup('logo',2); setup('banner',5);
 function clearFile(t){ if(t==='logo') window.clear_logo(); if(t==='banner') window.clear_banner(); }
 document.querySelectorAll('[data-clear]').forEach(b=>{ b.addEventListener('click',e=>{ e.preventDefault(); e.stopPropagation(); clearFile(b.dataset.clear); }); });
 
+const slugInput = document.getElementById('slugTienda');
+const slugPreview = document.getElementById('slugPreview');
+const slugErr = document.getElementById('slugErr');
+const slugOk = document.getElementById('slugOk');
+let t;
+
+slugInput.addEventListener('input', () => {
+  let v = slugInput.value.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
+  slugInput.value = v;
+  slugPreview.textContent = v || '[su-tienda]';
+  if(!v){ slugErr.textContent=''; slugOk.classList.add('hidden'); return; }
+
+  clearTimeout(t);
+  t = setTimeout(async () => {
+    const r = await fetch(`/api/check-tienda?slug=${v}`);
+    const d = await r.json();
+    if(d.existe){
+      slugErr.textContent = '❌ Ese link ya existe, elige otro';
+      slugOk.classList.add('hidden');
+    } else {
+      slugErr.textContent = '';
+      slugOk.textContent = '✅ Link disponible';
+      slugOk.classList.remove('hidden');
+    }
+  }, 400);
+});
+
 formEl.addEventListener('submit', e=>{
   let normalized=slugify(slugEl.value).slice(0,30).replace(/-+$/,'');
   slugEl.value=normalized;
