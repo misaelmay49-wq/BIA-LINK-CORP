@@ -520,6 +520,10 @@ def crear_tienda():
     if request.method == 'POST':
         nombre = request.form.get('nombre_tienda','')
         slug = request.form.get('slug_tienda','').strip().lower()
+        slug = re.sub(r'[^a-z0-9-]', '', slug.replace(' ', '-'))
+        if slug and obtener_tienda_por_slug(slug):
+            flash('Ese link ya está ocupado, elige otro', 'error')
+            return render_template('crear_tienda.html', tienda=tienda)               
         color = request.form.get('color_principal','#2563eb')
         logo = request.files.get('logo')
         descripcion = request.form.get('descripcion','')
