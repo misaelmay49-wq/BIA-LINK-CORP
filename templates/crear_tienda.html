@@ -66,6 +66,20 @@ body{background:#03132d;font-family:Inter,system-ui}
   </div>
 
   <div>
+   <label for="slugTienda" class="text-[13px] mb-2 block text-[#c2d6f5]">Link de mi tienda</label>
+  
+   <div id="slugBox" class="flex items-center w-full bg-[#061a38] border border-[#3b6cb5] rounded-xl px-4 py-3 focus-within:border-[#5a8fe0]">
+     <span class="text-[#8aa4d0] text-[13px] select-none">bialink.com/</span>
+     <input id="slugTienda" name="slug_tienda" required maxlength="30" placeholder="mi-tienda"
+           class="bg-transparent outline-none border-none text-white text-[13px] flex-1 ml-[1px] placeholder:text-[#4a6aa5]">
+   </div>
+
+   <p class="help-text mt-2">Se usará en: bialink.com/<span id="slugPreview">[su-tienda]</span></p>
+   <span id="slugErr" class="error-text mt-2"></span>
+   <span id="slugOk" class="text-[12px] text-green-400 hidden mt-1"></span>
+  </div>
+
+  <div>
     <p class="text-[13px] mb-2">Logo de la tienda</p>
     <label for="fileLogo" id="labelLogo" tabindex="0" aria-label="Seleccionar logo de la tienda" class="drop-zone flex items-center justify-center cursor-pointer">
       <input type="file" name="logo" id="fileLogo" hidden accept=".png,.jpg,.jpeg,.webp">
