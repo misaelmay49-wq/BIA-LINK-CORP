@@ -433,50 +433,63 @@ def _validar_logo_contenido(archivo, ext):
         return False
     except: return False
 
-def crear_tienda_logica_completa(usuario_id, nombre_tienda, slug_tienda, color_principal, archivo_logo):
-    nombre_tienda=_safe_strip(nombre_tienda)
-    slug_tienda=_safe_strip(slug_tienda).lower()
-    color_principal=_safe_strip(color_principal)
-    if len(nombre_tienda)<3 or len(nombre_tienda)>50: return False, "Nombre inválido"
-    if len(slug_tienda)<3 or len(slug_tienda)>30: return False, "Link inválido (3-30)"
-    if not re.match(r'^[a-z0-9]+(?:-[a-z0-9]+)*$', slug_tienda): return False, "Link inválido, usa mi-tienda"
-    if slug_tienda in RESERVED_SLUGS: return False, f"El link /t/{slug_tienda} está reservado"
-    if not re.match(r'^#[0-9A-Fa-f]{6}$', color_principal): return False, "Color inválido"
-    if not archivo_logo or _safe_strip(archivo_logo.filename)=="": return False, "Falta logo"
-    if '.' not in archivo_logo.filename: return False, "Logo sin extensión"
-    ext=archivo_logo.filename.rsplit('.',1)[-1].lower()
-    if ext not in ALLOWED_EXT: return False, "Logo solo PNG,JPG,WEBP"
-    archivo_logo.seek(0, os.SEEK_END)
-    size=archivo_logo.tell()
-    archivo_logo.seek(0)
-    if size>MAX_LOGO_SIZE or size==0: return False, "Logo inválido"
-    if not _validar_logo_contenido(archivo_logo, ext): return False, "Imagen no válida"
-    conn=None
-    ruta_abs=None
+def crear_tienda_logica_completa(usuario_id, nombre_tienda, slug_tienda, descripcion, whatsapp, logo_file, banner_file):
+    conn = None
+    rutas_guardadas = [] # para borrar las 2 si falla
     try:
-        unique_name=f"{slug_tienda}_{uuid.uuid4().hex[:8]}.{ext}"
-        ruta_abs=os.path.join(UPLOAD_FOLDER, unique_name)
-        ruta_rel=f"/static/logos/{unique_name}"
-        os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-        archivo_logo.save(ruta_abs)
-        conn=get_conn()
-        cur=conn.cursor()
-        cur.execute("INSERT INTO tiendas (usuario_id,nombre,slug,color,logo_path) VALUES (%s,%s,%s,%s,%s)", (usuario_id,nombre_tienda,slug_tienda,color_principal,ruta_rel))
+        slug_tienda = slug_tienda.lower().strip().replace(" ", "-")
+        if "/" in slug_tienda:
+            slug_tienda = slug_tienda.split("/")[-1]
+
+        base = "static/uploads"
+        os.makedirs(f"{base}/logos", exist_ok=True)
+        os.makedirs(f"{base}/banners", exist_ok=True)
+
+        logo_path = None
+        banner_path = None
+
+        if logo_file and logo_file.filename != '':
+            fname = secure_filename(f"{slug_tienda}_logo_{logo_file.filename}")
+            ruta_fs = f"{base}/logos/{fname}"
+            logo_file.save(ruta_fs)
+            rutas_guardadas.append(ruta_fs)
+            logo_path = f"/{ruta_fs}"
+
+        if banner_file and banner_file.filename != '':
+            fname = secure_filename(f"{slug_tienda}_banner_{banner_file.filename}")
+            ruta_fs = f"{base}/banners/{fname}"
+            banner_file.save(ruta_fs)
+            rutas_guardadas.append(ruta_fs)
+            banner_path = f"/{ruta_fs}"
+
+        conn = get_conn()
+        cur = conn.cursor()
+        cur.execute("""
+            INSERT INTO tiendas (usuario_id, nombre, slug, descripcion, logo_path, banner_path, whatsapp)
+            VALUES (%s,%s,%s,%s,%s,%s,%s)
+        """, (usuario_id, nombre_tienda, slug_tienda, descripcion, logo_path, banner_path, whatsapp))
         conn.commit()
         cur.close()
         return True, f"Tienda /t/{slug_tienda} creada"
+
     except pg_errors.UniqueViolation as e:
         if conn: conn.rollback()
-        if ruta_abs and os.path.exists(ruta_abs): os.remove(ruta_abs)
-        cname=getattr(e.diag,'constraint_name','') or ''
-        if cname=='tiendas_slug_key': return False, f"El link /t/{slug_tienda} ya está ocupado"
-        if cname=='tiendas_usuario_id_key': return False, "Ya tienes una tienda"
+        for r in rutas_guardadas:
+            if os.path.exists(r): os.remove(r)
+        cname = getattr(e.diag, 'constraint_name', '') or ''
+        if cname == 'tiendas_slug_key': 
+            return False, f"El link /t/{slug_tienda} ya está ocupado"
+        if cname == 'tiendas_usuario_id_key':
+            return False, "Ya tienes una tienda, borra la anterior para crear otra"
         return False, "Ese link o esa tienda ya existe"
-    except Exception:
+
+    except Exception as ex:
         if conn: conn.rollback()
-        if ruta_abs and os.path.exists(ruta_abs): os.remove(ruta_abs)
+        for r in rutas_guardadas:
+            if os.path.exists(r): os.remove(r)
         logger.exception("Error crear tienda")
-        return False, "No se pudo crear"
+        return False, f"No se pudo crear: {ex}"
+
     finally:
         if conn: conn.close()
 
