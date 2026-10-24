@@ -485,7 +485,7 @@ def obtener_mi_tienda(usuario_id):
     try:
         conn=get_conn()
         cur=conn.cursor()
-        cur.execute("SELECT nombre,slug,color,logo_path FROM tiendas WHERE usuario_id=%s", (usuario_id,))
+        cur.execute("SELECT nombre,slug,color,logo_path,baner_path FROM tiendas WHERE usuario_id=%s", (usuario_id,))
         fila=cur.fetchone()
         cur.close()
         if fila: return {"existe": True, "nombre": fila[0], "slug": fila[1], "color": fila[2], "logo": fila[3]}
