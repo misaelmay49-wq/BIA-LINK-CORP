@@ -433,7 +433,7 @@ def _validar_logo_contenido(archivo, ext):
         return False
     except: return False
 
-def crear_tienda_logica_completa(usuario_id, nombre_tienda, slug_tienda, descripcion, whatsapp, logo_file, banner_file):
+def crear_tienda_logica_completa(usuario_id, nombre_tienda, slug_tienda, descripcion, whatsapp, logo_file, banner_file, color=None):
     conn = None
     rutas_guardadas = [] # para borrar las 2 si falla
     try:
