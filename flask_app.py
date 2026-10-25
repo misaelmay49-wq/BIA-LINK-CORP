@@ -545,14 +545,56 @@ def crear_tienda():
     return render_template('crear_tienda.html', tienda=tienda)
 
 @app.route('/t/<slug>')
+@app.route('/<slug>') # para que /bia-link y /t/bia-link funcionen los dos
 def tienda_publica(slug):
-    data = obtener_tienda_publica_por_slug(slug)
+    data = obtener_tienda_publica_por_slug(slug) # esta debe traer tienda y productos
     found = data.get('found')
+
     if found is None:
         return "Error temporal, intenta de nuevo", 500
     if not found:
         return render_template('404.html'), 404
-    return render_template('tienda_publica.html', tienda=data)
+
+    # data viene como {'tienda': {...}, 'productos': [...]}
+    tienda = data.get('tienda', data) # por si tu funcion devuelve directo la tienda
+    productos = data.get('productos', [])
+    
+    # categorias solo nombres
+    categorias = list(set([p.get('categoria') for p in productos if p.get('categoria')]))
+    
+    es_dueno = False
+    if session.get('user_id'):
+        es_dueno = session.get('user_id') == tienda.get('usuario_id')
+
+    return render_template('tienda_publica.html', 
+        tienda=tienda, 
+        productos=productos, 
+        categorias=categorias, 
+        es_dueno=es_dueno)
+
+@app.route('/agregar-producto', methods=['POST'])
+def agregar_producto():
+    usuario_id = session.get('user_id')
+    if not usuario_id:
+        return redirect(url_for('login'))
+
+    imagen = request.files.get('imagen') or request.files.get('imagen_producto')
+
+    ok, msg = registrar_producto_con_categoria_auto(
+        usuario_id,
+        request.form.get('nombre',''),
+        request.form.get('precio',''),
+        request.form.get('costo',''),
+        request.form.get('cantidad',''),
+        request.form.get('categoria',''),
+        imagen
+    )
+    flash(msg, 'success' if ok else 'error')
+    
+    tienda = obtener_mi_tienda(usuario_id)
+    if tienda.get('existe'):
+        return redirect(f"/{tienda['slug']}")
+    return redirect(url_for('dashboard'))
 
 @app.route('/agregar-producto', methods=['POST'])
 def agregar_producto():
