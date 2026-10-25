@@ -537,7 +537,7 @@ def crear_tienda():
         whatsapp = request.form.get('whatsapp','')
         banner = request.files.get('banner')
 
-        ok, msg = crear_tienda_logica_completa(usuario_id, nombre, slug, color, logo, descripcion, whatsapp, banner)
+        ok, msg = crear_tienda_logica_completa(usuario_id, nombre, slug, descripcion, whatsapp, logo, banner, color)
         flash(msg, 'success' if ok else 'error')
         if ok:
             return redirect(f"/{slug}") 
