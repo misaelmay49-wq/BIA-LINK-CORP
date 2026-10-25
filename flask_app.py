@@ -547,7 +547,15 @@ def crear_tienda():
 @app.route('/t/<slug>')
 @app.route('/<slug>') # para que /bia-link y /t/bia-link funcionen los dos
 def tienda_publica(slug):
-    data = obtener_tienda_publica_por_slug(slug) # esta debe traer tienda y productos
+    data = obtener_tienda_publica_por_slug(slug)
+
+    if '.' in slug or slug in ['login','register','dashboard','crear-tienda','agregar-producto','logout','static','favicon.ico']:
+        from flask import abort
+        abort(404)
+
+    if not data:
+        return render_template('404.html'), 404
+      
     found = data.get('found')
 
     if found is None:
