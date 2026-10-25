@@ -527,7 +527,7 @@ def crear_tienda():
             flash('El identificador no es válido', 'error')
             return render_template('crear_tienda.html', tienda=tienda)
 
-        if slug and obtener_tienda_por_slug(slug):
+        if slug and obtener_tienda_publica_por_slug(slug):
             flash('Ese link ya está ocupado, elige otro', 'error')
             return render_template('crear_tienda.html', tienda=tienda)
 
