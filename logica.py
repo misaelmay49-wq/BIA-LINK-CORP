@@ -1,6 +1,7 @@
 import os
 import logging
 import psycopg2
+from psycopg2 import errors as pg_errors
 from psycopg2.extras import RealDictCursor 
 from decimal import Decimal, InvalidOperation 
 from datetime import datetime
