@@ -514,17 +514,23 @@ def crear_tienda():
     if not usuario_id:
         return redirect(url_for('login'))
 
-    tienda = obtener_mi_tienda(usuario_id)
+    tienda = obtener_mi_tienda(usuario_id) 
     if tienda.get('existe'):
-        return redirect(f"/t/{tienda['slug']}")
+        return redirect(f"/{tienda['slug']}") 
 
     if request.method == 'POST':
-        nombre = request.form.get('nombre_tienda','')
-        slug = request.form.get('slug_tienda','').strip().lower()
-        slug = re.sub(r'[^a-z0-9-]', '', slug.replace(' ', '-'))
+        nombre = request.form.get('nombre_tienda','').strip()
+        slug_raw = request.form.get('slug_tienda','').strip().lower()
+        slug = re.sub(r'[^a-z0-9-]', '', slug_raw.replace(' ', '-')) 
+        
+        if not slug:
+            flash('El identificador no es válido', 'error')
+            return render_template('crear_tienda.html', tienda=tienda)
+
         if slug and obtener_tienda_por_slug(slug):
             flash('Ese link ya está ocupado, elige otro', 'error')
-            return render_template('crear_tienda.html', tienda=tienda)               
+            return render_template('crear_tienda.html', tienda=tienda)
+
         color = request.form.get('color_principal','#2563eb')
         logo = request.files.get('logo')
         descripcion = request.form.get('descripcion','')
@@ -534,7 +540,7 @@ def crear_tienda():
         ok, msg = crear_tienda_logica_completa(usuario_id, nombre, slug, color, logo, descripcion, whatsapp, banner)
         flash(msg, 'success' if ok else 'error')
         if ok:
-            return redirect(f"/t/{slug}")
+            return redirect(f"/{slug}") 
 
     return render_template('crear_tienda.html', tienda=tienda)
 
