@@ -595,19 +595,3 @@ def agregar_producto():
     if tienda.get('existe'):
         return redirect(f"/{tienda['slug']}")
     return redirect(url_for('dashboard'))
-
-@app.route('/agregar-producto', methods=['POST'])
-def agregar_producto():
-    usuario_id = session.get('user_id')
-    if not usuario_id:
-        return redirect(url_for('login'))
-    ok, msg = registrar_producto_con_categoria_auto(
-        usuario_id,
-        request.form.get('nombre',''),
-        request.form.get('precio',''),
-        request.form.get('costo',''),
-        request.form.get('cantidad',''),
-        request.form.get('categoria','')
-    )
-    flash(msg, 'success' if ok else 'error')
-    return redirect(url_for('dashboard'))
