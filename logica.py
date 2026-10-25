@@ -463,9 +463,9 @@ def crear_tienda_logica_completa(usuario_id, nombre_tienda, slug_tienda, descrip
             rutas_guardadas.append(ruta_fs)
             banner_path = f"/{ruta_fs}"
 
-         DATABASE_URL = os.getenv("DATABASE_URL")
-         conn = psycopg2.connect(DATABASE_URL)
-         cur = conn.cursor()
+            DATABASE_URL = os.getenv("DATABASE_URL")
+            conn = psycopg2.connect(DATABASE_URL)
+            cur = conn.cursor()
 
         conn = get_conn()
         cur = conn.cursor()
