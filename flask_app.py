@@ -551,11 +551,11 @@ def tienda_publica(slug):
     if '.' in slug or slug in ['login','register','dashboard','crear-tienda','agregar-producto','logout','static','favicon.ico']:
         from flask import abort
         abort(404)
+      
+    data = obtener_tienda_publica_por_slug(slug)
 
     if not data:
         return render_template('404.html'), 404
-      
-    data = obtener_tienda_publica_por_slug(slug)
       
     found = data.get('found')
 
