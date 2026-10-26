@@ -470,10 +470,6 @@ def crear_tienda_logica_completa(usuario_id, nombre_tienda, slug_tienda, descrip
             INSERT INTO tiendas (usuario_id, nombre, slug, descripcion, logo_path, banner_path, color, whatsapp)
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
         """, (usuario_id, nombre_tienda, slug_tienda, descripcion, logo_path, banner_path, color, whatsapp))
-        cur.execute("""
-            INSERT INTO tiendas (usuario_id, nombre, slug, descripcion, logo_path, banner_path, whatsapp)
-            VALUES (%s,%s,%s,%s,%s,%s,%s)
-        """, (usuario_id, nombre_tienda, slug_tienda, descripcion, logo_path, banner_path, whatsapp))
         conn.commit()
         cur.close()
         return True, f"Tienda /t/{slug_tienda} creada"
