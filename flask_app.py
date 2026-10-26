@@ -564,15 +564,17 @@ def tienda_publica(slug):
     if not found:
         return render_template('404.html'), 404
 
-    # data viene como {'tienda': {...}, 'productos': [...]}
-    tienda = data.get('tienda', data) # por si tu funcion devuelve directo la tienda
-    productos = data.get('productos', [])
-  
-  
-    if productos and isinstance(productos[0], (list, tuple)):
-        productos = [{'nombre': r[0], 'precio': r[1], 'categoria': r[2]} for r in productos]
+        # data viene como {'tienda': {...}, 'productos': [...]}
+    tienda = data.get('tienda', {}) or {}
+    productos = data.get('productos', []) or []
 
-    categorias = list(set([p.get('categoria') for p in productos if p.get('categoria')]))
+    if not isinstance(productos, list):
+        productos = []
+
+    if productos and len(productos) > 0 and isinstance(productos[0], (list, tuple)):
+        productos = [{'nombre': r[0], 'precio': r[1], 'categoria': r[2] if len(r) > 2 else 'General'} for r in productos]
+
+    categorias = list(set([p.get('categoria') for p in productos if isinstance(p, dict) and p.get('categoria')]))
 
     es_dueno = False
     if session.get('user_id'):
