@@ -194,7 +194,7 @@ def procesar_venta_logica(producto_id, cantidad_vendida, usuario_id):
                 """, (usuario_id, producto_id, nombre, precio, costo, ganancia, cantidad_vendida, total_venta, ganancia_total))
                 
                 conn.commit()
-                return True, f"✅ Venta registrada: {cantidad_vendida, producto_id_db} x {nombre}"
+                return True, gistrada: {cantidad_vendida, producto_id_db} x {nombre}"
                 
     except Exception as e:
         if conn:
@@ -464,12 +464,12 @@ def crear_tienda_logica_completa(usuario_id, nombre_tienda, slug_tienda, descrip
             rutas_guardadas.append(ruta_fs)
             banner_path = f"/{ruta_fs}"
 
-            DATABASE_URL = os.getenv("DATABASE_URL")
-            conn = psycopg2.connect(DATABASE_URL)
-            cur = conn.cursor()
-
         conn = get_conn()
         cur = conn.cursor()
+        cur.execute("""
+            INSERT INTO tiendas (usuario_id, nombre, slug, descripcion, logo_path, banner_path, color, whatsapp)
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+        """, (usuario_id, nombre_tienda, slug_tienda, descripcion, logo_path, banner_path, color, whatsapp))
         cur.execute("""
             INSERT INTO tiendas (usuario_id, nombre, slug, descripcion, logo_path, banner_path, whatsapp)
             VALUES (%s,%s,%s,%s,%s,%s,%s)
