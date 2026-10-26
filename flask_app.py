@@ -571,7 +571,8 @@ def tienda_publica(slug):
   
 if productos and isinstance(productos[0], (list, tuple)):
     productos = [{'nombre': r[0], 'precio': r[1], 'categoria': r[2]} for r in productos]
-    categorias = list(set([ (p[2] if isinstance(p, (list,tuple)) else p.get('categoria')) for p in productos if (p[2] if isinstance(p, (list,tuple)) else p.get('categoria')) ]))
+  
+categorias = list(set([ (p[2] if isinstance(p, (list,tuple)) else p.get('categoria')) for p in productos if (p[2] if isinstance(p, (list,tuple)) else p.get('categoria')) ]))
     
     es_dueno = False
     if session.get('user_id'):
