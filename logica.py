@@ -194,7 +194,7 @@ def procesar_venta_logica(producto_id, cantidad_vendida, usuario_id):
                 """, (usuario_id, producto_id, nombre, precio, costo, ganancia, cantidad_vendida, total_venta, ganancia_total))
                 
                 conn.commit()
-                return True, gistrada: {cantidad_vendida, producto_id_db} x {nombre}"
+                return True, f"Registrada: {cantidad_vendida} x {nombre} (ID {producto_id_db})"
                 
     except Exception as e:
         if conn:
