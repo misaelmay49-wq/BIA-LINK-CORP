@@ -569,19 +569,19 @@ def tienda_publica(slug):
     productos = data.get('productos', [])
   
   
-if productos and isinstance(productos[0], (list, tuple)):
-    productos = [{'nombre': r[0], 'precio': r[1], 'categoria': r[2]} for r in productos]
-  
-categorias = list(set([ (p[2] if isinstance(p, (list,tuple)) else p.get('categoria')) for p in productos if (p[2] if isinstance(p, (list,tuple)) else p.get('categoria')) ]))
-    
+    if productos and isinstance(productos[0], (list, tuple)):
+        productos = [{'nombre': r[0], 'precio': r[1], 'categoria': r[2]} for r in productos]
+
+    categorias = list(set([p.get('categoria') for p in productos if p.get('categoria')]))
+
     es_dueno = False
     if session.get('user_id'):
         es_dueno = session.get('user_id') == tienda.get('usuario_id')
 
-    return render_template('tienda_publica.html', 
-        tienda=tienda, 
-        productos=productos, 
-        categorias=categorias, 
+    return render_template('tienda_publica.html',
+        tienda=tienda,
+        productos=productos,
+        categorias=categorias,
         es_dueno=es_dueno)
 
 @app.route('/agregar-producto', methods=['POST'])
