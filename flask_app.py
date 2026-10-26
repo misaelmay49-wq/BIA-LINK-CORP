@@ -567,9 +567,11 @@ def tienda_publica(slug):
     # data viene como {'tienda': {...}, 'productos': [...]}
     tienda = data.get('tienda', data) # por si tu funcion devuelve directo la tienda
     productos = data.get('productos', [])
-    
-    # categorias solo nombres
-    categorias = list(set([p.get('categoria') for p in productos if p.get('categoria')]))
+  
+  
+if productos and isinstance(productos[0], (list, tuple)):
+    productos = [{'nombre': r[0], 'precio': r[1], 'categoria': r[2]} for r in productos]
+    categorias = list(set([ (p[2] if isinstance(p, (list,tuple)) else p.get('categoria')) for p in productos if (p[2] if isinstance(p, (list,tuple)) else p.get('categoria')) ]))
     
     es_dueno = False
     if session.get('user_id'):
