@@ -590,26 +590,102 @@ def obtener_productos_agrupados_automatico(usuario_id):
     finally:
         if conn: conn.close()
 
+
 def obtener_tienda_publica_por_slug(slug):
-    slug=_safe_strip(slug).lower()
-    conn=None
+    slug = _safe_strip(slug).lower()
+    conn = None
+    cur = None
+
     try:
-        conn=get_conn()
-        cur=conn.cursor()
-        cur.execute("SELECT usuario_id,nombre,color,logo_path FROM tiendas WHERE slug=%s", (slug,))
-        fila=cur.fetchone()
+        conn = get_conn()
+        cur = conn.cursor()
+
+        cur.execute("""
+            SELECT
+                usuario_id,
+                nombre,
+                slug,
+                descripcion,
+                logo_path,
+                banner_path,
+                color,
+                whatsapp
+            FROM tiendas
+            WHERE slug = %s
+        """, (slug,))
+
+        fila = cur.fetchone()
+
         if not fila:
-            cur.close()
-            return {"found": False}
-        uid,nombre,color,logo=fila
-        cur.execute("SELECT p.nombre,p.precio,COALESCE(c.nombre,'General') FROM productos p LEFT JOIN categorias c ON p.categoria_id=c.id WHERE p.usuario_id=%s ORDER BY 3,1", (uid,))
-        prods=cur.fetchall()
-        cur.close()
-        agrupados={}
-        for n,p,cat in prods: agrupados.setdefault(cat, []).append({"nombre":n,"precio":p})
-        return {"found": True, "nombre":nombre,"color":color,"logo":logo,"productos":agrupados}
+            return {
+                "found": False
+            }
+
+        (
+            usuario_id,
+            nombre,
+            slug_db,
+            descripcion,
+            logo_path,
+            banner_path,
+            color,
+            whatsapp
+        ) = fila
+
+        cur.execute("""
+            SELECT
+                p.nombre,
+                p.precio,
+                COALESCE(c.nombre, 'General') AS categoria,
+                p.costo,
+                p.cantidad
+            FROM productos AS p
+            LEFT JOIN categorias AS c
+                ON p.categoria_id = c.id
+            WHERE p.usuario_id = %s
+            ORDER BY categoria, p.nombre
+        """, (usuario_id,))
+
+        filas_productos = cur.fetchall()
+
+        productos = [
+            {
+                "nombre": producto[0],
+                "precio": producto[1],
+                "categoria": producto[2],
+                "costo": producto[3],
+                "cantidad": producto[4]
+            }
+            for producto in filas_productos
+        ]
+
+        tienda = {
+            "usuario_id": usuario_id,
+            "nombre": nombre,
+            "slug": slug_db,
+            "descripcion": descripcion,
+            "logo_path": logo_path,
+            "banner_path": banner_path,
+            "color": color,
+            "whatsapp": whatsapp
+        }
+
+        return {
+            "found": True,
+            "tienda": tienda,
+            "productos": productos
+        }
+
     except Exception:
-        logger.exception("Error tienda publica")
-        return {"found": None, "error": True}
+        logger.exception("Error al obtener tienda pública")
+        return {
+            "found": None,
+            "error": True
+        }
+
     finally:
-        if conn: conn.close()
+        if cur:
+            cur.close()
+        if conn:
+            conn.close()
+
