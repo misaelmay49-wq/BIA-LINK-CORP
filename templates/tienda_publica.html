@@ -1,1 +1,860 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ tienda.nombre or 'Mi tienda' }} | BIA LINK</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg: #030d20;
+    --nav: #06152f;
+    --card: #091b38;
+    --card2: #0b2145;
+    --border: #173665;
+    --blue: #0878ff;
+    --lightblue: #63b0ff;
+    --white: #f5f8ff;
+    --muted: #a4b7d5;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--white);
+    font-family: Inter, Arial, sans-serif;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button, input { font: inherit; }
+
+.top {
+    min-height: 66px;
+    padding: 9px 22px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #06132b;
+    border-bottom: 1px solid #132b4c;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.owner-actions, .right-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.icon-button {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #0a2042;
+    border: 1px solid #1a3b6d;
+    border-radius: 10px;
+    color: white;
+    font-size: 21px;
+}
+
+.icon-button.owner {
+    color: #72b6ff;
+    background: #0b2851;
+    border-color: #1b65b8;
+}
+
+.icon-button.add {
+    background: var(--blue);
+    border-color: #4295ff;
+    font-size: 25px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    white-space: nowrap;
+    font-size: 19px;
+    font-weight: 900;
+    letter-spacing: -.7px;
+}
+
+.brand-icon {
+    color: #2586ff;
+    font-size: 28px;
+}
+
+.search {
+    flex: 1;
+    min-width: 50px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.search input {
+    width: 100%;
+    padding: 12px 16px;
+    color: white;
+    background: #0a1c3c;
+    border: 1px solid #1c4178;
+    border-radius: 18px;
+    outline: none;
+    font-size: 12px;
+    box-shadow: inset 0 0 8px #0002;
+}
+
+.search input:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 2px #0878ff22;
+}
+
+.profile {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #0b3b7b;
+    color: #79baff;
+    font-size: 19px;
+}
+
+.cart {
+    font-size: 23px;
+    padding: 4px;
+}
+
+/* Banner y datos de la tienda */
+
+.banner {
+    height: 230px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(120deg, #0a2144, #071329);
+    border-bottom: 1px solid #15325a;
+}
+
+.banner-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.banner-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        rgba(3, 13, 32, .77),
+        rgba(3, 13, 32, .18) 85%
+    );
+}
+
+.banner-overlay::after {
+    content: "";
+    position: absolute;
+    inset: 35% 0 0;
+    background: linear-gradient(0deg, rgba(3,13,32,.8), transparent);
+}
+
+.store-info {
+    position: absolute;
+    left: clamp(18px, 4vw, 42px);
+    bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    max-width: calc(100% - 36px);
+}
+
+.store-logo {
+    width: 96px;
+    height: 96px;
+    flex-shrink: 0;
+    overflow: hidden;
+    border: 3px solid #167cff;
+    border-radius: 50%;
+    background: #0b2a58;
+    box-shadow: 0 0 20px #0878ff30;
+}
+
+.store-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.store-name {
+    font-size: clamp(20px, 3vw, 29px);
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.verified {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 19px;
+    height: 19px;
+    margin-left: 5px;
+    border-radius: 50%;
+    background: #1680ff;
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+.store-description {
+    margin-top: 5px;
+    max-width: 550px;
+    color: #d1e0f5;
+    font-size: 13px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.store-meta {
+    margin-top: 8px;
+    color: #d0def0;
+    font-size: 11px;
+}
+
+/* Contenido */
+
+.wrap {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 25px clamp(15px, 3vw, 32px) 45px;
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.section-heading h2,
+.section-heading h3 {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 800;
+}
+
+.see-all {
+    color: #5a9cff;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+/* Categorías */
+
+.categories {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.category {
+    min-width: 0;
+    min-height: 112px;
+    padding: 14px 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 11px;
+    text-align: center;
+    background: linear-gradient(145deg, #0b2042, #07162e);
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    color: #e9f3ff;
+    font-size: 11px;
+    overflow-wrap: anywhere;
+    transition: border-color .2s, transform .2s;
+}
+
+.category:hover {
+    border-color: #2685ff;
+    transform: translateY(-2px);
+}
+
+.category-icon {
+    color: #65b0ff;
+    font-size: 29px;
+    line-height: 1;
+}
+
+.empty {
+    grid-column: 1 / -1;
+    padding: 23px 12px;
+    text-align: center;
+    color: var(--muted);
+    background: #06142a;
+    border: 1px dashed #213c63;
+    border-radius: 13px;
+    font-size: 12px;
+}
+
+/* Banner promocional */
+
+.promo {
+    min-height: 172px;
+    margin-top: 23px;
+    padding: 22px 28px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    overflow: hidden;
+    border: 1px solid #1a4c92;
+    border-radius: 16px;
+    background:
+        radial-gradient(ellipse at 78% 50%, #0878ff38, transparent 43%),
+        linear-gradient(105deg, #071a37, #0b2b60 76%, #09204a);
+}
+
+.promo::before {
+    content: "";
+    position: absolute;
+    right: 90px;
+    top: -125px;
+    width: 260px;
+    height: 260px;
+    border: 1px solid #56a2ff22;
+    border-radius: 50%;
+    box-shadow: 0 0 0 24px #56a2ff0b,
+                0 0 0 50px #56a2ff08;
+}
+
+.promo-content {
+    position: relative;
+    z-index: 1;
+    min-width: 0;
+}
+
+.promo-label {
+    margin-bottom: 9px;
+    color: #9bcaff;
+    font-size: 11px;
+}
+
+.promo h2 {
+    margin: 0;
+    font-size: clamp(21px, 3vw, 30px);
+    line-height: 1.18;
+    font-weight: 900;
+    letter-spacing: -.7px;
+}
+
+.promo h2 span { color: #69b3ff; }
+
+.promo-description {
+    max-width: 540px;
+    margin-top: 10px;
+    color: #b9cce9;
+    font-size: 11px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.promo-box {
+    position: relative;
+    z-index: 1;
+    width: 112px;
+    min-height: 104px;
+    padding: 12px 8px;
+    display: flex;
+    flex-shrink: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-align: center;
+    overflow-wrap: anywhere;
+    border: 1px solid #58a5ff;
+    border-radius: 16px;
+    background: linear-gradient(145deg, #1688ff, #0755cf);
+    box-shadow: 0 0 26px #0878ff35;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+.promo-box-icon {
+    font-size: 28px;
+    line-height: 1;
+}
+
+/* Productos */
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 13px;
+    margin-top: 15px;
+}
+
+.product {
+    min-width: 0;
+    padding: 11px;
+    overflow: hidden;
+    background: linear-gradient(145deg, #0a1e3b, #06152b);
+    border: 1px solid #183965;
+    border-radius: 13px;
+    transition: border-color .2s, transform .2s;
+}
+
+.product:hover {
+    border-color: #2676d1;
+    transform: translateY(-2px);
+}
+
+.badge {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 8px;
+    padding: 5px 8px;
+    border-radius: 6px;
+    background: #086ce1;
+    color: white;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.badge.new { background: #16447f; }
+.badge.offer { background: #c9364a; }
+
+.product-image {
+    width: 100%;
+    height: 145px;
+    display: block;
+    object-fit: contain;
+    padding: 5px;
+    border-radius: 9px;
+    background: #07152b;
+}
+
+.product-name {
+    min-height: 36px;
+    margin-top: 9px;
+    color: #f0f5ff;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.product-description {
+    margin-top: 2px;
+    color: #9aafd0;
+    font-size: 10px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.price {
+    margin-top: 8px;
+    color: #8fc4ff;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.add-button {
+    width: 100%;
+    min-height: 38px;
+    margin-top: 11px;
+    padding: 9px 5px;
+    color: white;
+    background: linear-gradient(100deg, #0878ff, #1265e5);
+    border: 1px solid #2184ff;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.add-button:hover { background: #2588ff; }
+
+.no-products {
+    margin-top: 15px;
+    padding: 30px 15px;
+    text-align: center;
+    background: #06142a;
+    border: 1px dashed #213c63;
+    border-radius: 14px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.no-products-icon {
+    display: block;
+    margin-bottom: 9px;
+    font-size: 30px;
+}
+
+.footer {
+    padding: 26px 15px;
+    text-align: center;
+    color: #7e93b2;
+    border-top: 1px solid #122a4b;
+    font-size: 10px;
+}
+
+@media (min-width: 560px) {
+    .categories { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .products { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (min-width: 850px) {
+    .categories { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+    .products { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .banner { height: 260px; }
+    .product-image { height: 170px; }
+}
+
+@media (max-width: 430px) {
+    .top {
+        padding: 9px 10px;
+        gap: 8px;
+    }
+
+    .owner-actions, .right-actions { gap: 5px; }
+    .icon-button { width: 29px; height: 31px; font-size: 17px; }
+    .icon-button.add { font-size: 22px; }
+    .brand { font-size: 13px; gap: 3px; }
+    .brand-icon { font-size: 21px; }
+    .search input { padding: 10px 9px; font-size: 10px; }
+    .cart { font-size: 18px; padding: 1px; }
+    .profile { width: 29px; height: 29px; font-size: 16px; }
+
+    .banner { height: 210px; }
+    .store-info { left: 16px; bottom: 16px; gap: 11px; }
+    .store-logo { width: 75px; height: 75px; }
+    .store-name { font-size: 19px; }
+    .store-description { font-size: 11px; }
+    .store-meta { font-size: 10px; }
+
+    .wrap { padding-top: 21px; }
+    .section-heading h2, .section-heading h3 { font-size: 16px; }
+
+    .categories { gap: 8px; }
+    .category { min-height: 88px; font-size: 10px; gap: 8px; }
+    .category-icon { font-size: 23px; }
+
+    .promo { min-height: 145px; padding: 18px 13px; gap: 8px; }
+    .promo h2 { font-size: 19px; }
+    .promo-box { width: 74px; min-height: 76px; padding: 8px 5px; font-size: 10px; }
+    .promo-box-icon { font-size: 22px; }
+
+    .products { gap: 9px; }
+    .product { padding: 8px; }
+    .product-image { height: 110px; }
+    .product-name { font-size: 11px; }
+    .price { font-size: 14px; }
+    .add-button { font-size: 9px; }
+}
+</style>
+</head>
+
+<body>
+
+<header class="top">
+
+    {% if es_dueno %}
+    <div class="owner-actions">
+        <a class="icon-button owner"
+           href="/dashboard"
+           aria-label="Menú del propietario">☰</a>
+
+        <a class="icon-button add"
+           href="/agregar-producto?tienda={{ tienda.slug|urlencode }}"
+           aria-label="Agregar producto">+</a>
+    </div>
+    {% endif %}
+
+    <a class="brand" href="#" aria-label="BIA LINK">
+        <span class="brand-icon">◉</span>
+        <span>BIA LINK</span>
+    </a>
+
+    <div class="search">
+        <input type="search"
+               placeholder="Buscar productos, marcas o categorías..."
+               aria-label="Buscar productos">
+    </div>
+
+    <div class="right-actions">
+        <span class="cart" aria-label="Carrito">🛒</span>
+        <span class="profile" aria-label="Perfil">●</span>
+    </div>
+
+</header>
+
+<section class="banner">
+
+    {# Usa primero la ruta real de la imagen seleccionada al crear la tienda. #}
+    {% set banner_src = tienda.banner_path or tienda.banner_url or tienda.banner %}
+    {% set logo_src = tienda.logo_path or tienda.logo_url or tienda.logo %}
+
+    {% if banner_src %}
+    <img class="banner-image"
+         src="{{ banner_src }}"
+         alt="Banner de {{ tienda.nombre }}"
+         onerror="this.onerror=null;this.style.display='none';">
+    {% endif %}
+
+    <div class="banner-overlay"></div>
+
+    <div class="store-info">
+
+        <div class="store-logo">
+            {% if logo_src %}
+            <img src="{{ logo_src }}"
+                 alt="Logo de {{ tienda.nombre }}"
+                 onerror="this.onerror=null;this.style.display='none';">
+            {% else %}
+            <div style="height:100%;display:flex;align-items:center;justify-content:center;color:#8fc4ff;font-weight:800">
+                {{ (tienda.nombre or 'T')[:1]|upper }}
+            </div>
+            {% endif %}
+        </div>
+
+        <div>
+            <div class="store-name">
+                {{ tienda.nombre or 'Mi tienda' }}
+                <span class="verified">✓</span>
+            </div>
+
+            {% if tienda.descripcion %}
+            <div class="store-description">{{ tienda.descripcion }}</div>
+            {% endif %}
+
+            <div class="store-meta">🛡️ Tienda oficial</div>
+        </div>
+
+    </div>
+
+</section>
+
+<main class="wrap">
+
+    <!-- CATEGORÍAS -->
+    <section id="categorias">
+
+        <div class="section-heading">
+            <h2>Categorías</h2>
+            <a class="see-all" href="#categorias">Ver todas →</a>
+        </div>
+
+        <div class="categories">
+
+            {% if categorias %}
+                {% for c in categorias %}
+                    {% set nombre_categoria = c if c is string else c.nombre %}
+                    {% set nombre_lower = nombre_categoria|lower %}
+
+                    <div class="category">
+                        <span class="category-icon">
+                            {% if 'tec' in nombre_lower %}
+                                ▣
+                            {% elif 'acce' in nombre_lower %}
+                                ♬
+                            {% elif 'ropa' in nombre_lower or 'moda' in nombre_lower %}
+                                ♧
+                            {% elif 'hogar' in nombre_lower %}
+                                ⌂
+                            {% elif 'depor' in nombre_lower %}
+                                ⚖
+                            {% elif 'belle' in nombre_lower or 'cuidado' in nombre_lower %}
+                                ✿
+                            {% elif 'alimen' in nombre_lower or 'comida' in nombre_lower %}
+                                ◉
+                            {% elif 'juguet' in nombre_lower %}
+                                ☆
+                            {% elif 'libro' in nombre_lower %}
+                                ▤
+                            {% else %}
+                                ▦
+                            {% endif %}
+                        </span>
+                        <span>{{ nombre_categoria }}</span>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty">
+                    Aún no hay categorías para mostrar.
+                </div>
+            {% endif %}
+
+        </div>
+
+    </section>
+
+    <!-- PROMOCIÓN -->
+    <section class="promo">
+
+        <div class="promo-content">
+            <div class="promo-label">♧ Envíos y productos de la tienda</div>
+
+            <h2>
+                Los mejores productos,<br>
+                <span>al mejor precio.</span>
+            </h2>
+
+            <div class="promo-description">
+                {{ tienda.nombre or 'Esta tienda' }}
+                {% if tienda.descripcion %}
+                    · {{ tienda.descripcion }}
+                {% else %}
+                    · Descubre los productos disponibles en esta tienda.
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="promo-box">
+            <span class="promo-box-icon">◉</span>
+            <span>{{ (tienda.nombre or 'Mi tienda')[:14] }}</span>
+        </div>
+
+    </section>
+
+    <!-- PRODUCTOS DESTACADOS -->
+    <section class="sect" id="destacados">
+
+        <div class="section-heading">
+            <h3>🔥 Productos destacados</h3>
+            <a class="see-all" href="#destacados">Ver todos →</a>
+        </div>
+
+        {% if productos %}
+        <div class="products">
+
+            {% for p in productos[:4] %}
+                {% set imagen_producto = p.imagen_path or p.imagen or p.imagen_url %}
+                <article class="product">
+
+                    <span class="badge">Destacado</span>
+
+                    {% if imagen_producto %}
+                    <img class="product-image"
+                         src="{{ imagen_producto }}"
+                         alt="{{ p.nombre or 'Producto' }}"
+                         loading="lazy"
+                         onerror="this.onerror=null;this.style.display='none';">
+                    {% else %}
+                    <div class="product-image"
+                         style="display:flex;align-items:center;justify-content:center;color:#8ba8ce;font-size:34px">
+                        ◇
+                    </div>
+                    {% endif %}
+
+                    <div class="product-name">{{ p.nombre or 'Producto' }}</div>
+
+                    <div class="price">
+                        ${{ "%.2f"|format(p.precio|float) }} MXN
+                    </div>
+
+                    <button class="add-button" type="button">
+                        🛒 Agregar al carrito
+                    </button>
+
+                </article>
+            {% endfor %}
+
+        </div>
+        {% else %}
+        <div class="no-products">
+            <span class="no-products-icon">◇</span>
+            Esta tienda todavía no tiene productos publicados.
+        </div>
+        {% endif %}
+
+    </section>
+
+    <!-- PRODUCTOS RECIENTES -->
+    <section class="sect" id="nuevos">
+
+        <div class="section-heading">
+            <h3>🏷️ Lo más nuevo</h3>
+            <a class="see-all" href="#nuevos">Ver todos →</a>
+        </div>
+
+        {% if productos and productos|length > 4 %}
+        <div class="products">
+
+            {% for p in productos[4:8] %}
+                {% set imagen_producto = p.imagen_path or p.imagen or p.imagen_url %}
+                <article class="product">
+
+                    <span class="badge new">Nuevo</span>
+
+                    {% if imagen_producto %}
+                    <img class="product-image"
+                         src="{{ imagen_producto }}"
+                         alt="{{ p.nombre or 'Producto' }}"
+                         loading="lazy"
+                         onerror="this.onerror=null;this.style.display='none';">
+                    {% else %}
+                    <div class="product-image"
+                         style="display:flex;align-items:center;justify-content:center;color:#8ba8ce;font-size:34px">
+                        ◇
+                    </div>
+                    {% endif %}
+
+                    <div class="product-name">{{ p.nombre or 'Producto' }}</div>
+
+                    <div class="price">
+                        ${{ "%.2f"|format(p.precio|float) }} MXN
+                    </div>
+
+                    <button class="add-button" type="button">
+                        🛒 Agregar al carrito
+                    </button>
+
+                </article>
+            {% endfor %}
+
+        </div>
+        {% elif productos %}
+        <div class="no-products">
+            Todavía no hay suficientes productos para llenar esta sección.
+        </div>
+        {% else %}
+        <div class="no-products">
+            Los productos recientes aparecerán aquí cuando estén registrados.
+        </div>
+        {% endif %}
+
+    </section>
+
+</main>
+
+<footer class="footer">
+    {{ tienda.nombre or 'Mi tienda' }} · BIA LINK
+</footer>
+
+</body>
+</html>
