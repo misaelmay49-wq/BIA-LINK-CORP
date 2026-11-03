@@ -495,21 +495,39 @@ def crear_tienda_logica_completa(usuario_id, nombre_tienda, slug_tienda, descrip
     finally:
         if conn: conn.close()
 
+
 def obtener_mi_tienda(usuario_id):
-    conn=None
+    conn = None
     try:
-        conn=get_conn()
-        cur=conn.cursor()
-        cur.execute("SELECT nombre,slug,color,logo_path,banner_path FROM tiendas WHERE usuario_id=%s", (usuario_id,))
-        fila=cur.fetchone()
+        conn = get_conn()
+        cur = conn.cursor()
+        cur.execute(
+            "SELECT nombre,slug,color,logo_path,banner_path FROM tiendas WHERE usuario_id=%s",
+            (usuario_id,)
+        )
+        fila = cur.fetchone()
         cur.close()
-        if fila: return {"existe": True, "nombre": fila[0], "slug": fila[1], "color": fila[2], "logo": fila[3]}
+
+        if fila:
+            return {
+                "existe": True,
+                "nombre": fila[0],
+                "slug": fila[1],
+                "color": fila[2],
+                "logo": fila[3],
+                "banner": fila[4]
+            }
+
         return {"existe": False}
+
     except Exception:
         logger.exception("Error obtener_mi_tienda")
         return {"existe": None, "error": "No se pudo verificar"}
+
     finally:
-        if conn: conn.close()
+        if conn:
+            conn.close()
+
 
 def detectar_categoria_automatica(usuario_id, nombre_producto):
     palabras_nuevo=set(_palabras_significativas(nombre_producto))
