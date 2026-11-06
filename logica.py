@@ -372,6 +372,12 @@ RESERVED_SLUGS = {'static','admin','api','login','entrar','pruebas','tienda','sa
 
 logger = logging.getLogger(__name__)
 
+SUPABASE_URL = os.environ.get("SUPABASE_URL", "").rstrip("/")
+SUPABASE_SECRET_KEY = os.environ.get("SUPABASE_SECRET_KEY")
+SUPABASE_BUCKET = "BIA-LINK-Imagenes"
+
+MAX_BANNER_SIZE = 5 * 1024 * 1024
+
 def init_db():
     conn=None
     try:
