@@ -486,10 +486,9 @@ def subir_imagen_supabase(archivo, usuario_id, slug, tipo, max_size):
     )
 
     headers = {
-        "apikey": SUPABASE_SECRET_KEY,
-        "Authorization": f"Bearer {SUPABASE_SECRET_KEY}",
-        "Content-Type": mime_types[extension],
-        "x-upsert": "false"
+      "apikey": SUPABASE_SECRET_KEY,
+      "Content-Type": mime_types[extension],
+      "x-upsert": "false"
     }
 
     try:
