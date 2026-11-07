@@ -516,17 +516,22 @@ def subir_imagen_supabase(archivo, usuario_id, slug, tipo, max_size):
         return None, "No se pudo conectar con Supabase"
 
 
-def eliminar_imagen_supabase(ruta):
-    if not ruta:
+
+def eliminar_imagen_supabase(url_publica):
+    if not url_publica:
         return
 
     try:
-        bucket = quote(SUPABASE_BUCKET, safe="")
-        ruta_url = quote(ruta, safe="/")
+        marca = f"/storage/v1/object/public/{SUPABASE_BUCKET}/"
+
+        if marca not in url_publica:
+            return
+
+        ruta = url_publica.split(marca, 1)[1]
 
         url = (
             f"{SUPABASE_URL}/storage/v1/object/"
-            f"{bucket}/{ruta_url}"
+            f"{quote(SUPABASE_BUCKET, safe='')}/{ruta}"
         )
 
         headers = {
@@ -541,12 +546,13 @@ def eliminar_imagen_supabase(ruta):
         )
 
         if respuesta.status_code not in (200, 204):
-            logger.error("No se pudo eliminar imagen de Supabase: %s", respuesta.text[:300])
+            logger.error(
+                "No se pudo eliminar imagen: %s",
+                respuesta.text[:300]
+            )
 
     except requests.RequestException:
         logger.exception("Error eliminando imagen de Supabase")
-
-
 
 def crear_tienda_logica_completa(usuario_id, nombre_tienda, slug_tienda, descripcion, whatsapp, logo_file, banner_file, color=None):
     conn = None
