@@ -554,65 +554,105 @@ def eliminar_imagen_supabase(url_publica):
     except requests.RequestException:
         logger.exception("Error eliminando imagen de Supabase")
 
+
 def crear_tienda_logica_completa(usuario_id, nombre_tienda, slug_tienda, descripcion, whatsapp, logo_file, banner_file, color=None):
     conn = None
-    rutas_guardadas = [] # para borrar las 2 si falla
+    rutas_guardadas = []
+
     try:
         slug_tienda = slug_tienda.lower().strip().replace(" ", "-")
         if "/" in slug_tienda:
             slug_tienda = slug_tienda.split("/")[-1]
 
-        base = "static/uploads"
-        os.makedirs(f"{base}/logos", exist_ok=True)
-        os.makedirs(f"{base}/banners", exist_ok=True)
-
         logo_path = None
         banner_path = None
 
         if logo_file and logo_file.filename != '':
-            fname = secure_filename(f"{slug_tienda}_logo_{logo_file.filename}")
-            ruta_fs = f"{base}/logos/{fname}"
-            logo_file.save(ruta_fs)
-            rutas_guardadas.append(ruta_fs)
-            logo_path = f"/{ruta_fs}"
+            logo_path, error = subir_imagen_supabase(
+                logo_file,
+                usuario_id,
+                slug_tienda,
+                "logo",
+                MAX_LOGO_SIZE
+            )
+
+            if error:
+                return False, error
+
+            if logo_path:
+                rutas_guardadas.append(logo_path)
 
         if banner_file and banner_file.filename != '':
-            fname = secure_filename(f"{slug_tienda}_banner_{banner_file.filename}")
-            ruta_fs = f"{base}/banners/{fname}"
-            banner_file.save(ruta_fs)
-            rutas_guardadas.append(ruta_fs)
-            banner_path = f"/{ruta_fs}"
+            banner_path, error = subir_imagen_supabase(
+                banner_file,
+                usuario_id,
+                slug_tienda,
+                "banner",
+                MAX_BANNER_SIZE
+            )
+
+            if error:
+                for ruta in rutas_guardadas:
+                    eliminar_imagen_supabase(ruta)
+
+                return False, error
+
+            if banner_path:
+                rutas_guardadas.append(banner_path)
 
         conn = get_conn()
         cur = conn.cursor()
+
         cur.execute("""
             INSERT INTO tiendas (usuario_id, nombre, slug, descripcion, logo_path, banner_path, color, whatsapp)
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
-        """, (usuario_id, nombre_tienda, slug_tienda, descripcion, logo_path, banner_path, color, whatsapp))
+        """, (
+            usuario_id,
+            nombre_tienda,
+            slug_tienda,
+            descripcion,
+            logo_path,
+            banner_path,
+            color,
+            whatsapp
+        ))
+
         conn.commit()
         cur.close()
+
         return True, f"Tienda /t/{slug_tienda} creada"
 
     except pg_errors.UniqueViolation as e:
-        if conn: conn.rollback()
-        for r in rutas_guardadas:
-            if os.path.exists(r): os.remove(r)
+        if conn:
+            conn.rollback()
+
+        for ruta in rutas_guardadas:
+            eliminar_imagen_supabase(ruta)
+
         cname = getattr(e.diag, 'constraint_name', '') or ''
-        if cname == 'tiendas_slug_key': 
+
+        if cname == 'tiendas_slug_key':
             return False, f"El link /t/{slug_tienda} ya está ocupado"
+
         if cname == 'tiendas_usuario_id_key':
             return False, "Ya tienes una tienda, borra la anterior para crear otra"
+
         return False, "Ese link o esa tienda ya existe"
 
     except Exception as ex:
-        if conn: conn.rollback()
-        for r in rutas_guardadas:
-            if os.path.exists(r): os.remove(r)
+        if conn:
+            conn.rollback()
+
+        for ruta in rutas_guardadas:
+            eliminar_imagen_supabase(ruta)
+
         logger.exception("Error crear tienda")
         return False, f"No se pudo crear: {ex}"
 
     finally:
-        if conn: conn.close()
+        if conn:
+            conn.close()
+
 
 
 def obtener_mi_tienda(usuario_id):
