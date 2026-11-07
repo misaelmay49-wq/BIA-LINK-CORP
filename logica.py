@@ -530,7 +530,7 @@ def eliminar_imagen_supabase(url_publica):
 
         url = (
             f"{SUPABASE_URL}/storage/v1/object/"
-            f"{quote(SUPABASE_BUCKET, safe='')}/{ruta}"
+            f"{quote(SUPABASE_BUCKET, safe='')}/{quote(ruta, safe='/')}"
         )
 
         headers = {
