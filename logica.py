@@ -444,6 +444,75 @@ def _validar_logo_contenido(archivo, ext):
         return False
     except: return False
 
+
+def subir_imagen_supabase(archivo, usuario_id, slug, tipo, max_size):
+    if not SUPABASE_URL or not SUPABASE_SECRET_KEY:
+        return None, "Falta configurar Supabase en Render"
+
+    if not archivo or not archivo.filename:
+        return None, None
+
+    extension = os.path.splitext(archivo.filename)[1].lower()
+
+    if extension not in {".png", ".jpg", ".jpeg", ".webp"}:
+        return None, "Formato de imagen no permitido"
+
+    contenido = archivo.read()
+
+    if not contenido:
+        return None, "El archivo está vacío"
+
+    if len(contenido) > max_size:
+        return None, "La imagen supera el tamaño permitido"
+
+    mime_types = {
+        ".png": "image/png",
+        ".jpg": "image/jpeg",
+        ".jpeg": "image/jpeg",
+        ".webp": "image/webp"
+    }
+
+    nombre = f"{tipo}-{uuid.uuid4().hex}{extension}"
+    ruta = f"tiendas/{usuario_id}/{slug}/{nombre}"
+
+    bucket = quote(SUPABASE_BUCKET, safe="")
+    ruta_url = quote(ruta, safe="/")
+
+    url_subida = (
+        f"{SUPABASE_URL}/storage/v1/object/{bucket}/{ruta_url}"
+    )
+
+    headers = {
+        "apikey": SUPABASE_SECRET_KEY,
+        "Authorization": f"Bearer {SUPABASE_SECRET_KEY}",
+        "Content-Type": mime_types[extension],
+        "x-upsert": "false"
+    }
+
+    try:
+        respuesta = requests.put(
+            url_subida,
+            headers=headers,
+            data=contenido,
+            timeout=30
+        )
+
+        if respuesta.status_code not in (200, 201):
+            logger.error("Error Supabase Storage: %s", respuesta.text[:500])
+            return None, "No se pudo subir la imagen a Supabase"
+
+        url_publica = (
+            f"{SUPABASE_URL}/storage/v1/object/public/"
+            f"{bucket}/{ruta_url}"
+        )
+
+        return url_publica, None
+
+    except requests.RequestException:
+        logger.exception("Error de conexión con Supabase")
+        return None, "No se pudo conectar con Supabase"
+
+
 def crear_tienda_logica_completa(usuario_id, nombre_tienda, slug_tienda, descripcion, whatsapp, logo_file, banner_file, color=None):
     conn = None
     rutas_guardadas = [] # para borrar las 2 si falla
