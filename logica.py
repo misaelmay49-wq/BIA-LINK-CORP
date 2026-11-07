@@ -534,8 +534,7 @@ def eliminar_imagen_supabase(url_publica):
         )
 
         headers = {
-            "apikey": SUPABASE_SECRET_KEY,
-            "Authorization": f"Bearer {SUPABASE_SECRET_KEY}"
+          "apikey": SUPABASE_SECRET_KEY
         }
 
         respuesta = requests.delete(
