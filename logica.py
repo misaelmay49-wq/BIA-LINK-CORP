@@ -1,4 +1,6 @@
 import requests
+import uuid
+from urllib.parse import quote
 import os
 import logging
 import psycopg2
