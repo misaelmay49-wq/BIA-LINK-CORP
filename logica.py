@@ -458,7 +458,7 @@ def subir_imagen_supabase(archivo, usuario_id, slug, tipo, max_size):
         return None, "Formato de imagen no permitido"
 
     if not _validar_logo_contenido(archivo, extension.lstrip(".")):
-    return None, "El archivo no contiene una imagen válida"
+        return None, "El archivo no contiene una imagen válida"
 
     contenido = archivo.read()
 
