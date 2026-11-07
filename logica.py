@@ -492,7 +492,7 @@ def subir_imagen_supabase(archivo, usuario_id, slug, tipo, max_size):
     }
 
     try:
-        respuesta = requests.put(
+        respuesta = requests.post(
             url_subida,
             headers=headers,
             data=contenido,
