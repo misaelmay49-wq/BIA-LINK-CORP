@@ -2,7 +2,7 @@ print(">>> 1. EL ARCHIVO SI SE EJECUTA")
 import os
 import re
 import logging
-from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify 
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify, send_from_directory  
 from flask_babel import Babel, gettext, _
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
