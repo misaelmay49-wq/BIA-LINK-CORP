@@ -609,3 +609,8 @@ def agregar_producto():
     if tienda.get('existe'):
         return redirect(f"/{tienda['slug']}")
     return redirect(url_for('dashboard'))
+
+@app.route('/ads.txt')
+def ads_txt():
+    return send_from_directory('.', 'ads.txt')
+
