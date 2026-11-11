@@ -2,7 +2,7 @@ print(">>> 1. EL ARCHIVO SI SE EJECUTA")
 import os
 import re
 import logging
-from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify, send_from_directory  
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from flask_babel import Babel, gettext, _
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
@@ -609,8 +609,4 @@ def agregar_producto():
     if tienda.get('existe'):
         return redirect(f"/{tienda['slug']}")
     return redirect(url_for('dashboard'))
-
-@app.route('/ads.txt')
-def ads_txt():
-    return send_from_directory('.', 'ads.txt')
 
