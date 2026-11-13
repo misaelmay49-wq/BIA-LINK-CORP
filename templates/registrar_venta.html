@@ -329,7 +329,62 @@ document.addEventListener('DOMContentLoaded', function() {
 
     cargarProductos();
 });
-    
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const contenedor = document.getElementById("adsterra-container");
+
+    if (!contenedor) return;
+
+    let tipoActual = "";
+
+    function cargarAnuncio() {
+
+        const esMovil = window.innerWidth < 800;
+        const nuevoTipo = esMovil ? "mobile" : "desktop";
+
+        if (tipoActual === nuevoTipo) return;
+
+        tipoActual = nuevoTipo;
+        contenedor.innerHTML = "";
+
+        const opciones = document.createElement("script");
+
+        if (esMovil) {
+
+            window.atOptions = {
+                'key': 'd403194eb025d69cbaea4103c06945e1',
+                'format': 'iframe',
+                'height': 50,
+                'width': 320,
+                'params': {}
+            };
+
+            opciones.src =
+                "https://bauval.org/22/d403194eb025d69cbaea4103c06945e1";
+
+        } else {
+
+            window.atOptions = {
+                'key': 'b522c9ccd25d9d4d548be4dcf97e183d',
+                'format': 'iframe',
+                'height': 90,
+                'width': 728,
+                'params': {}
+            };
+
+            opciones.src =
+                "https://bauval.org/22/b522c9ccd25d9d4d548be4dcf97e183d";
+        }
+
+        contenedor.appendChild(opciones);
+    }
+
+    cargarAnuncio();
+
+    window.addEventListener("resize", cargarAnuncio);
+
+});
 </script>
 </body>
 </html>
