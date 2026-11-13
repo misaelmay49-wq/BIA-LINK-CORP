@@ -98,129 +98,112 @@
         }
         .mensaje-error { background: #7f1d1d; }
         .mensaje-success { background: #14532d; }
-        
-.menu-toggle {
-  display: none;
+
+    .menu-toggle {
+    display: none;
+}
+
+/* Espacio reservado para el anuncio */
+body {
+    position: relative;
+    padding-top: 102px;
+}
+
+.adsterra-banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: 100%;
+    height: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    z-index: 2;
+}
+
+.adsterra-banner iframe {
+    display: block;
+    max-width: 100%;
+    border: 0;
+}
+
+/* Menú lateral */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
 }
 
 @media (max-width: 768px) {
-  body {
-    flex-direction: column;
-  }
 
-  
-  .menu-toggle {
-    display: block !important;
-    position: fixed !important;
-    top: 15px !important;
-    left: 15px !important;
-    z-index: 10001 !important;
-    background: rgba(0,0,0,0.5) !important;
-    border: none !important;
-    color: white !important;
-    font-size: 22px !important;
-    padding: 8px 11px !important;
-    border-radius: 5px !important;
-  }
-  
-  .sidebar {
-    position: fixed !important;
-    left: -260px !important;
-    top: 0 !important;
-    height: 100vh !important;
-    width: 250px !important;
-    z-index: 10000 !important;
-    transition: left 0.3s ease !important;
-  }
+    body {
+        flex-direction: column;
+        padding: 62px 15px 20px !important;
+    }
 
-  
-  .sidebar.active {
-    left: 0 !important;
-  }
-}     
-        
-   .content {
-    padding: 80px 20px 20px 20px;
-    width: 100%;
-  }
-  }
-        
-  .sidebar-overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  z-index: 999;
-}
-
-       @media (max-width: 768px) {
-
-       nav {
-         all: unset !important;
-         display: contents !important; 
-       }
-       body .menu-toggle,
-       html .menu-toggle,
-       .menu-toggle {
+    .menu-toggle {
+        display: block !important;
         position: fixed !important;
         top: 15px !important;
         left: 15px !important;
-        right: unset !important;    
-        bottom: unset !important;
+        z-index: 10001 !important;
         background: transparent !important;
         border: none !important;
         color: white !important;
         font-size: 22px !important;
         padding: 8px 11px !important;
-        z-index: 9999 !important;
-        transform: none !important;  
         margin: 0 !important;
-       }
-           
-           body { padding: 20px 15px !important; }
-           .container, main { 
-           max-width: 420px !important;
-           margin: 40px auto !important;
-           transform: scale(0.95);
-         }
+    }
 
-       .adsterra-banner {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto 12px;
-    position: relative;
-    flex-shrink: 0;
-    overflow: hidden;
-}
+    .sidebar {
+        position: fixed !important;
+        left: -260px !important;
+        top: 0 !important;
+        height: 100vh !important;
+        width: 250px !important;
+        z-index: 10000 !important;
+        transition: left 0.3s ease !important;
+    }
 
-.adsterra-banner iframe {
-    display: block;
-    border: 0;
-    max-width: 100%;
-}
+    .sidebar.active {
+        left: 0 !important;
+    }
 
-.adsterra-mobile {
-    display: flex;
-}
+    .content {
+        width: 100%;
+        min-width: 0;
+        padding: 20px;
+    }
 
-.adsterra-desktop {
-    display: none;
+    .card {
+        width: 100%;
+        max-width: 450px;
+    }
+
+    .adsterra-banner {
+        height: 50px;
+    }
+
+    nav {
+        all: unset !important;
+        display: contents !important;
+    }
 }
 
 @media (min-width: 800px) {
-    .adsterra-mobile {
-        display: none;
+    .adsterra-banner {
+        height: 90px;
     }
-
-    .adsterra-desktop {
-        display: flex;
-    }
-        }
+}
 
 </style>
 </head>
