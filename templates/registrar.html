@@ -186,19 +186,77 @@
            margin: 40px auto !important;
            transform: scale(0.95);
          }
+
+
+.adsterra-banner {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+}
+
+.adsterra-banner iframe {
+    display: block;
+    max-width: 100%;
+}
+
+.adsterra-mobile {
+    display: flex;
+}
+
+.adsterra-desktop {
+    display: none;
+}
+
+@media (min-width: 800px) {
+    .adsterra-mobile {
+        display: none;
+    }
+
+    .adsterra-desktop {
+        display: flex;
+    }
+}
+
+.contenido-protegido-banner {
+    position: relative;
+}
+
 </style>
 </head>
 <body>
-<script>
-  atOptions = {
-    'key' : 'd403194eb025d69cbaea4103c06945e1',
-    'format' : 'iframe',
-    'height' : 50,
-    'width' : 320,
-    'params' : {}
-  };
-</script>
-<script src="https://bauval.org/22/d403194eb025d69cbaea4103c06945e1"></script>
+
+<div class="adsterra-banner adsterra-mobile">
+    <script>
+        atOptions = {
+            'key' : 'd403194eb025d69cbaea4103c06945e1',
+            'format' : 'iframe',
+            'height' : 50,
+            'width' : 320,
+            'params' : {}
+        };
+    </script>
+    <script src="https://bauval.org/22/d403194eb025d69cbaea4103c06945e1"></script>
+</div>
+
+<div class="adsterra-banner adsterra-desktop">
+    <script>
+        atOptions = {
+            'key' : 'b522c9ccd25d9d4d548be4dcf97e183d',
+            'format' : 'iframe',
+            'height' : 90,
+            'width' : 728,
+            'params' : {}
+        };
+    </script>
+    <script src="https://bauval.org/22/b522c9ccd25d9d4d548be4dcf97e183d"></script>
+</div>
 <button class="menu-toggle" onclick="toggleMenu()">☰</button>
 <div class="sidebar-overlay" onclick="toggleMenu()"></div>
 
