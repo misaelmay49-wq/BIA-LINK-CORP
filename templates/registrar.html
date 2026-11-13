@@ -287,77 +287,61 @@ function toggleMenu() {
   document.querySelector('.sidebar-overlay').classList.toggle('active');
 }
 
-
 document.addEventListener("DOMContentLoaded", function () {
 
-    const banners = document.querySelectorAll(".adsterra-banner");
+    const contenedor = document.getElementById("adsterra-container");
 
-    const contenido = document.querySelector(
-        "main, .main-content, .contenido-principal, #contenido-principal"
-    );
+    if (!contenedor) return;
 
-    if (!contenido || banners.length === 0) return;
+    let tipoActual = "";
 
-    contenido.classList.add("contenido-protegido-banner");
+    function cargarAnuncio() {
 
-    let margenOriginal = contenido.style.marginTop;
+        const esMovil = window.innerWidth < 800;
+        const nuevoTipo = esMovil ? "mobile" : "desktop";
 
-    function detectarColision() {
+        if (tipoActual === nuevoTipo) return;
 
-        contenido.style.marginTop = margenOriginal;
+        tipoActual = nuevoTipo;
+        contenedor.innerHTML = "";
 
-        const contenidoRect = contenido.getBoundingClientRect();
+        const opciones = document.createElement("script");
 
-        let desplazamiento = 0;
+        if (esMovil) {
 
-        banners.forEach(function (banner) {
+            window.atOptions = {
+                'key': 'd403194eb025d69cbaea4103c06945e1',
+                'format': 'iframe',
+                'height': 50,
+                'width': 320,
+                'params': {}
+            };
 
-            const estilo = window.getComputedStyle(banner);
+            opciones.src =
+                "https://bauval.org/22/d403194eb025d69cbaea4103c06945e1";
 
-            if (
-                estilo.display === "none" ||
-                estilo.visibility === "hidden"
-            ) return;
+        } else {
 
-            const bannerRect = banner.getBoundingClientRect();
+            window.atOptions = {
+                'key': 'b522c9ccd25d9d4d548be4dcf97e183d',
+                'format': 'iframe',
+                'height': 90,
+                'width': 728,
+                'params': {}
+            };
 
-            const colisionVertical =
-                contenidoRect.top < bannerRect.bottom &&
-                contenidoRect.bottom > bannerRect.top;
+            opciones.src =
+                "https://bauval.org/22/b522c9ccd25d9d4d548be4dcf97e183d";
+        }
 
-            const colisionHorizontal =
-                contenidoRect.left < bannerRect.right &&
-                contenidoRect.right > bannerRect.left;
-
-            if (colisionVertical && colisionHorizontal) {
-                desplazamiento = Math.max(
-                    desplazamiento,
-                    bannerRect.bottom - contenidoRect.top + 8
-                );
-            }
-        });
-
-        contenido.style.marginTop =
-            desplazamiento > 0
-                ? (parseFloat(margenOriginal) || 0) + desplazamiento + "px"
-                : margenOriginal;
+        contenedor.appendChild(opciones);
     }
 
-    const observador = new ResizeObserver(detectarColision);
+    cargarAnuncio();
 
-    observador.observe(contenido);
-
-    banners.forEach(function (banner) {
-        observador.observe(banner);
-    });
-
-    window.addEventListener("resize", detectarColision);
-    window.addEventListener("scroll", detectarColision);
-
-    detectarColision();
+    window.addEventListener("resize", cargarAnuncio);
 
 });
-
-    </script>
+</script>
 </body>
 </html>
