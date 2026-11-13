@@ -316,6 +316,78 @@ function toggleMenu() {
   document.querySelector('.sidebar').classList.toggle('active');
   document.querySelector('.sidebar-overlay').classList.toggle('active');
 }
+
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const banners = document.querySelectorAll(".adsterra-banner");
+
+    const contenido = document.querySelector(
+        "main, .main-content, .contenido-principal, #contenido-principal"
+    );
+
+    if (!contenido || banners.length === 0) return;
+
+    contenido.classList.add("contenido-protegido-banner");
+
+    let margenOriginal = contenido.style.marginTop;
+
+    function detectarColision() {
+
+        contenido.style.marginTop = margenOriginal;
+
+        const contenidoRect = contenido.getBoundingClientRect();
+
+        let desplazamiento = 0;
+
+        banners.forEach(function (banner) {
+
+            const estilo = window.getComputedStyle(banner);
+
+            if (
+                estilo.display === "none" ||
+                estilo.visibility === "hidden"
+            ) return;
+
+            const bannerRect = banner.getBoundingClientRect();
+
+            const colisionVertical =
+                contenidoRect.top < bannerRect.bottom &&
+                contenidoRect.bottom > bannerRect.top;
+
+            const colisionHorizontal =
+                contenidoRect.left < bannerRect.right &&
+                contenidoRect.right > bannerRect.left;
+
+            if (colisionVertical && colisionHorizontal) {
+                desplazamiento = Math.max(
+                    desplazamiento,
+                    bannerRect.bottom - contenidoRect.top + 8
+                );
+            }
+        });
+
+        contenido.style.marginTop =
+            desplazamiento > 0
+                ? (parseFloat(margenOriginal) || 0) + desplazamiento + "px"
+                : margenOriginal;
+    }
+
+    const observador = new ResizeObserver(detectarColision);
+
+    observador.observe(contenido);
+
+    banners.forEach(function (banner) {
+        observador.observe(banner);
+    });
+
+    window.addEventListener("resize", detectarColision);
+    window.addEventListener("scroll", detectarColision);
+
+    detectarColision();
+
+});
+
     </script>
 </body>
 </html>
