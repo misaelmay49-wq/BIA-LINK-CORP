@@ -800,8 +800,18 @@ def registrar_producto_con_categoria_auto(usuario_id, nombre, precio, costo, can
             """, (usuario_id, categoria_texto))
             
             categoria_id, categoria_real = cur.fetchone()
-        ganancia=(precio_d-costo_d).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
-        cur.execute("INSERT INTO productos (usuario_id,nombre,precio,costo,cantidad,ganancia,categoria_id) VALUES (%s,%s,%s,%s,%s,%s,%s)", (usuario_id,nombre,precio_d,costo_d,cantidad_i,ganancia,categoria_id))
+        cur.execute("""
+          INSERT INTO productos
+          (usuario_id, nombre, precio, costo, cantidad, categoria_id)
+          VALUES (%s, %s, %s, %s, %s, %s)
+        """, (
+           usuario_id,
+           nombre,
+           precio_d,
+           costo_d,
+           cantidad_i,
+           categoria_id
+        ))
         conn.commit()
         cur.close()
         if categoria_real:
