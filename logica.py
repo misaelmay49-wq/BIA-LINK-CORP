@@ -784,8 +784,18 @@ def registrar_producto_con_categoria_auto(usuario_id, nombre, precio, costo, can
            return False, "Categoría muy larga (máx 50)"
         conn=get_conn()
         cur=conn.cursor()
-        cur.execute("INSERT INTO categorias (usuario_id,nombre) VALUES (%s,%s) ON CONFLICT (usuario_id, LOWER(nombre)) DO UPDATE SET nombre=categorias.nombre RETURNING id, nombre", (usuario_id,categoria_texto))
-        categoria_id,categoria_real=cur.fetchone()
+        categoria_id = None
+        categoria_real = None
+
+        if categoria_texto:
+            cur.execute("""
+              INSERT INTO categorias (usuario_id,nombre)
+              VALUES (%s,%s)
+              ON CONFLICT (usuario_id, LOWER(nombre))
+              DO UPDATE SET nombre=categorias.nombre
+              RETURNING id, nombre
+            """, (usuario_id, categoria_texto))
+    categoria_id, categoria_real = cur.fetchone()
         ganancia=(precio_d-costo_d).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
         cur.execute("INSERT INTO productos (usuario_id,nombre,precio,costo,cantidad,ganancia,categoria_id) VALUES (%s,%s,%s,%s,%s,%s,%s)", (usuario_id,nombre,precio_d,costo_d,cantidad_i,ganancia,categoria_id))
         conn.commit()
