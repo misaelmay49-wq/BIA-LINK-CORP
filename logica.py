@@ -801,7 +801,10 @@ def registrar_producto_con_categoria_auto(usuario_id, nombre, precio, costo, can
         cur.execute("INSERT INTO productos (usuario_id,nombre,precio,costo,cantidad,ganancia,categoria_id) VALUES (%s,%s,%s,%s,%s,%s,%s)", (usuario_id,nombre,precio_d,costo_d,cantidad_i,ganancia,categoria_id))
         conn.commit()
         cur.close()
-        return True, f"Producto en {categoria_real} registrado"
+        if categoria_real:
+           return True, f"Producto en {categoria_real} registrado"
+
+        return True, "Producto registrado sin categoría"
     except Exception:
         if conn: conn.rollback()
         logger.exception("Error registrar")
