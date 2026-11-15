@@ -145,7 +145,10 @@ def registrar():
         if 'user_id' not in session:
             return redirect(url_for('login'))  
     
-        usuario_id = session['user_id']  
+        usuario_id = session['user_id']
+      
+        print("TIPO USUARIO:", type(usuario_id).__name__)
+        print("VALOR USUARIO:", repr(usuario_id))
         exito, msg = registrar_producto_con_categoria_auto(
           usuario_id,
           nombre,
