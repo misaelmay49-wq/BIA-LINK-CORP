@@ -686,30 +686,80 @@ def obtener_mi_tienda(usuario_id):
             conn.close()
 
 
+
 def detectar_categoria_automatica(usuario_id, nombre_producto):
-    palabras_nuevo=set(_palabras_significativas(nombre_producto))
-    if not palabras_nuevo: return None
-    conn=None
+    palabras_nuevo = set(_palabras_significativas(nombre_producto))
+    if not palabras_nuevo:
+        return None
+
+    conn = None
+
     try:
-        conn=get_conn()
-        cur=conn.cursor()
-        cur.execute("SELECT c.nombre, p.nombre FROM productos p JOIN categorias c ON p.categoria_id=c.id WHERE p.usuario_id=%s AND LOWER(c.nombre)!='general' ORDER BY c.nombre, p.nombre", (usuario_id,))
-        mejor={}
-        for cat_ex, nombre_ex in cur.fetchall():
-            palabras_ex=set(_palabras_significativas(nombre_ex))
-            n=len(palabras_nuevo & palabras_ex)
-            if n: mejor[cat_ex]=max(mejor.get(cat_ex,0), n)
+        conn = get_conn()
+        cur = conn.cursor()
+
+        cur.execute("""
+            SELECT c.nombre, p.nombre
+            FROM productos p
+            JOIN categorias c ON p.categoria_id = c.id
+            WHERE p.usuario_id = %s
+            AND LOWER(c.nombre) != 'general'
+            ORDER BY c.nombre, p.nombre
+        """, (usuario_id,))
+
+        mejor = {}
+
+        for categoria, nombre_existente in cur.fetchall():
+            palabras_existentes = set(
+                _palabras_significativas(nombre_existente)
+            )
+
+            if not palabras_existentes:
+                continue
+
+            coincidencias = len(
+                palabras_nuevo & palabras_existentes
+            )
+
+            if coincidencias == 0:
+                continue
+
+            proporcion = coincidencias / max(
+                len(palabras_nuevo),
+                len(palabras_existentes)
+            )
+
+            if proporcion >= 0.60:
+                mejor[categoria] = max(
+                    mejor.get(categoria, 0),
+                    proporcion
+                )
+
         cur.close()
-        if not mejor: return None
-        max_n=max(mejor.values())
-        ganadoras=[cat for cat,pts in mejor.items() if pts==max_n]
-        if len(ganadoras)>1: return None
+
+        if not mejor:
+            return None
+
+        mejor_puntuacion = max(mejor.values())
+
+        ganadoras = [
+            categoria
+            for categoria, puntuacion in mejor.items()
+            if puntuacion == mejor_puntuacion
+        ]
+
+        if len(ganadoras) != 1:
+            return None
+
         return ganadoras[0]
+
     except Exception:
         logger.exception("Error detectar categoria")
         return None
+
     finally:
-        if conn: conn.close()
+        if conn:
+            conn.close()
 
 def registrar_producto_con_categoria_auto(usuario_id, nombre, precio, costo, cantidad, categoria_texto=None):
     conn=None
