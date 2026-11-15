@@ -146,7 +146,13 @@ def registrar():
             return redirect(url_for('login'))  
     
         usuario_id = session['user_id']  
-        exito, msg = registrar_producto(usuario_id, nombre, precio, costo, cantidad)            
+        exito, msg = registrar_producto_con_categoria_auto(
+          usuario_id,
+          nombre,
+          precio,
+          costo,
+          cantidad
+        )            
         if exito:
             return redirect(url_for('exito'))
         else:
