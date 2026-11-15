@@ -779,9 +779,9 @@ def registrar_producto_con_categoria_auto(usuario_id, nombre, precio, costo, can
         except: return False, "Cantidad inválida"
         if cantidad_i<=0 or cantidad_i>MAX_CANTIDAD: return False, f"Cantidad 1-{MAX_CANTIDAD}"
         if not categoria_texto:
-            categoria_texto=detectar_categoria_automatica(usuario_id, nombre) or "General"
-        if len(categoria_texto)>50: return False, "Categoría muy larga (máx 50)"
-        if not categoria_texto: categoria_texto="General"
+           categoria_texto = detectar_categoria_automatica(usuario_id, nombre)
+        if categoria_texto and len(categoria_texto) > 50:
+           return False, "Categoría muy larga (máx 50)"
         conn=get_conn()
         cur=conn.cursor()
         cur.execute("INSERT INTO categorias (usuario_id,nombre) VALUES (%s,%s) ON CONFLICT (usuario_id, LOWER(nombre)) DO UPDATE SET nombre=categorias.nombre RETURNING id, nombre", (usuario_id,categoria_texto))
