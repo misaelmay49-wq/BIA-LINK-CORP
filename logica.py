@@ -4,6 +4,9 @@ from urllib.parse import quote
 import os
 import logging
 import psycopg2
+import re
+import unicodedata
+from decimal import ROUND_HALF_UP
 from werkzeug.utils import secure_filename
 from psycopg2 import errors as pg_errors
 from psycopg2.extras import RealDictCursor 
